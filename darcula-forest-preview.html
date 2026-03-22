@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Darcula Forest — IntelliJ Color Scheme Preview</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #181a16;
+    color: #acafa9;
+    font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
+    padding: 40px;
+    max-width: var(--page-width, 1200px);
+    margin: 0 auto;
+  }
+  .width-control {
+    position: fixed;
+    top: 12px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #5e6e5e;
+    z-index: 10;
+  }
+  .width-control input {
+    width: 100px;
+    accent-color: #5a792c;
+  }
+  .width-control span { min-width: 48px; text-align: right; }
+  h1 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #c8cbc5;
+    margin-bottom: 8px;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: #5e6e5e;
+    margin-bottom: 32px;
+  }
+  .section {
+    margin-bottom: 32px;
+  }
+  .section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #5e6e5e;
+    margin-bottom: 12px;
+    border-bottom: 1px solid #2c2f2a;
+    padding-bottom: 6px;
+  }
+
+  /* Color catalog */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 8px;
+  }
+  .color-entry {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: #252823;
+  }
+  .color-entry:hover { background: #2c2f2a; }
+  .color-dot {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .color-info { display: flex; flex-direction: column; }
+  .color-name { font-size: 12px; color: #c8cbc5; }
+  .color-hex { font-size: 11px; color: #5e6e5e; }
+  .color-source { font-size: 10px; color: #41561c; margin-top: 1px; }
+  .color-source.inherited { color: #5e6e5e; font-style: italic; }
+
+  /* Code preview */
+  .editor {
+    background: #20231e;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+  .editor-tab-bar {
+    background: #1a1c18;
+    padding: 0 12px;
+    display: flex;
+    align-items: flex-end;
+    height: 36px;
+  }
+  .editor-tab {
+    font-size: 12px;
+    padding: 6px 16px;
+    color: #5e6e5e;
+    border-radius: 6px 6px 0 0;
+  }
+  .editor-tab.active {
+    background: #20231e;
+    color: #acafa9;
+  }
+  .editor-body {
+    display: flex;
+  }
+  .gutter {
+    background: #2c2f2a;
+    padding: 16px 12px;
+    text-align: right;
+    color: #5e6e5e;
+    font-size: 13px;
+    line-height: 1.65;
+    user-select: none;
+    border-right: 1px solid #252823;
+  }
+  .code {
+    padding: 16px 20px;
+    font-size: 13px;
+    line-height: 1.65;
+    overflow-x: auto;
+    flex: 1;
+  }
+  .code .line { white-space: pre; }
+  .code .line.active-line { background: #252823; margin: 0 -20px; padding: 0 20px; }
+
+  /* Syntax classes — overrides */
+  .kw { color: #5a792c; }          /* DEFAULT_KEYWORD */
+  .fn { color: #8aac5f; }          /* DEFAULT_FUNCTION_DECLARATION */
+  .str { color: #986941; }         /* DEFAULT_STRING */
+  .str-esc { color: #5c800d; }     /* DEFAULT_VALID_STRING_ESCAPE */
+  .str-esc-bad { color: #814523; } /* DEFAULT_INVALID_STRING_ESCAPE */
+  .num { color: #5ba071; }         /* DEFAULT_NUMBER */
+  .const { color: #6e9a21; font-style: italic; } /* DEFAULT_CONSTANT */
+  .field { color: #6e9a21; }       /* DEFAULT_INSTANCE_FIELD */
+  .sfield { color: #6e9a21; font-style: italic; } /* DEFAULT_STATIC_FIELD */
+  .static-m { color: #b37238; font-style: italic; } /* DEFAULT_STATIC_METHOD */
+  .ann { color: #986941; }         /* ANNOTATION_NAME_ATTRIBUTES */
+  .named-arg { color: #658f00; }   /* KOTLIN_NAMED_ARGUMENT */
+  .impl { color: #a2b34d; }        /* IMPLICIT_ANONYMOUS_CLASS_PARAMETER */
+  .ident { color: #acafa9; }       /* DEFAULT_IDENTIFIER */
+  .punct { color: #5e6e5e; }       /* DEFAULT_COMMA / DEFAULT_SEMICOLON */
+  .mut { text-decoration: underline; text-decoration-color: #41561c; } /* KOTLIN_MUTABLE_VARIABLE */
+  .text { color: #acafa9; }        /* TEXT */
+
+  /* Syntax classes — inherited from Darcula */
+  .comment { color: #808080; }                        /* LINE_COMMENT / BLOCK_COMMENT */
+  .doc { color: #629755; font-style: italic; }        /* DOC_COMMENT */
+  .doc-tag { color: #629755; font-weight: bold; font-style: italic; }
+  .type { color: #acafa9; }        /* DEFAULT_CLASS_NAME (Darcula uses #a9b7c6) */
+  .meta { color: #bbb529; }        /* METADATA (Darcula default) */
+  .param { color: #acafa9; }       /* PARAMETER */
+  .local { color: #acafa9; }       /* LOCAL_VARIABLE */
+  .err { color: #bc3f3c; }         /* ERRORS (Darcula) */
+  .warn-underline { text-decoration: wavy underline; text-decoration-color: #be9117; }
+  .err-underline { text-decoration: wavy underline; text-decoration-color: #bc3f3c; }
+  .typo-underline { text-decoration: underline; text-decoration-style: wavy; text-decoration-color: #603e1e; }
+
+  /* Two-column layout for code samples */
+  .code-samples {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  @media (max-width: 1100px) {
+    .code-samples { grid-template-columns: 1fr; }
+  }
+
+  /* Legend */
+  .legend {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 4px 16px;
+    font-size: 12px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 0;
+  }
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    border: 1px solid rgba(255,255,255,0.06);
+  }
+  .legend-label { color: #acafa9; }
+  .legend-label .hex { color: #5e6e5e; margin-left: 4px; }
+</style>
+</head>
+<body>
+
+<div class="width-control">
+  <label>Width</label>
+  <input type="range" min="600" max="1800" value="1200" oninput="document.body.style.setProperty('--page-width', this.value + 'px'); this.nextElementSibling.textContent = this.value + 'px'">
+  <span>1200px</span>
+</div>
+
+<h1>Darcula Forest</h1>
+<div class="subtitle">Forest green color scheme based on JetBrains' Darcula.</div>
+
+<!-- COLOR CATALOG -->
+<div class="section">
+  <div class="section-title">Editor Colors</div>
+  <div class="color-grid">
+    <div class="color-entry">
+      <div class="color-dot" style="background:#20231e"></div>
+      <div class="color-info">
+        <span class="color-name">Background</span>
+        <span class="color-hex">#20231e</span>
+        <span class="color-source">TEXT</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#acafa9"></div>
+      <div class="color-info">
+        <span class="color-name">Foreground</span>
+        <span class="color-hex">#acafa9</span>
+        <span class="color-source">TEXT / DEFAULT_IDENTIFIER</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#252823"></div>
+      <div class="color-info">
+        <span class="color-name">Caret Row</span>
+        <span class="color-hex">#252823</span>
+        <span class="color-source">CARET_ROW_COLOR</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#363b2f"></div>
+      <div class="color-info">
+        <span class="color-name">Selection</span>
+        <span class="color-hex">#363b2f</span>
+        <span class="color-source">SELECTION_BACKGROUND</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#2c2f2a"></div>
+      <div class="color-info">
+        <span class="color-name">Gutter</span>
+        <span class="color-hex">#2c2f2a</span>
+        <span class="color-source">GUTTER_BACKGROUND</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#2a2d2a"></div>
+      <div class="color-info">
+        <span class="color-name">Search Result</span>
+        <span class="color-hex">#2a2d2a</span>
+        <span class="color-source">SEARCH_RESULT_ATTRIBUTES</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Syntax Colors</div>
+  <div class="color-grid">
+    <div class="color-entry">
+      <div class="color-dot" style="background:#5a792c"></div>
+      <div class="color-info">
+        <span class="color-name">Keyword</span>
+        <span class="color-hex">#5a792c</span>
+        <span class="color-source">DEFAULT_KEYWORD</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#8aac5f"></div>
+      <div class="color-info">
+        <span class="color-name">Function Declaration</span>
+        <span class="color-hex">#8aac5f</span>
+        <span class="color-source">DEFAULT_FUNCTION_DECLARATION</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#6e9a21"></div>
+      <div class="color-info">
+        <span class="color-name">Constant / Field</span>
+        <span class="color-hex">#6e9a21</span>
+        <span class="color-source">DEFAULT_CONSTANT / INSTANCE_FIELD / STATIC_FIELD</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#a2b34d"></div>
+      <div class="color-info">
+        <span class="color-name">Implicit Parameter</span>
+        <span class="color-hex">#a2b34d</span>
+        <span class="color-source">IMPLICIT_ANONYMOUS_CLASS_PARAMETER</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#5ba071"></div>
+      <div class="color-info">
+        <span class="color-name">Number</span>
+        <span class="color-hex">#5ba071</span>
+        <span class="color-source">DEFAULT_NUMBER</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#5e6e5e"></div>
+      <div class="color-info">
+        <span class="color-name">Punctuation</span>
+        <span class="color-hex">#5e6e5e</span>
+        <span class="color-source">DEFAULT_COMMA / SEMICOLON</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#986941"></div>
+      <div class="color-info">
+        <span class="color-name">String / Annotation</span>
+        <span class="color-hex">#986941</span>
+        <span class="color-source">DEFAULT_STRING / ANNOTATION</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#5c800d"></div>
+      <div class="color-info">
+        <span class="color-name">String Escape (valid)</span>
+        <span class="color-hex">#5c800d</span>
+        <span class="color-source">DEFAULT_VALID_STRING_ESCAPE</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#814523"></div>
+      <div class="color-info">
+        <span class="color-name">String Escape (invalid)</span>
+        <span class="color-hex">#814523</span>
+        <span class="color-source">DEFAULT_INVALID_STRING_ESCAPE</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#b37238"></div>
+      <div class="color-info">
+        <span class="color-name">Static Method</span>
+        <span class="color-hex">#b37238</span>
+        <span class="color-source">DEFAULT_STATIC_METHOD (kotlin)</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#658f00"></div>
+      <div class="color-info">
+        <span class="color-name">Named Argument</span>
+        <span class="color-hex">#658f00</span>
+        <span class="color-source">KOTLIN_NAMED_ARGUMENT</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Underlines &amp; Effects</div>
+  <div class="color-grid">
+    <div class="color-entry">
+      <div class="color-dot" style="background:#41561c"></div>
+      <div class="color-info">
+        <span class="color-name">Mutable Variable Underline</span>
+        <span class="color-hex">#41561c</span>
+        <span class="color-source">KOTLIN_MUTABLE_VARIABLE</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#603e1e"></div>
+      <div class="color-info">
+        <span class="color-name">Typo Underline</span>
+        <span class="color-hex">#603e1e</span>
+        <span class="color-source">TYPO</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Inherited from Darcula</div>
+  <div class="color-grid">
+    <div class="color-entry">
+      <div class="color-dot" style="background:#808080"></div>
+      <div class="color-info">
+        <span class="color-name">Comment</span>
+        <span class="color-hex">#808080</span>
+        <span class="color-source inherited">DEFAULT_LINE_COMMENT / BLOCK_COMMENT</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#a8c023"></div>
+      <div class="color-info">
+        <span class="color-name">TODO</span>
+        <span class="color-hex">#a8c023</span>
+        <span class="color-source inherited">TODO_DEFAULT_ATTRIBUTES</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#606366"></div>
+      <div class="color-info">
+        <span class="color-name">Line Number</span>
+        <span class="color-hex">#606366</span>
+        <span class="color-source inherited">LINE_NUMBERS_COLOR</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#bc3f3c"></div>
+      <div class="color-info">
+        <span class="color-name">Error</span>
+        <span class="color-hex">#bc3f3c</span>
+        <span class="color-source inherited">ERRORS_ATTRIBUTES</span>
+      </div>
+    </div>
+    <div class="color-entry">
+      <div class="color-dot" style="background:#be9117"></div>
+      <div class="color-info">
+        <span class="color-name">Warning</span>
+        <span class="color-hex">#be9117</span>
+        <span class="color-source inherited">WARNING_ATTRIBUTES</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CODE SAMPLES -->
+<div class="section">
+  <div class="section-title">Code Preview</div>
+  <div class="code-samples">
+
+    <!-- Kotlin sample -->
+    <div class="editor">
+      <div class="editor-tab-bar">
+        <div class="editor-tab active">UserService.kt</div>
+      </div>
+      <div class="editor-body">
+        <div class="gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18</div>
+        <div class="code">
+<div class="line"><span class="ann">@Service</span></div>
+<div class="line"><span class="kw">class</span> <span class="ident">UserService</span><span class="punct">(</span></div>
+<div class="line">    <span class="kw">private val</span> <span class="field">users</span><span class="punct">:</span> <span class="ident">UserRepository</span><span class="punct">,</span></div>
+<div class="line">    <span class="kw">private val</span> <span class="field">emailService</span><span class="punct">:</span> <span class="ident">EmailService</span></div>
+<div class="line"><span class="punct">)</span> <span class="punct">{</span></div>
+<div class="line"></div>
+<div class="line">    <span class="kw">companion object</span> <span class="punct">{</span></div>
+<div class="line">        <span class="kw">private val</span> <span class="sfield">MAX_RETRIES</span> <span class="punct">=</span> <span class="num">3</span></div>
+<div class="line">    <span class="punct">}</span></div>
+<div class="line"></div>
+<div class="line active-line">    <span class="kw">fun</span> <span class="fn">findByEmail</span><span class="punct">(</span><span class="ident">email</span><span class="punct">:</span> <span class="ident">String</span><span class="punct">):</span> <span class="ident">User</span><span class="punct">?</span> <span class="punct">{</span></div>
+<div class="line">        <span class="comment">// look up user by their email address</span></div>
+<div class="line">        <span class="kw">val</span> <span class="ident">result</span> <span class="punct">=</span> <span class="field">users</span><span class="punct">.</span><span class="ident">getByEmail</span><span class="punct">(</span><span class="ident">email</span><span class="punct">)</span></div>
+<div class="line">        <span class="ident">result</span><span class="punct">?.</span><span class="kw">let</span> <span class="punct">{</span> <span class="impl">it</span> <span class="punct">-></span></div>
+<div class="line">            <span class="static-m">logger</span><span class="punct">.</span><span class="static-m">info</span><span class="punct">(</span><span class="str">"Found user: </span><span class="str-esc">${</span><span class="impl">it</span><span class="punct">.</span><span class="field">name</span><span class="str-esc">}</span><span class="str">"</span><span class="punct">)</span></div>
+<div class="line">        <span class="punct">}</span></div>
+<div class="line">        <span class="kw">return</span> <span class="ident">result</span></div>
+<div class="line">    <span class="punct">}</span></div>
+</div>
+      </div>
+    </div>
+
+    <!-- Java sample -->
+    <div class="editor">
+      <div class="editor-tab-bar">
+        <div class="editor-tab active">VehicleResolver.java</div>
+      </div>
+      <div class="editor-body">
+        <div class="gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18</div>
+        <div class="code">
+<div class="line"><span class="doc">/**</span></div>
+<div class="line"><span class="doc"> * Resolves vehicle details from database.</span></div>
+<div class="line"><span class="doc"> *</span></div>
+<div class="line"><span class="doc"> * </span><span class="doc-tag">@param</span><span class="doc"> vin the vehicle identification number</span></div>
+<div class="line"><span class="doc"> */</span></div>
+<div class="line"><span class="ann">@GraphQLQuery</span></div>
+<div class="line"><span class="kw">public</span> <span class="ident">Vehicle</span> <span class="fn">getVehicle</span><span class="punct">(</span></div>
+<div class="line">        <span class="ann">@Argument</span> <span class="ident">String</span> <span class="ident">id</span><span class="punct">,</span></div>
+<div class="line">        <span class="ann">@Argument</span> <span class="ident">String</span> <span class="ident">vin</span></div>
+<div class="line"><span class="punct">)</span> <span class="punct">{</span></div>
+<div class="line active-line">    <span class="kw">var</span> <span class="ident">price</span> <span class="punct">=</span> <span class="ident">BigDecimal.valueOf</span><span class="punct">(</span><span class="num">29995.00</span><span class="punct">);</span></div>
+<div class="line">    <span class="kw">var</span> <span class="ident">mileage</span> <span class="punct">=</span> <span class="num">48_200</span><span class="punct">;</span></div>
+<div class="line"></div>
+<div class="line">    <span class="kw">if</span> <span class="punct">(</span><span class="ident">id</span> <span class="punct">==</span> <span class="kw">null</span><span class="punct">)</span> <span class="punct">{</span></div>
+<div class="line">        <span class="kw">throw new</span> <span class="ident">EntityNotFoundException</span><span class="punct">(</span></div>
+<div class="line">            <span class="str">"Vehicle not found: </span><span class="str-esc">\"</span><span class="str">"</span> <span class="punct">+</span> <span class="ident">id</span> <span class="punct">+</span> <span class="str">"</span><span class="str-esc">\"</span><span class="str">."</span></div>
+<div class="line">        <span class="punct">);</span></div>
+<div class="line">    <span class="punct">}</span></div>
+</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
