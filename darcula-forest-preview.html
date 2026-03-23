@@ -56,7 +56,7 @@
   /* Color catalog */
   .color-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
     gap: 8px;
   }
   .color-entry {
@@ -213,7 +213,7 @@
       <div class="color-dot" style="background:#20231e"></div>
       <div class="color-info">
         <span class="color-name">Background</span>
-        <span class="color-hex">#20231e</span>
+        <span class="color-hex">#20231e · oklch(25.1% 0.010 132.8)</span>
         <span class="color-source">TEXT</span>
       </div>
     </div>
@@ -221,7 +221,7 @@
       <div class="color-dot" style="background:#acafa9"></div>
       <div class="color-info">
         <span class="color-name">Foreground</span>
-        <span class="color-hex">#acafa9</span>
+        <span class="color-hex">#acafa9 · oklch(75.0% 0.009 128.9)</span>
         <span class="color-source">TEXT / DEFAULT_IDENTIFIER</span>
       </div>
     </div>
@@ -229,7 +229,7 @@
       <div class="color-dot" style="background:#252823"></div>
       <div class="color-info">
         <span class="color-name">Caret Row</span>
-        <span class="color-hex">#252823</span>
+        <span class="color-hex">#252823 · oklch(27.2% 0.010 132.7)</span>
         <span class="color-source">CARET_ROW_COLOR</span>
       </div>
     </div>
@@ -237,7 +237,7 @@
       <div class="color-dot" style="background:#363b2f"></div>
       <div class="color-info">
         <span class="color-name">Selection</span>
-        <span class="color-hex">#363b2f</span>
+        <span class="color-hex">#363b2f · oklch(34.4% 0.021 126.0)</span>
         <span class="color-source">SELECTION_BACKGROUND</span>
       </div>
     </div>
@@ -245,7 +245,7 @@
       <div class="color-dot" style="background:#2c2f2a"></div>
       <div class="color-info">
         <span class="color-name">Gutter</span>
-        <span class="color-hex">#2c2f2a</span>
+        <span class="color-hex">#2c2f2a · oklch(30.0% 0.010 132.7)</span>
         <span class="color-source">GUTTER_BACKGROUND</span>
       </div>
     </div>
@@ -253,7 +253,7 @@
       <div class="color-dot" style="background:#2a2d2a"></div>
       <div class="color-info">
         <span class="color-name">Search Result</span>
-        <span class="color-hex">#2a2d2a</span>
+        <span class="color-hex">#2a2d2a · oklch(29.3% 0.007 145.6)</span>
         <span class="color-source">SEARCH_RESULT_ATTRIBUTES</span>
       </div>
     </div>
@@ -267,7 +267,7 @@
       <div class="color-dot" style="background:#5a792c"></div>
       <div class="color-info">
         <span class="color-name">Keyword</span>
-        <span class="color-hex">#5a792c</span>
+        <span class="color-hex">#5a792c · oklch(53.5% 0.111 128.2)</span>
         <span class="color-source">DEFAULT_KEYWORD</span>
       </div>
     </div>
@@ -275,7 +275,7 @@
       <div class="color-dot" style="background:#8aac5f"></div>
       <div class="color-info">
         <span class="color-name">Function Declaration</span>
-        <span class="color-hex">#8aac5f</span>
+        <span class="color-hex">#8aac5f · oklch(70.1% 0.111 128.5)</span>
         <span class="color-source">DEFAULT_FUNCTION_DECLARATION</span>
       </div>
     </div>
@@ -283,7 +283,7 @@
       <div class="color-dot" style="background:#6e9a21"></div>
       <div class="color-info">
         <span class="color-name">Constant / Field</span>
-        <span class="color-hex">#6e9a21</span>
+        <span class="color-hex">#6e9a21 · oklch(63.2% 0.152 128.2)</span>
         <span class="color-source">DEFAULT_CONSTANT / INSTANCE_FIELD / STATIC_FIELD</span>
       </div>
     </div>
@@ -291,7 +291,7 @@
       <div class="color-dot" style="background:#a2b34d"></div>
       <div class="color-info">
         <span class="color-name">Implicit Parameter</span>
-        <span class="color-hex">#a2b34d</span>
+        <span class="color-hex">#a2b34d · oklch(73.2% 0.129 117.6)</span>
         <span class="color-source">IMPLICIT_ANONYMOUS_CLASS_PARAMETER</span>
       </div>
     </div>
@@ -299,7 +299,7 @@
       <div class="color-dot" style="background:#5ba071"></div>
       <div class="color-info">
         <span class="color-name">Number</span>
-        <span class="color-hex">#5ba071</span>
+        <span class="color-hex">#5ba071 · oklch(64.7% 0.100 153.1)</span>
         <span class="color-source">DEFAULT_NUMBER</span>
       </div>
     </div>
@@ -307,7 +307,7 @@
       <div class="color-dot" style="background:#5e6e5e"></div>
       <div class="color-info">
         <span class="color-name">Punctuation</span>
-        <span class="color-hex">#5e6e5e</span>
+        <span class="color-hex">#5e6e5e · oklch(52.0% 0.031 145.2)</span>
         <span class="color-source">DEFAULT_COMMA / SEMICOLON</span>
       </div>
     </div>
@@ -315,7 +315,7 @@
       <div class="color-dot" style="background:#986941"></div>
       <div class="color-info">
         <span class="color-name">String / Annotation</span>
-        <span class="color-hex">#986941</span>
+        <span class="color-hex">#986941 · oklch(56.1% 0.082 60.4)</span>
         <span class="color-source">DEFAULT_STRING / ANNOTATION</span>
       </div>
     </div>
@@ -323,7 +323,7 @@
       <div class="color-dot" style="background:#5c800d"></div>
       <div class="color-info">
         <span class="color-name">String Escape (valid)</span>
-        <span class="color-hex">#5c800d</span>
+        <span class="color-hex">#5c800d · oklch(55.2% 0.138 127.1)</span>
         <span class="color-source">DEFAULT_VALID_STRING_ESCAPE</span>
       </div>
     </div>
@@ -331,7 +331,7 @@
       <div class="color-dot" style="background:#814523"></div>
       <div class="color-info">
         <span class="color-name">String Escape (invalid)</span>
-        <span class="color-hex">#814523</span>
+        <span class="color-hex">#814523 · oklch(45.7% 0.095 48.3)</span>
         <span class="color-source">DEFAULT_INVALID_STRING_ESCAPE</span>
       </div>
     </div>
@@ -339,7 +339,7 @@
       <div class="color-dot" style="background:#b37238"></div>
       <div class="color-info">
         <span class="color-name">Static Method</span>
-        <span class="color-hex">#b37238</span>
+        <span class="color-hex">#b37238 · oklch(61.0% 0.110 60.0)</span>
         <span class="color-source">DEFAULT_STATIC_METHOD (kotlin)</span>
       </div>
     </div>
@@ -347,7 +347,7 @@
       <div class="color-dot" style="background:#658f00"></div>
       <div class="color-info">
         <span class="color-name">Named Argument</span>
-        <span class="color-hex">#658f00</span>
+        <span class="color-hex">#658f00 · oklch(59.7% 0.155 127.5)</span>
         <span class="color-source">KOTLIN_NAMED_ARGUMENT</span>
       </div>
     </div>
@@ -361,7 +361,7 @@
       <div class="color-dot" style="background:#41561c"></div>
       <div class="color-info">
         <span class="color-name">Mutable Variable Underline</span>
-        <span class="color-hex">#41561c</span>
+        <span class="color-hex">#41561c · oklch(42.2% 0.087 126.7)</span>
         <span class="color-source">KOTLIN_MUTABLE_VARIABLE</span>
       </div>
     </div>
@@ -369,7 +369,7 @@
       <div class="color-dot" style="background:#603e1e"></div>
       <div class="color-info">
         <span class="color-name">Typo Underline</span>
-        <span class="color-hex">#603e1e</span>
+        <span class="color-hex">#603e1e · oklch(39.6% 0.066 62.1)</span>
         <span class="color-source">TYPO</span>
       </div>
     </div>
@@ -383,7 +383,7 @@
       <div class="color-dot" style="background:#808080"></div>
       <div class="color-info">
         <span class="color-name">Comment</span>
-        <span class="color-hex">#808080</span>
+        <span class="color-hex">#808080 · oklch(60.0% 0.000 263.3)</span>
         <span class="color-source inherited">DEFAULT_LINE_COMMENT / BLOCK_COMMENT</span>
       </div>
     </div>
@@ -391,7 +391,7 @@
       <div class="color-dot" style="background:#a8c023"></div>
       <div class="color-info">
         <span class="color-name">TODO</span>
-        <span class="color-hex">#a8c023</span>
+        <span class="color-hex">#a8c023 · oklch(76.4% 0.170 118.7)</span>
         <span class="color-source inherited">TODO_DEFAULT_ATTRIBUTES</span>
       </div>
     </div>
@@ -399,7 +399,7 @@
       <div class="color-dot" style="background:#606366"></div>
       <div class="color-info">
         <span class="color-name">Line Number</span>
-        <span class="color-hex">#606366</span>
+        <span class="color-hex">#606366 · oklch(49.8% 0.006 248.1)</span>
         <span class="color-source inherited">LINE_NUMBERS_COLOR</span>
       </div>
     </div>
@@ -407,7 +407,7 @@
       <div class="color-dot" style="background:#bc3f3c"></div>
       <div class="color-info">
         <span class="color-name">Error</span>
-        <span class="color-hex">#bc3f3c</span>
+        <span class="color-hex">#bc3f3c · oklch(54.5% 0.161 25.4)</span>
         <span class="color-source inherited">ERRORS_ATTRIBUTES</span>
       </div>
     </div>
@@ -415,7 +415,7 @@
       <div class="color-dot" style="background:#be9117"></div>
       <div class="color-info">
         <span class="color-name">Warning</span>
-        <span class="color-hex">#be9117</span>
+        <span class="color-hex">#be9117 · oklch(68.1% 0.134 85.4)</span>
         <span class="color-source inherited">WARNING_ATTRIBUTES</span>
       </div>
     </div>
