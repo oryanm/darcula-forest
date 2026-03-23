@@ -4,10 +4,51 @@
 <meta charset="utf-8">
 <title>Darcula Forest — IntelliJ Color Scheme Preview</title>
 <style>
+  :root {
+    /* Editor */
+    --page-bg: #181a16;
+    --editor-bg: #20231e;
+    --tab-bar-bg: #1a1c18;
+    --caret-row: #252823;
+    --gutter-bg: #2c2f2a;
+    --selection-bg: #363b2f;
+    --search-result-bg: #2a2d2a;
+
+    /* Text */
+    --fg: #acafa9;
+    --fg-bright: #c8cbc5;
+    --fg-muted: #5e6e5e;
+
+    /* Syntax — forest */
+    --keyword: #5a792c;
+    --function-decl: #8aac5f;
+    --constant-field: #6e9a21;
+    --implicit-param: #a2b34d;
+    --number: #5ba071;
+    --string: #986941;
+    --string-escape: #5c800d;
+    --string-escape-bad: #814523;
+    --static-method: #b37238;
+    --named-arg: #658f00;
+
+    /* Effects */
+    --mutable-underline: #41561c;
+    --typo-underline: #603e1e;
+
+    /* Inherited from Darcula */
+    --comment: #808080;
+    --doc-comment: #629755;
+    --metadata: #bbb529;
+    --todo: #a8c023;
+    --line-number: #606366;
+    --error: #bc3f3c;
+    --warning: #be9117;
+  }
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background: #181a16;
-    color: #acafa9;
+    background: var(--page-bg);
+    color: var(--fg);
     font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
     padding: 40px;
     max-width: var(--page-width, 1200px);
@@ -21,23 +62,23 @@
     align-items: center;
     gap: 8px;
     font-size: 11px;
-    color: #5e6e5e;
+    color: var(--fg-muted);
     z-index: 10;
   }
   .width-control input {
     width: 100px;
-    accent-color: #5a792c;
+    accent-color: var(--keyword);
   }
   .width-control span { min-width: 48px; text-align: right; }
   h1 {
     font-size: 18px;
     font-weight: 600;
-    color: #c8cbc5;
+    color: var(--fg-bright);
     margin-bottom: 8px;
   }
   .subtitle {
     font-size: 13px;
-    color: #5e6e5e;
+    color: var(--fg-muted);
     margin-bottom: 32px;
   }
   .section {
@@ -47,9 +88,9 @@
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    color: #5e6e5e;
+    color: var(--fg-muted);
     margin-bottom: 12px;
-    border-bottom: 1px solid #2c2f2a;
+    border-bottom: 1px solid var(--gutter-bg);
     padding-bottom: 6px;
   }
 
@@ -65,9 +106,9 @@
     gap: 12px;
     padding: 8px 12px;
     border-radius: 6px;
-    background: #252823;
+    background: var(--caret-row);
   }
-  .color-entry:hover { background: #2c2f2a; }
+  .color-entry:hover { background: var(--gutter-bg); }
   .color-dot {
     width: 32px;
     height: 32px;
@@ -76,20 +117,20 @@
     border: 1px solid rgba(255,255,255,0.06);
   }
   .color-info { display: flex; flex-direction: column; }
-  .color-name { font-size: 12px; color: #c8cbc5; }
-  .color-hex { font-size: 11px; color: #5e6e5e; }
-  .color-source { font-size: 10px; color: #41561c; margin-top: 1px; }
-  .color-source.inherited { color: #5e6e5e; font-style: italic; }
+  .color-name { font-size: 12px; color: var(--fg-bright); }
+  .color-hex { font-size: 11px; color: var(--fg-muted); }
+  .color-source { font-size: 10px; color: var(--mutable-underline); margin-top: 1px; }
+  .color-source.inherited { color: var(--fg-muted); font-style: italic; }
 
   /* Code preview */
   .editor {
-    background: #20231e;
+    background: var(--editor-bg);
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 24px rgba(0,0,0,0.4);
   }
   .editor-tab-bar {
-    background: #1a1c18;
+    background: var(--tab-bar-bg);
     padding: 0 12px;
     display: flex;
     align-items: flex-end;
@@ -98,25 +139,25 @@
   .editor-tab {
     font-size: 12px;
     padding: 6px 16px;
-    color: #5e6e5e;
+    color: var(--fg-muted);
     border-radius: 6px 6px 0 0;
   }
   .editor-tab.active {
-    background: #20231e;
-    color: #acafa9;
+    background: var(--editor-bg);
+    color: var(--fg);
   }
   .editor-body {
     display: flex;
   }
   .gutter {
-    background: #2c2f2a;
+    background: var(--gutter-bg);
     padding: 16px 12px;
     text-align: right;
-    color: #5e6e5e;
+    color: var(--fg-muted);
     font-size: 13px;
     line-height: 1.65;
     user-select: none;
-    border-right: 1px solid #252823;
+    border-right: 1px solid var(--caret-row);
   }
   .code {
     padding: 16px 20px;
@@ -126,39 +167,39 @@
     flex: 1;
   }
   .code .line { white-space: pre; }
-  .code .line.active-line { background: #252823; margin: 0 -20px; padding: 0 20px; }
+  .code .line.active-line { background: var(--caret-row); margin: 0 -20px; padding: 0 20px; }
 
   /* Syntax classes — overrides */
-  .kw { color: #5a792c; }          /* DEFAULT_KEYWORD */
-  .fn { color: #8aac5f; }          /* DEFAULT_FUNCTION_DECLARATION */
-  .str { color: #986941; }         /* DEFAULT_STRING */
-  .str-esc { color: #5c800d; }     /* DEFAULT_VALID_STRING_ESCAPE */
-  .str-esc-bad { color: #814523; } /* DEFAULT_INVALID_STRING_ESCAPE */
-  .num { color: #5ba071; }         /* DEFAULT_NUMBER */
-  .const { color: #6e9a21; font-style: italic; } /* DEFAULT_CONSTANT */
-  .field { color: #6e9a21; }       /* DEFAULT_INSTANCE_FIELD */
-  .sfield { color: #6e9a21; font-style: italic; } /* DEFAULT_STATIC_FIELD */
-  .static-m { color: #b37238; font-style: italic; } /* DEFAULT_STATIC_METHOD */
-  .ann { color: #986941; }         /* ANNOTATION_NAME_ATTRIBUTES */
-  .named-arg { color: #658f00; }   /* KOTLIN_NAMED_ARGUMENT */
-  .impl { color: #a2b34d; }        /* IMPLICIT_ANONYMOUS_CLASS_PARAMETER */
-  .ident { color: #acafa9; }       /* DEFAULT_IDENTIFIER */
-  .punct { color: #5e6e5e; }       /* DEFAULT_COMMA / DEFAULT_SEMICOLON */
-  .mut { text-decoration: underline; text-decoration-color: #41561c; } /* KOTLIN_MUTABLE_VARIABLE */
-  .text { color: #acafa9; }        /* TEXT */
+  .kw { color: var(--keyword); }          /* DEFAULT_KEYWORD */
+  .fn { color: var(--function-decl); }    /* DEFAULT_FUNCTION_DECLARATION */
+  .str { color: var(--string); }          /* DEFAULT_STRING */
+  .str-esc { color: var(--string-escape); }     /* DEFAULT_VALID_STRING_ESCAPE */
+  .str-esc-bad { color: var(--string-escape-bad); } /* DEFAULT_INVALID_STRING_ESCAPE */
+  .num { color: var(--number); }          /* DEFAULT_NUMBER */
+  .const { color: var(--constant-field); font-style: italic; } /* DEFAULT_CONSTANT */
+  .field { color: var(--constant-field); }       /* DEFAULT_INSTANCE_FIELD */
+  .sfield { color: var(--constant-field); font-style: italic; } /* DEFAULT_STATIC_FIELD */
+  .static-m { color: var(--static-method); font-style: italic; } /* DEFAULT_STATIC_METHOD */
+  .ann { color: var(--string); }          /* ANNOTATION_NAME_ATTRIBUTES */
+  .named-arg { color: var(--named-arg); } /* KOTLIN_NAMED_ARGUMENT */
+  .impl { color: var(--implicit-param); } /* IMPLICIT_ANONYMOUS_CLASS_PARAMETER */
+  .ident { color: var(--fg); }            /* DEFAULT_IDENTIFIER */
+  .punct { color: var(--fg-muted); }      /* DEFAULT_COMMA / DEFAULT_SEMICOLON */
+  .mut { text-decoration: underline; text-decoration-color: var(--mutable-underline); } /* KOTLIN_MUTABLE_VARIABLE */
+  .text { color: var(--fg); }             /* TEXT */
 
   /* Syntax classes — inherited from Darcula */
-  .comment { color: #808080; }                        /* LINE_COMMENT / BLOCK_COMMENT */
-  .doc { color: #629755; font-style: italic; }        /* DOC_COMMENT */
-  .doc-tag { color: #629755; font-weight: bold; font-style: italic; }
-  .type { color: #acafa9; }        /* DEFAULT_CLASS_NAME (Darcula uses #a9b7c6) */
-  .meta { color: #bbb529; }        /* METADATA (Darcula default) */
-  .param { color: #acafa9; }       /* PARAMETER */
-  .local { color: #acafa9; }       /* LOCAL_VARIABLE */
-  .err { color: #bc3f3c; }         /* ERRORS (Darcula) */
-  .warn-underline { text-decoration: wavy underline; text-decoration-color: #be9117; }
-  .err-underline { text-decoration: wavy underline; text-decoration-color: #bc3f3c; }
-  .typo-underline { text-decoration: underline; text-decoration-style: wavy; text-decoration-color: #603e1e; }
+  .comment { color: var(--comment); }                        /* LINE_COMMENT / BLOCK_COMMENT */
+  .doc { color: var(--doc-comment); font-style: italic; }    /* DOC_COMMENT */
+  .doc-tag { color: var(--doc-comment); font-weight: bold; font-style: italic; }
+  .type { color: var(--fg); }             /* DEFAULT_CLASS_NAME (Darcula uses #a9b7c6) */
+  .meta { color: var(--metadata); }       /* METADATA (Darcula default) */
+  .param { color: var(--fg); }            /* PARAMETER */
+  .local { color: var(--fg); }            /* LOCAL_VARIABLE */
+  .err { color: var(--error); }           /* ERRORS (Darcula) */
+  .warn-underline { text-decoration: wavy underline; text-decoration-color: var(--warning); }
+  .err-underline { text-decoration: wavy underline; text-decoration-color: var(--error); }
+  .typo-underline { text-decoration: underline; text-decoration-style: wavy; text-decoration-color: var(--typo-underline); }
 
   /* Two-column layout for code samples */
   .code-samples {
@@ -190,8 +231,8 @@
     flex-shrink: 0;
     border: 1px solid rgba(255,255,255,0.06);
   }
-  .legend-label { color: #acafa9; }
-  .legend-label .hex { color: #5e6e5e; margin-left: 4px; }
+  .legend-label { color: var(--fg); }
+  .legend-label .hex { color: var(--fg-muted); margin-left: 4px; }
 </style>
 </head>
 <body>
@@ -210,7 +251,7 @@
   <div class="section-title">Editor Colors</div>
   <div class="color-grid">
     <div class="color-entry">
-      <div class="color-dot" style="background:#20231e"></div>
+      <div class="color-dot" style="background:var(--editor-bg)"></div>
       <div class="color-info">
         <span class="color-name">Background</span>
         <span class="color-hex">#20231e · oklch(25.1% 0.010 132.8)</span>
@@ -218,7 +259,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#acafa9"></div>
+      <div class="color-dot" style="background:var(--fg)"></div>
       <div class="color-info">
         <span class="color-name">Foreground</span>
         <span class="color-hex">#acafa9 · oklch(75.0% 0.009 128.9)</span>
@@ -226,7 +267,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#252823"></div>
+      <div class="color-dot" style="background:var(--caret-row)"></div>
       <div class="color-info">
         <span class="color-name">Caret Row</span>
         <span class="color-hex">#252823 · oklch(27.2% 0.010 132.7)</span>
@@ -234,7 +275,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#363b2f"></div>
+      <div class="color-dot" style="background:var(--selection-bg)"></div>
       <div class="color-info">
         <span class="color-name">Selection</span>
         <span class="color-hex">#363b2f · oklch(34.4% 0.021 126.0)</span>
@@ -242,7 +283,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#2c2f2a"></div>
+      <div class="color-dot" style="background:var(--gutter-bg)"></div>
       <div class="color-info">
         <span class="color-name">Gutter</span>
         <span class="color-hex">#2c2f2a · oklch(30.0% 0.010 132.7)</span>
@@ -250,7 +291,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#2a2d2a"></div>
+      <div class="color-dot" style="background:var(--search-result-bg)"></div>
       <div class="color-info">
         <span class="color-name">Search Result</span>
         <span class="color-hex">#2a2d2a · oklch(29.3% 0.007 145.6)</span>
@@ -264,7 +305,7 @@
   <div class="section-title">Syntax Colors</div>
   <div class="color-grid">
     <div class="color-entry">
-      <div class="color-dot" style="background:#5a792c"></div>
+      <div class="color-dot" style="background:var(--keyword)"></div>
       <div class="color-info">
         <span class="color-name">Keyword</span>
         <span class="color-hex">#5a792c · oklch(53.5% 0.111 128.2)</span>
@@ -272,7 +313,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#8aac5f"></div>
+      <div class="color-dot" style="background:var(--function-decl)"></div>
       <div class="color-info">
         <span class="color-name">Function Declaration</span>
         <span class="color-hex">#8aac5f · oklch(70.1% 0.111 128.5)</span>
@@ -280,7 +321,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#6e9a21"></div>
+      <div class="color-dot" style="background:var(--constant-field)"></div>
       <div class="color-info">
         <span class="color-name">Constant / Field</span>
         <span class="color-hex">#6e9a21 · oklch(63.2% 0.152 128.2)</span>
@@ -288,7 +329,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#a2b34d"></div>
+      <div class="color-dot" style="background:var(--implicit-param)"></div>
       <div class="color-info">
         <span class="color-name">Implicit Parameter</span>
         <span class="color-hex">#a2b34d · oklch(73.2% 0.129 117.6)</span>
@@ -296,7 +337,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#5ba071"></div>
+      <div class="color-dot" style="background:var(--number)"></div>
       <div class="color-info">
         <span class="color-name">Number</span>
         <span class="color-hex">#5ba071 · oklch(64.7% 0.100 153.1)</span>
@@ -304,7 +345,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#5e6e5e"></div>
+      <div class="color-dot" style="background:var(--fg-muted)"></div>
       <div class="color-info">
         <span class="color-name">Punctuation</span>
         <span class="color-hex">#5e6e5e · oklch(52.0% 0.031 145.2)</span>
@@ -312,7 +353,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#986941"></div>
+      <div class="color-dot" style="background:var(--string)"></div>
       <div class="color-info">
         <span class="color-name">String / Annotation</span>
         <span class="color-hex">#986941 · oklch(56.1% 0.082 60.4)</span>
@@ -320,7 +361,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#5c800d"></div>
+      <div class="color-dot" style="background:var(--string-escape)"></div>
       <div class="color-info">
         <span class="color-name">String Escape (valid)</span>
         <span class="color-hex">#5c800d · oklch(55.2% 0.138 127.1)</span>
@@ -328,7 +369,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#814523"></div>
+      <div class="color-dot" style="background:var(--string-escape-bad)"></div>
       <div class="color-info">
         <span class="color-name">String Escape (invalid)</span>
         <span class="color-hex">#814523 · oklch(45.7% 0.095 48.3)</span>
@@ -336,7 +377,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#b37238"></div>
+      <div class="color-dot" style="background:var(--static-method)"></div>
       <div class="color-info">
         <span class="color-name">Static Method</span>
         <span class="color-hex">#b37238 · oklch(61.0% 0.110 60.0)</span>
@@ -344,7 +385,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#658f00"></div>
+      <div class="color-dot" style="background:var(--named-arg)"></div>
       <div class="color-info">
         <span class="color-name">Named Argument</span>
         <span class="color-hex">#658f00 · oklch(59.7% 0.155 127.5)</span>
@@ -358,7 +399,7 @@
   <div class="section-title">Underlines &amp; Effects</div>
   <div class="color-grid">
     <div class="color-entry">
-      <div class="color-dot" style="background:#41561c"></div>
+      <div class="color-dot" style="background:var(--mutable-underline)"></div>
       <div class="color-info">
         <span class="color-name">Mutable Variable Underline</span>
         <span class="color-hex">#41561c · oklch(42.2% 0.087 126.7)</span>
@@ -366,7 +407,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#603e1e"></div>
+      <div class="color-dot" style="background:var(--typo-underline)"></div>
       <div class="color-info">
         <span class="color-name">Typo Underline</span>
         <span class="color-hex">#603e1e · oklch(39.6% 0.066 62.1)</span>
@@ -380,7 +421,7 @@
   <div class="section-title">Inherited from Darcula</div>
   <div class="color-grid">
     <div class="color-entry">
-      <div class="color-dot" style="background:#808080"></div>
+      <div class="color-dot" style="background:var(--comment)"></div>
       <div class="color-info">
         <span class="color-name">Comment</span>
         <span class="color-hex">#808080 · oklch(60.0% 0.000 263.3)</span>
@@ -388,7 +429,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#a8c023"></div>
+      <div class="color-dot" style="background:var(--todo)"></div>
       <div class="color-info">
         <span class="color-name">TODO</span>
         <span class="color-hex">#a8c023 · oklch(76.4% 0.170 118.7)</span>
@@ -396,7 +437,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#606366"></div>
+      <div class="color-dot" style="background:var(--line-number)"></div>
       <div class="color-info">
         <span class="color-name">Line Number</span>
         <span class="color-hex">#606366 · oklch(49.8% 0.006 248.1)</span>
@@ -404,7 +445,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#bc3f3c"></div>
+      <div class="color-dot" style="background:var(--error)"></div>
       <div class="color-info">
         <span class="color-name">Error</span>
         <span class="color-hex">#bc3f3c · oklch(54.5% 0.161 25.4)</span>
@@ -412,7 +453,7 @@
       </div>
     </div>
     <div class="color-entry">
-      <div class="color-dot" style="background:#be9117"></div>
+      <div class="color-dot" style="background:var(--warning)"></div>
       <div class="color-info">
         <span class="color-name">Warning</span>
         <span class="color-hex">#be9117 · oklch(68.1% 0.134 85.4)</span>
