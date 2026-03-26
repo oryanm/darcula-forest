@@ -3,48 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>Darcula Forest — IntelliJ Color Scheme Preview</title>
+<link rel="stylesheet" href="palette.css">
 <style>
-  :root {
-    /* Editor */
-    --page-bg: #181a16;
-    --editor-bg: #20231e;
-    --tab-bar-bg: #1a1c18;
-    --caret-row: #252823;
-    --gutter-bg: #2c2f2a;
-    --selection-bg: #363b30;
-    --search-result-bg: #2a2d2a;
-
-    /* Text */
-    --fg: #acafa9;
-    --fg-bright: #c8cbc5;
-    --fg-muted: #5e6e5e;
-
-    /* Syntax — forest */
-    --keyword: #5a792c;
-    --function-decl: #8bac5e;
-    --constant-field: #6f9a21;
-    --implicit-param: #a2b34d;
-    --number: #5ba071;
-    --string: #986941;
-    --string-escape: #5a8011;
-    --string-escape-bad: #814523;
-    --static-method: #b37238;
-    --named-arg: #648f04;
-
-    /* Effects */
-    --mutable-underline: #40561d;
-    --typo-underline: #603e1e;
-
-    /* Inherited from Darcula */
-    --comment: #808080;
-    --doc-comment: #629755;
-    --metadata: #bbb529;
-    --todo: #a8c023;
-    --line-number: #606366;
-    --error: #bc3f3c;
-    --warning: #be9117;
-  }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     background: var(--page-bg);
@@ -250,51 +210,51 @@
 <div class="section">
   <div class="section-title">Editor Colors</div>
   <div class="color-grid">
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--editor-bg)"></div>
+    <div class="color-entry" data-var="editor-bg">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Background</span>
-        <span class="color-hex">#20231e · oklch(25.1% 0.010 128)</span>
+        <span class="color-hex"></span>
         <span class="color-source">TEXT</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--fg)"></div>
+    <div class="color-entry" data-var="fg">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Foreground</span>
-        <span class="color-hex">#acafa9 · oklch(75.0% 0.009 128)</span>
+        <span class="color-hex"></span>
         <span class="color-source">TEXT / DEFAULT_IDENTIFIER</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--caret-row)"></div>
+    <div class="color-entry" data-var="caret-row">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Caret Row</span>
-        <span class="color-hex">#252823 · oklch(27.2% 0.010 128)</span>
+        <span class="color-hex"></span>
         <span class="color-source">CARET_ROW_COLOR</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--selection-bg)"></div>
+    <div class="color-entry" data-var="selection-bg">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Selection</span>
-        <span class="color-hex">#363b30 · oklch(34.4% 0.021 128)</span>
+        <span class="color-hex"></span>
         <span class="color-source">SELECTION_BACKGROUND</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--gutter-bg)"></div>
+    <div class="color-entry" data-var="gutter-bg">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Gutter</span>
-        <span class="color-hex">#2c2f2a · oklch(30.0% 0.010 128)</span>
+        <span class="color-hex"></span>
         <span class="color-source">GUTTER_BACKGROUND</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--search-result-bg)"></div>
+    <div class="color-entry" data-var="search-result-bg">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Search Result</span>
-        <span class="color-hex">#2a2d2a · oklch(29.3% 0.007 145)</span>
+        <span class="color-hex"></span>
         <span class="color-source">SEARCH_RESULT_ATTRIBUTES</span>
       </div>
     </div>
@@ -304,91 +264,91 @@
 <div class="section">
   <div class="section-title">Syntax Colors</div>
   <div class="color-grid">
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--keyword)"></div>
+    <div class="color-entry" data-var="keyword">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Keyword</span>
-        <span class="color-hex">#5a792c · oklch(53.5% 0.111 128)</span>
+        <span class="color-hex"></span>
         <span class="color-source">DEFAULT_KEYWORD</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--function-decl)"></div>
+    <div class="color-entry" data-var="function-decl">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Function Declaration</span>
-        <span class="color-hex">#8bac5e · oklch(70.1% 0.111 128)</span>
+        <span class="color-hex"></span>
         <span class="color-source">DEFAULT_FUNCTION_DECLARATION</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--constant-field)"></div>
+    <div class="color-entry" data-var="constant-field">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Constant / Field</span>
-        <span class="color-hex">#6f9a21 · oklch(63.2% 0.152 128)</span>
+        <span class="color-hex"></span>
         <span class="color-source">DEFAULT_CONSTANT / INSTANCE_FIELD / STATIC_FIELD</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--implicit-param)"></div>
+    <div class="color-entry" data-var="implicit-param">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Implicit Parameter</span>
-        <span class="color-hex">#a2b34d · oklch(73.2% 0.129 117.6)</span>
+        <span class="color-hex"></span>
         <span class="color-source">IMPLICIT_ANONYMOUS_CLASS_PARAMETER</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--number)"></div>
+    <div class="color-entry" data-var="number">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Number</span>
-        <span class="color-hex">#5ba071 · oklch(64.7% 0.100 153.1)</span>
+        <span class="color-hex"></span>
         <span class="color-source">DEFAULT_NUMBER</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--fg-muted)"></div>
+    <div class="color-entry" data-var="fg-muted">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Punctuation</span>
-        <span class="color-hex">#5e6e5e · oklch(52.0% 0.031 145.2)</span>
+        <span class="color-hex"></span>
         <span class="color-source">DEFAULT_COMMA / SEMICOLON</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--string)"></div>
+    <div class="color-entry" data-var="string">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">String / Annotation</span>
-        <span class="color-hex">#986941 · oklch(56.1% 0.082 60.4)</span>
+        <span class="color-hex"></span>
         <span class="color-source">DEFAULT_STRING / ANNOTATION</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--string-escape)"></div>
+    <div class="color-entry" data-var="string-escape">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">String Escape (valid)</span>
-        <span class="color-hex">#5a8011 · oklch(55.2% 0.138 128)</span>
+        <span class="color-hex"></span>
         <span class="color-source">DEFAULT_VALID_STRING_ESCAPE</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--string-escape-bad)"></div>
+    <div class="color-entry" data-var="string-escape-bad">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">String Escape (invalid)</span>
-        <span class="color-hex">#814523 · oklch(45.7% 0.095 48.3)</span>
+        <span class="color-hex"></span>
         <span class="color-source">DEFAULT_INVALID_STRING_ESCAPE</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--static-method)"></div>
+    <div class="color-entry" data-var="static-method">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Static Method</span>
-        <span class="color-hex">#b37238 · oklch(61.0% 0.110 60.0)</span>
+        <span class="color-hex"></span>
         <span class="color-source">DEFAULT_STATIC_METHOD (kotlin)</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--named-arg)"></div>
+    <div class="color-entry" data-var="named-arg">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Named Argument</span>
-        <span class="color-hex">#648f04 · oklch(59.7% 0.155 128)</span>
+        <span class="color-hex"></span>
         <span class="color-source">KOTLIN_NAMED_ARGUMENT</span>
       </div>
     </div>
@@ -398,19 +358,19 @@
 <div class="section">
   <div class="section-title">Underlines &amp; Effects</div>
   <div class="color-grid">
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--mutable-underline)"></div>
+    <div class="color-entry" data-var="mutable-underline">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Mutable Variable Underline</span>
-        <span class="color-hex">#40561d · oklch(42.2% 0.087 128)</span>
+        <span class="color-hex"></span>
         <span class="color-source">KOTLIN_MUTABLE_VARIABLE</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--typo-underline)"></div>
+    <div class="color-entry" data-var="typo-underline">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Typo Underline</span>
-        <span class="color-hex">#603e1e · oklch(39.6% 0.066 62.1)</span>
+        <span class="color-hex"></span>
         <span class="color-source">TYPO</span>
       </div>
     </div>
@@ -420,43 +380,43 @@
 <div class="section">
   <div class="section-title">Inherited from Darcula</div>
   <div class="color-grid">
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--comment)"></div>
+    <div class="color-entry" data-var="comment">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Comment</span>
-        <span class="color-hex">#808080 · oklch(60.0% 0.000 263.3)</span>
+        <span class="color-hex"></span>
         <span class="color-source inherited">DEFAULT_LINE_COMMENT / BLOCK_COMMENT</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--todo)"></div>
+    <div class="color-entry" data-var="todo">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">TODO</span>
-        <span class="color-hex">#a8c023 · oklch(76.4% 0.170 118.7)</span>
+        <span class="color-hex"></span>
         <span class="color-source inherited">TODO_DEFAULT_ATTRIBUTES</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--line-number)"></div>
+    <div class="color-entry" data-var="line-number">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Line Number</span>
-        <span class="color-hex">#606366 · oklch(49.8% 0.006 248.1)</span>
+        <span class="color-hex"></span>
         <span class="color-source inherited">LINE_NUMBERS_COLOR</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--error)"></div>
+    <div class="color-entry" data-var="error">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Error</span>
-        <span class="color-hex">#bc3f3c · oklch(54.5% 0.161 25.4)</span>
+        <span class="color-hex"></span>
         <span class="color-source inherited">ERRORS_ATTRIBUTES</span>
       </div>
     </div>
-    <div class="color-entry">
-      <div class="color-dot" style="background:var(--warning)"></div>
+    <div class="color-entry" data-var="warning">
+      <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Warning</span>
-        <span class="color-hex">#be9117 · oklch(68.1% 0.134 85.4)</span>
+        <span class="color-hex"></span>
         <span class="color-source inherited">WARNING_ATTRIBUTES</span>
       </div>
     </div>
@@ -474,7 +434,7 @@
         <div class="editor-tab active">UserService.kt</div>
       </div>
       <div class="editor-body">
-        <div class="gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18</div>
+        <div class="gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17</div>
         <div class="code">
           <div class="line"><span class="ann">@Service</span></div>
           <div class="line"><span class="kw">class</span> <span class="ident">UserService</span><span class="punct">(</span></div>
@@ -494,6 +454,7 @@
           <div class="line">        <span class="punct">}</span></div>
           <div class="line">        <span class="kw">return</span> <span class="ident">result</span></div>
           <div class="line">    <span class="punct">}</span></div>
+          <div class="line"><span class="punct">}</span></div>
         </div>
       </div>
     </div>
@@ -532,5 +493,26 @@
   </div>
 </div>
 
+<script src="oklch.js"></script>
+<script>
+  // Resolve any CSS color to #rrggbb using a canvas context
+  const ctx = document.createElement("canvas").getContext("2d");
+  function cssToHex(cssColor) {
+    ctx.fillStyle = "#000";  // reset
+    ctx.fillStyle = cssColor;
+    return ctx.fillStyle;    // always returns #rrggbb
+  }
+
+  const styles = getComputedStyle(document.documentElement);
+  for (const el of document.querySelectorAll("[data-var]")) {
+    const varName = el.dataset.var;
+    const raw = styles.getPropertyValue("--" + varName).trim();
+    const hex = cssToHex(raw);
+    const isOklch = raw.startsWith("oklch(");
+    const oklch = isOklch ? raw : hexToOklch(hex);
+    el.querySelector(".color-dot").style.background = "var(--" + varName + ")";
+    el.querySelector(".color-hex").textContent = hex + " \u00b7 " + oklch;
+  }
+</script>
 </body>
 </html>
