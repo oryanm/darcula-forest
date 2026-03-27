@@ -80,7 +80,6 @@
   .color-name { font-size: 12px; color: var(--fg-bright); }
   .color-hex { font-size: 11px; color: var(--fg-muted); }
   .color-source { font-size: 10px; color: var(--mutable-underline); margin-top: 1px; }
-  .color-source.inherited { color: var(--fg-muted); font-style: italic; }
 
   /* Code preview */
   .editor {
@@ -144,7 +143,7 @@
   .named-arg { color: var(--named-arg); } /* KOTLIN_NAMED_ARGUMENT */
   .impl { color: var(--implicit-param); } /* IMPLICIT_ANONYMOUS_CLASS_PARAMETER */
   .ident { color: var(--fg); }            /* DEFAULT_IDENTIFIER */
-  .punct { color: var(--fg-muted); }      /* DEFAULT_COMMA / DEFAULT_SEMICOLON */
+  .punct { color: var(--keyword); }      /* DEFAULT_COMMA / DEFAULT_SEMICOLON */
   .mut { text-decoration: underline; text-decoration-color: var(--mutable-underline); } /* KOTLIN_MUTABLE_VARIABLE */
   .text { color: var(--fg); }             /* TEXT */
 
@@ -242,14 +241,6 @@
         <span class="color-source">SELECTION_BACKGROUND</span>
       </div>
     </div>
-    <div class="color-entry" data-var="gutter-bg">
-      <div class="color-dot"></div>
-      <div class="color-info">
-        <span class="color-name">Gutter</span>
-        <span class="color-hex"></span>
-        <span class="color-source">GUTTER_BACKGROUND</span>
-      </div>
-    </div>
     <div class="color-entry" data-var="search-result-bg">
       <div class="color-dot"></div>
       <div class="color-info">
@@ -267,9 +258,9 @@
     <div class="color-entry" data-var="keyword">
       <div class="color-dot"></div>
       <div class="color-info">
-        <span class="color-name">Keyword</span>
+        <span class="color-name">Keyword / Punctuation</span>
         <span class="color-hex"></span>
-        <span class="color-source">DEFAULT_KEYWORD</span>
+        <span class="color-source">DEFAULT_KEYWORD / DEFAULT_COMMA / SEMICOLON</span>
       </div>
     </div>
     <div class="color-entry" data-var="function-decl">
@@ -304,14 +295,6 @@
         <span class="color-source">DEFAULT_NUMBER</span>
       </div>
     </div>
-    <div class="color-entry" data-var="fg-muted">
-      <div class="color-dot"></div>
-      <div class="color-info">
-        <span class="color-name">Punctuation</span>
-        <span class="color-hex"></span>
-        <span class="color-source">DEFAULT_COMMA / SEMICOLON</span>
-      </div>
-    </div>
     <div class="color-entry" data-var="string">
       <div class="color-dot"></div>
       <div class="color-info">
@@ -339,9 +322,9 @@
     <div class="color-entry" data-var="static-method">
       <div class="color-dot"></div>
       <div class="color-info">
-        <span class="color-name">Static Method</span>
+        <span class="color-name">Static Method (Kotlin)</span>
         <span class="color-hex"></span>
-        <span class="color-source">DEFAULT_STATIC_METHOD (kotlin)</span>
+        <span class="color-source">DEFAULT_STATIC_METHOD</span>
       </div>
     </div>
     <div class="color-entry" data-var="named-arg">

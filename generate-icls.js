@@ -61,7 +61,6 @@ const scheme = {
   colors: [
     { name: "CARET_ROW_COLOR",          ref: "caret-row" },
     { name: "FOLDED_TEXT_BORDER_COLOR",  hex: "313335" },
-    { name: "GUTTER_BACKGROUND",         ref: "gutter-bg" },
     { name: "SELECTION_BACKGROUND",      ref: "selection-bg" },
     { name: "TEARLINE_COLOR",            hex: "3c3f41" },
   ],
@@ -76,7 +75,7 @@ const scheme = {
     },
     {
       name: "DEFAULT_COMMA",
-      fg: "fg-muted",
+      fg: "keyword",
     },
     {
       name: "DEFAULT_CONSTANT",
@@ -112,7 +111,7 @@ const scheme = {
     },
     {
       name: "DEFAULT_SEMICOLON",
-      fg: "fg-muted",
+      fg: "keyword",
     },
     {
       name: "DEFAULT_STATIC_FIELD",
