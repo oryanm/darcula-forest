@@ -3,7 +3,7 @@
     --editor-bg: oklch(25% 0.01 128);
     --caret-row: oklch(27% 0.01 128);
     --selection-bg: oklch(35% 0.02 128);
-    --search-result-bg: oklch(0.35 0.01 128);
+    --search-result-bg: oklch(35% 0.01 128);
 
     --page-bg: oklch(from var(--editor-bg) calc(l - 0.05) c h);
     --tab-bar-bg: oklch(from var(--page-bg) calc(l + 0.01) c h);
@@ -16,15 +16,15 @@
 
     /* Syntax — forest */
     --keyword: oklch(53% 0.111 128);
-    --function-decl: oklch(70% 0.111 128);
-    --constant-field: oklch(63% 0.152 128);
-    --implicit-param: oklch(0.63 0.09 128);
-    --number: oklch(0.56 0.082 180);
-    --string: oklch(56% 0.082 60);
-    --string-escape: oklch(55% 0.138 128);
-    --string-escape-bad: oklch(40% 0.082 60);
-    --static-method: oklch(61% 0.110 60);
-    --named-arg: oklch(60% 0.155 128);
+    --function-decl: oklch(70% 0.111 128); /* bright --keyword */
+    --constant-field: oklch(63% 0.152 128); /* bright & saturated --keyword */
+    --implicit-param: oklch(70% 0.151 128); /* saturated --function-decl */
+    --number: oklch(53% 0.111 180); /* hue change of --keyword */
+    --string: oklch(56% 0.082 60); /* desaturated hue change of --keyword */
+    --string-escape: oklch(53% 0.111 128); /* copy of --keyword */
+    --string-escape-bad: oklch(40% 0.111 60); /* darker --string */
+    --static-method: oklch(61% 0.111 60); /* bright --string */
+    --named-arg: oklch(63% 0.061 128); /* desaturated --constant-field*/
 
     /* Effects */
     --mutable-underline: oklch(42% 0.087 128);

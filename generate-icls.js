@@ -110,6 +110,10 @@ const scheme = {
       fg: "number",
     },
     {
+      name: "KOTLIN_LABEL",
+      fg: "number",
+    },
+    {
       name: "DEFAULT_SEMICOLON",
       fg: "keyword",
     },
@@ -138,7 +142,7 @@ const scheme = {
     {
       name: "IMPLICIT_ANONYMOUS_CLASS_PARAMETER_ATTRIBUTES",
       fg: "implicit-param",
-      effectColor: "aaaf81",
+      effectColor: "function-decl",
       effectType: 1,
     },
     {

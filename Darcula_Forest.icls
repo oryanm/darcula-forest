@@ -13,7 +13,7 @@
   <attributes>
     <option name="ANNOTATION_NAME_ATTRIBUTES">
       <value>
-        <option name="FOREGROUND" value="986941" />
+        <option name="FOREGROUND" value="9a5a1c" />
         <option name="EFFECT_TYPE" value="1" />
       </value>
     </option>
@@ -46,7 +46,7 @@
     </option>
     <option name="DEFAULT_INVALID_STRING_ESCAPE">
       <value>
-        <option name="FOREGROUND" value="673c12" />
+        <option name="FOREGROUND" value="713500" />
         <option name="EFFECT_COLOR" value="ff0000" />
         <option name="EFFECT_TYPE" value="2" />
       </value>
@@ -58,7 +58,12 @@
     </option>
     <option name="DEFAULT_NUMBER">
       <value>
-        <option name="FOREGROUND" value="328476" />
+        <option name="FOREGROUND" value="00806e" />
+      </value>
+    </option>
+    <option name="KOTLIN_LABEL">
+      <value>
+        <option name="FOREGROUND" value="00806e" />
       </value>
     </option>
     <option name="DEFAULT_SEMICOLON">
@@ -74,13 +79,13 @@
     </option>
     <option name="DEFAULT_STATIC_METHOD">
       <value>
-        <option name="FOREGROUND" value="b37238" />
+        <option name="FOREGROUND" value="b37237" />
         <option name="FONT_TYPE" value="2" />
       </value>
     </option>
     <option name="DEFAULT_STRING">
       <value>
-        <option name="FOREGROUND" value="986941" />
+        <option name="FOREGROUND" value="9a5a1c" />
       </value>
     </option>
     <option name="DEFAULT_TEMPLATE_LANGUAGE_COLOR">
@@ -90,13 +95,13 @@
     </option>
     <option name="DEFAULT_VALID_STRING_ESCAPE">
       <value>
-        <option name="FOREGROUND" value="5a800f" />
+        <option name="FOREGROUND" value="59772a" />
       </value>
     </option>
     <option name="IMPLICIT_ANONYMOUS_CLASS_PARAMETER_ATTRIBUTES">
       <value>
-        <option name="FOREGROUND" value="799457" />
-        <option name="EFFECT_COLOR" value="aaaf81" />
+        <option name="FOREGROUND" value="83af3d" />
+        <option name="EFFECT_COLOR" value="8aac5e" />
         <option name="EFFECT_TYPE" value="1" />
       </value>
     </option>
@@ -113,7 +118,7 @@
     </option>
     <option name="KOTLIN_NAMED_ARGUMENT">
       <value>
-        <option name="FOREGROUND" value="659006" />
+        <option name="FOREGROUND" value="7e9169" />
       </value>
     </option>
     <option name="SEARCH_RESULT_ATTRIBUTES">
