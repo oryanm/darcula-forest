@@ -7,7 +7,7 @@
 
 const { readFileSync, writeFileSync } = require("fs");
 const { join } = require("path");
-const { oklchToHex } = require("./oklch");
+const { oklchToHex } = require("../oklch");
 
 // ── Parse palette.css ────────────────────────────────────────────────
 // Reads CSS custom properties from palette.css. Supports both hex and
