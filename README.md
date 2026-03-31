@@ -1,7 +1,7 @@
 # Darcula Forest
 
-A dark green [color scheme][preview-html] based on JetBrains' original Darcula theme. Individual Colors are selected
-using the [Oklch color space][oklab-wiki].
+A dark green [color scheme][preview-html] based on JetBrains' original Darcula theme. Individual colors are selected
+using the [Oklch color space][oklab-wiki]. 
 
 <img width="810" height="427" alt="image" src="https://github.com/user-attachments/assets/e59c36bd-dbed-484e-b9f0-3bcbe32e8cf3" />
 
