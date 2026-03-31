@@ -2,5 +2,5 @@
 /workspace.xml
 /.idea/*
 *.iml
-/.local/
+/.local/*
 /.claude/*
