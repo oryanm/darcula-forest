@@ -3,6 +3,10 @@
 A dark green [color scheme][preview-html] based on JetBrains' original Darcula theme. Individual colors are selected
 using the [Oklch color space][oklab-wiki]. 
 
+Check out the [preview here][preview-html].
+
+<img width="800" height="657" alt="image" src="https://github.com/user-attachments/assets/3e35fee4-a84e-4088-bbbc-5d0457eac3e9" />
+
 <img width="810" height="427" alt="image" src="https://github.com/user-attachments/assets/e59c36bd-dbed-484e-b9f0-3bcbe32e8cf3" />
 
 [preview-html]: https://htmlpreview.github.io/?https://github.com/oryanm/darcula-forest/blob/main/darcula/preview.html
