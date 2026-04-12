@@ -1,0 +1,27 @@
+# darcula forest - derived from IntelliJ Darcula Forest theme
+[colors]
+indexed_colors = [{ index = 16, color = "#20231e" }]
+
+[colors.primary]
+background = "#20231e"
+foreground = "#acafa9"
+
+[colors.normal]
+black = "#20231e"
+red = "#946640"
+green = "#647b47"
+yellow = "#8c694e"
+blue = "#5f7d31"
+magenta = "#8aab5f"
+cyan = "#749f2b"
+white = "#acafa9"
+
+[colors.bright]
+black = "#373d32"
+red = "#946640"
+green = "#647b47"
+yellow = "#8c694e"
+blue = "#5f7d31"
+magenta = "#8aab5f"
+cyan = "#749f2b"
+white = "#a3b68d"
