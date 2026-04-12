@@ -219,9 +219,25 @@ const scheme = {
       effectType: 5,
     },
     {
+      name: "TODO_DEFAULT_ATTRIBUTES",
+      fg: "todo",
+      fontType: 2,
+      errorStripeColor: "977ab",
+    },
+    {
       name: "TYPO",
       effectColor: "typo-underline",
       effectType: 2,
+    },
+    {
+      name: "WARNING_ATTRIBUTES",
+      bg: "warning",
+      errorStripeColor: "be9117",
+      effectType: 2,
+    },
+    {
+      name: "WRONG_REFERENCES_ATTRIBUTES",
+      fg: "error",
     },
   ],
 };

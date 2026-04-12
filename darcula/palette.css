@@ -38,7 +38,8 @@
 
     /* Effects */
     --error: oklch(55% 0.170 28);
-    --warning: oklch(45% 0.035 80);
+    --warning: oklch(45% 0.035 60);
+    --warning-stripe: oklch(70% 0.170 60);
     --mutable-underline: oklch(40% 0.090 128);
     --typo-underline: oklch(40% 0.070 60);
     --deprecated-strikethrough: var(--fg);
@@ -48,7 +49,7 @@
     --javadoc: oklch(60% 0.110 128); /* tag also */
     --javadoc-markup: var(--function-decl);
     --javadoc-tag-val: var(--string); /* tag + tag value + markup*/
-    --todo: oklch(0.75 0.17 80); /* bright & saturated string */
+    --todo: oklch(0.75 0.17 60); /* bright & saturated string */
 
     /* Diff */
     --diff-delete: oklch(35% 0.01 128); /* search result background */
