@@ -79,7 +79,7 @@
   .color-info { display: flex; flex-direction: column; }
   .color-name { font-size: 12px; color: var(--fg); }
   .color-hex { font-size: 11px; color: var(--fg-muted); }
-  .color-source { font-size: 10px; color: var(--mutable-underline); margin-top: 1px; }
+  .color-source { font-size: 10px; color: var(--static-method); margin-top: 1px; }
 
   /* Code preview */
   .editor {
@@ -147,7 +147,7 @@
   .mut { text-decoration: underline; text-decoration-color: var(--mutable-underline); } /* KOTLIN_MUTABLE_VARIABLE */
   .text { color: var(--fg); }             /* TEXT */
 
-  /* Syntax classes — inherited from Darcula */
+  /* Syntax classes — comments & effects */
   .comment { color: var(--comment); }                        /* LINE_COMMENT / BLOCK_COMMENT */
   .doc { color: var(--javadoc); font-style: italic; }    /* DOC_COMMENT */
   .doc-tag { color: var(--javadoc); font-weight: bold; font-style: italic; }
@@ -248,6 +248,14 @@
         <span class="color-source">SEARCH_RESULT_ATTRIBUTES</span>
       </div>
     </div>
+    <div class="color-entry" data-var="line-number">
+      <div class="color-dot"></div>
+      <div class="color-info">
+        <span class="color-name">Line Number</span>
+        <span class="color-hex"></span>
+        <span class="color-source">LINE_NUMBERS_COLOR</span>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -338,8 +346,24 @@
 </div>
 
 <div class="section">
-  <div class="section-title">Underlines &amp; Effects</div>
+  <div class="section-title">Effects</div>
   <div class="color-grid">
+    <div class="color-entry" data-var="error">
+      <div class="color-dot"></div>
+      <div class="color-info">
+        <span class="color-name">Error</span>
+        <span class="color-hex"></span>
+        <span class="color-source">ERRORS_ATTRIBUTES</span>
+      </div>
+    </div>
+    <div class="color-entry" data-var="warning">
+      <div class="color-dot"></div>
+      <div class="color-info">
+        <span class="color-name">Warning</span>
+        <span class="color-hex"></span>
+        <span class="color-source">WARNING_ATTRIBUTES</span>
+      </div>
+    </div>
     <div class="color-entry" data-var="mutable-underline">
       <div class="color-dot"></div>
       <div class="color-info">
@@ -360,22 +384,30 @@
 </div>
 
 <div class="section">
-  <div class="section-title">Inherited from Darcula</div>
+  <div class="section-title">Comments</div>
   <div class="color-grid">
-    <div class="color-entry" data-var="error">
+    <div class="color-entry" data-var="comment">
       <div class="color-dot"></div>
       <div class="color-info">
-        <span class="color-name">Error</span>
+        <span class="color-name">Comment</span>
         <span class="color-hex"></span>
-        <span class="color-source inherited">ERRORS_ATTRIBUTES</span>
+        <span class="color-source">DEFAULT_LINE_COMMENT / BLOCK_COMMENT</span>
       </div>
     </div>
-    <div class="color-entry" data-var="warning">
+    <div class="color-entry" data-var="javadoc">
       <div class="color-dot"></div>
       <div class="color-info">
-        <span class="color-name">Warning</span>
+        <span class="color-name">JavaDoc</span>
         <span class="color-hex"></span>
-        <span class="color-source inherited">WARNING_ATTRIBUTES</span>
+        <span class="color-source">DEFAULT_DOC_COMMENT / DEFAULT_DOC_COMMENT_TAG</span>
+      </div>
+    </div>
+    <div class="color-entry" data-var="javadoc-tag-val">
+      <div class="color-dot"></div>
+      <div class="color-info">
+        <span class="color-name">JavaDoc Tag Value</span>
+        <span class="color-hex"></span>
+        <span class="color-source">DEFAULT_DOC_COMMENT_TAG_VALUE</span>
       </div>
     </div>
     <div class="color-entry" data-var="todo">
@@ -383,31 +415,45 @@
       <div class="color-info">
         <span class="color-name">TODO</span>
         <span class="color-hex"></span>
-        <span class="color-source inherited">TODO_DEFAULT_ATTRIBUTES</span>
+        <span class="color-source">TODO_DEFAULT_ATTRIBUTES</span>
       </div>
     </div>
-    <div class="color-entry" data-var="comment">
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Diff</div>
+  <div class="color-grid">
+    <div class="color-entry" data-var="diff-delete">
       <div class="color-dot"></div>
       <div class="color-info">
-        <span class="color-name">Comment</span>
+        <span class="color-name">Diff Delete</span>
         <span class="color-hex"></span>
-        <span class="color-source inherited">DEFAULT_LINE_COMMENT / BLOCK_COMMENT</span>
+        <span class="color-source">DIFF_DELETED</span>
       </div>
     </div>
-    <div class="color-entry" data-var="javadoc">
+    <div class="color-entry" data-var="diff-change">
       <div class="color-dot"></div>
       <div class="color-info">
-        <span class="color-name">JavaDoc Comment</span>
+        <span class="color-name">Diff Change</span>
         <span class="color-hex"></span>
-        <span class="color-source inherited">DEFAULT_DOC_COMMENT / DEFAULT_DOC_COMMENT_TAG</span>
+        <span class="color-source">DIFF_MODIFIED</span>
       </div>
     </div>
-    <div class="color-entry" data-var="line-number">
+    <div class="color-entry" data-var="diff-add">
       <div class="color-dot"></div>
       <div class="color-info">
-        <span class="color-name">Line Number</span>
+        <span class="color-name">Diff Add</span>
         <span class="color-hex"></span>
-        <span class="color-source inherited">LINE_NUMBERS_COLOR</span>
+        <span class="color-source">DIFF_INSERTED</span>
+      </div>
+    </div>
+    <div class="color-entry" data-var="diff-conflict">
+      <div class="color-dot"></div>
+      <div class="color-info">
+        <span class="color-name">Diff Conflict</span>
+        <span class="color-hex"></span>
+        <span class="color-source">DIFF_CONFLICT</span>
       </div>
     </div>
   </div>
