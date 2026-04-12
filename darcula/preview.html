@@ -33,7 +33,7 @@
   h1 {
     font-size: 18px;
     font-weight: 600;
-    color: var(--fg-bright);
+    color: var(--fg);
     margin-bottom: 8px;
   }
   .subtitle {
@@ -77,7 +77,7 @@
     border: 1px solid rgba(255,255,255,0.06);
   }
   .color-info { display: flex; flex-direction: column; }
-  .color-name { font-size: 12px; color: var(--fg-bright); }
+  .color-name { font-size: 12px; color: var(--fg); }
   .color-hex { font-size: 11px; color: var(--fg-muted); }
   .color-source { font-size: 10px; color: var(--mutable-underline); margin-top: 1px; }
 
@@ -112,7 +112,7 @@
     background: var(--gutter-bg);
     padding: 16px 12px;
     text-align: right;
-    color: var(--fg-muted);
+    color: var(--line-number);
     font-size: 13px;
     line-height: 1.65;
     user-select: none;
@@ -152,7 +152,6 @@
   .doc { color: var(--javadoc); font-style: italic; }    /* DOC_COMMENT */
   .doc-tag { color: var(--javadoc); font-weight: bold; font-style: italic; }
   .type { color: var(--fg); }             /* DEFAULT_CLASS_NAME (Darcula uses #a9b7c6) */
-  .meta { color: var(--metadata); }       /* METADATA (Darcula default) */
   .param { color: var(--fg); }            /* PARAMETER */
   .local { color: var(--fg); }            /* LOCAL_VARIABLE */
   .err { color: var(--error); }           /* ERRORS (Darcula) */

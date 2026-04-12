@@ -4,15 +4,13 @@
     --caret-row: oklch(27% 0.01 128);
     --selection-bg: oklch(35% 0.02 128);
     --search-result-bg: oklch(35% 0.01 128);
+    --line-number: oklch(45% 0.01 128);
+    --fg: oklch(75% 0.01 128);
 
     --page-bg: oklch(from var(--editor-bg) calc(l - 0.05) c h);
     --tab-bar-bg: oklch(from var(--page-bg) calc(l + 0.01) c h);
     --gutter-bg: oklch(from var(--editor-bg) calc(l + 0.05) c h);
-
-    /* Text */
-    --fg: oklch(75% 0.01 128);
-    --fg-bright: oklch(from var(--fg) calc(l + 0.1) c h);
-    --fg-muted: oklch(52.0% 0.031 145);
+    --fg-muted: var(--named-arg);
 
     /* Syntax */
     --keyword: oklch(55% 0.110 128);
@@ -39,6 +37,8 @@
     --annotation-named-att: var(--named-arg);
 
     /* Effects */
+    --error: oklch(55% 0.170 28);
+    --warning: oklch(45% 0.035 80);
     --mutable-underline: oklch(40% 0.090 128);
     --typo-underline: oklch(40% 0.070 60);
     --deprecated-strikethrough: var(--fg);
@@ -48,17 +48,11 @@
     --javadoc: oklch(60% 0.110 128); /* tag also */
     --javadoc-markup: var(--function-decl);
     --javadoc-tag-val: var(--string); /* tag + tag value + markup*/
-    --todo: oklch(0.75 0.17 118);
+    --todo: oklch(0.75 0.17 80); /* bright & saturated string */
 
     /* Diff */
-    --diff-delete: oklch(35% 0.01 128);
+    --diff-delete: oklch(35% 0.01 128); /* search result background */
     --diff-change: oklch(35% 0.04 248);
-    --diff-add: oklch(35% 0.04 128);
-    --diff-conflict: oklch(35% 0.04 30);
-
-    /* Inherited from Darcula */
-    --metadata: #bbb529; /*todo metadata*/
-    --line-number: #606366;
-    --error: #bc3f3c;
-    --warning: #be9117;
+    --diff-add: oklch(35% 0.04 128); /* dark & saturated keyword */
+    --diff-conflict: oklch(35% 0.04 28);
 }
