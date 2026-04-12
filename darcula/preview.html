@@ -149,8 +149,8 @@
 
   /* Syntax classes — inherited from Darcula */
   .comment { color: var(--comment); }                        /* LINE_COMMENT / BLOCK_COMMENT */
-  .doc { color: var(--doc-comment); font-style: italic; }    /* DOC_COMMENT */
-  .doc-tag { color: var(--doc-comment); font-weight: bold; font-style: italic; }
+  .doc { color: var(--javadoc); font-style: italic; }    /* DOC_COMMENT */
+  .doc-tag { color: var(--javadoc); font-weight: bold; font-style: italic; }
   .type { color: var(--fg); }             /* DEFAULT_CLASS_NAME (Darcula uses #a9b7c6) */
   .meta { color: var(--metadata); }       /* METADATA (Darcula default) */
   .param { color: var(--fg); }            /* PARAMETER */
@@ -395,7 +395,7 @@
         <span class="color-source inherited">DEFAULT_LINE_COMMENT / BLOCK_COMMENT</span>
       </div>
     </div>
-    <div class="color-entry" data-var="doc-comment">
+    <div class="color-entry" data-var="javadoc">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">JavaDoc Comment</span>

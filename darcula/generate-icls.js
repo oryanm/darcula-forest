@@ -69,6 +69,10 @@ const scheme = {
   // EFFECT_COLOR (as ref or hex), plus FONT_TYPE and EFFECT_TYPE.
   attributes: [
     {
+      name: "ANNOTATION_ATTRIBUTE_NAME_ATTRIBUTES",
+      fg: "named-arg",
+    },
+    {
       name: "ANNOTATION_NAME_ATTRIBUTES",
       fg: "string",
       effectType: 1,
@@ -81,6 +85,26 @@ const scheme = {
       name: "DEFAULT_CONSTANT",
       fg: "constant-field",
       fontType: 2,
+    },
+    {
+      name: "DEFAULT_DOC_COMMENT",
+      fg: "javadoc",
+      fontType: 2,
+    },
+    {
+      name: "DEFAULT_DOC_COMMENT_TAG",
+      fg: "javadoc",
+      fontType: 3,
+      effectColor: "javadoc",
+      effectType: 1
+    },
+    {
+      name: "DEFAULT_DOC_COMMENT_TAG_VALUE",
+      fg: "string",
+    },
+    {
+      name: "DEFAULT_DOC_MARKUP",
+      fg: "function-decl",
     },
     {
       name: "DEFAULT_FUNCTION_DECLARATION",
@@ -110,10 +134,6 @@ const scheme = {
       fg: "number",
     },
     {
-      name: "KOTLIN_LABEL",
-      fg: "number",
-    },
-    {
       name: "DEFAULT_SEMICOLON",
       fg: "keyword",
     },
@@ -140,6 +160,31 @@ const scheme = {
       fg: "string-escape",
     },
     {
+      name: "DEPRECATED_ATTRIBUTES",
+      effectColor: "fg",
+      effectType: 3
+    },
+    {
+      name: "DIFF_CONFLICT",
+      bg: "diff-conflict",
+      errorStripeColor: "diff-conflict"
+    },
+    {
+      name: "DIFF_DELETED",
+      bg: "diff-delete",
+      errorStripeColor: "diff-delete"
+    },
+    {
+      name: "DIFF_INSERTED",
+      bg: "diff-add",
+      errorStripeColor: "diff-add"
+    },
+    {
+      name: "DIFF_MODIFIED",
+      bg: "diff-change",
+      errorStripeColor: "diff-change"
+    },
+    {
       name: "IMPLICIT_ANONYMOUS_CLASS_PARAMETER_ATTRIBUTES",
       fg: "implicit-param",
       effectColor: "function-decl",
@@ -148,6 +193,10 @@ const scheme = {
     {
       name: "INJECTED_LANGUAGE_FRAGMENT",
       bg: "282b27",
+    },
+    {
+      name: "KOTLIN_LABEL",
+      fg: "number",
     },
     {
       name: "KOTLIN_MUTABLE_VARIABLE",
@@ -220,9 +269,9 @@ function generateIcls() {
 
     if (attr.fg)              lines.push(opt("FOREGROUND",        resolve(attr.fg), "        "));
     if (attr.bg)              lines.push(opt("BACKGROUND",        resolve(attr.bg), "        "));
-    if (attr.effectColor)     lines.push(opt("EFFECT_COLOR",      resolve(attr.effectColor), "        "));
-    if (attr.errorStripeColor) lines.push(opt("ERROR_STRIPE_COLOR", resolve(attr.errorStripeColor), "        "));
     if (attr.fontType != null) lines.push(opt("FONT_TYPE",        String(attr.fontType), "        "));
+    if (attr.errorStripeColor) lines.push(opt("ERROR_STRIPE_COLOR", resolve(attr.errorStripeColor), "        "));
+    if (attr.effectColor)     lines.push(opt("EFFECT_COLOR",      resolve(attr.effectColor), "        "));
     if (attr.effectType != null) lines.push(opt("EFFECT_TYPE",    String(attr.effectType), "        "));
 
     lines.push("      </value>");

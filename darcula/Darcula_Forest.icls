@@ -11,6 +11,11 @@
     <option name="TEARLINE_COLOR" value="3C3F41" />
   </colors>
   <attributes>
+    <option name="ANNOTATION_ATTRIBUTE_NAME_ATTRIBUTES">
+      <value>
+        <option name="FOREGROUND" value="85976f" />
+      </value>
+    </option>
     <option name="ANNOTATION_NAME_ATTRIBUTES">
       <value>
         <option name="FOREGROUND" value="946640" />
@@ -26,6 +31,30 @@
       <value>
         <option name="FOREGROUND" value="749f2b" />
         <option name="FONT_TYPE" value="2" />
+      </value>
+    </option>
+    <option name="DEFAULT_DOC_COMMENT">
+      <value>
+        <option name="FOREGROUND" value="6d8c40" />
+        <option name="FONT_TYPE" value="2" />
+      </value>
+    </option>
+    <option name="DEFAULT_DOC_COMMENT_TAG">
+      <value>
+        <option name="FOREGROUND" value="6d8c40" />
+        <option name="FONT_TYPE" value="3" />
+        <option name="EFFECT_COLOR" value="6d8c40" />
+        <option name="EFFECT_TYPE" value="1" />
+      </value>
+    </option>
+    <option name="DEFAULT_DOC_COMMENT_TAG_VALUE">
+      <value>
+        <option name="FOREGROUND" value="946640" />
+      </value>
+    </option>
+    <option name="DEFAULT_DOC_MARKUP">
+      <value>
+        <option name="FOREGROUND" value="8aab5f" />
       </value>
     </option>
     <option name="DEFAULT_FUNCTION_DECLARATION">
@@ -57,11 +86,6 @@
       </value>
     </option>
     <option name="DEFAULT_NUMBER">
-      <value>
-        <option name="FOREGROUND" value="008674" />
-      </value>
-    </option>
-    <option name="KOTLIN_LABEL">
       <value>
         <option name="FOREGROUND" value="008674" />
       </value>
@@ -98,6 +122,36 @@
         <option name="FOREGROUND" value="647b47" />
       </value>
     </option>
+    <option name="DEPRECATED_ATTRIBUTES">
+      <value>
+        <option name="EFFECT_COLOR" value="acafa9" />
+        <option name="EFFECT_TYPE" value="3" />
+      </value>
+    </option>
+    <option name="DIFF_CONFLICT">
+      <value>
+        <option name="BACKGROUND" value="4d332e" />
+        <option name="ERROR_STRIPE_COLOR" value="4d332e" />
+      </value>
+    </option>
+    <option name="DIFF_DELETED">
+      <value>
+        <option name="BACKGROUND" value="393c36" />
+        <option name="ERROR_STRIPE_COLOR" value="393c36" />
+      </value>
+    </option>
+    <option name="DIFF_INSERTED">
+      <value>
+        <option name="BACKGROUND" value="343f28" />
+        <option name="ERROR_STRIPE_COLOR" value="343f28" />
+      </value>
+    </option>
+    <option name="DIFF_MODIFIED">
+      <value>
+        <option name="BACKGROUND" value="2a3c4f" />
+        <option name="ERROR_STRIPE_COLOR" value="2a3c4f" />
+      </value>
+    </option>
     <option name="IMPLICIT_ANONYMOUS_CLASS_PARAMETER_ATTRIBUTES">
       <value>
         <option name="FOREGROUND" value="83af3e" />
@@ -108,6 +162,11 @@
     <option name="INJECTED_LANGUAGE_FRAGMENT">
       <value>
         <option name="BACKGROUND" value="282b27" />
+      </value>
+    </option>
+    <option name="KOTLIN_LABEL">
+      <value>
+        <option name="FOREGROUND" value="008674" />
       </value>
     </option>
     <option name="KOTLIN_MUTABLE_VARIABLE">
