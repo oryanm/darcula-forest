@@ -17,11 +17,11 @@
     --function-decl: oklch(70% 0.110 128); /* bright --keyword */
     --constant-field: oklch(65% 0.150 128); /* bright & saturated --keyword */
     --implicit-param: oklch(70% 0.150 128); /* saturated --function-decl */
-    --number: oklch(55% 0.110 180); /* hue change of --keyword */
+    --number: oklch(55% 0.110 158); /* hue change of --keyword */
     /* Strings */
-    --string: oklch(55% 0.080 60); /* desaturated hue change of --keyword */
+    --string: oklch(55% 0.080 98); /* desaturated hue change of --keyword */
     --string-escape: oklch(0.55 0.080 128); /* hue change of --string */
-    --string-escape-bad: oklch(40% 0.080 60); /* darker --string */
+    --string-escape-bad: oklch(40% 0.080 98); /* darker --string */
     /* Kotlin */
     --static-method: oklch(50% 0.09 128); /* bright & desaturated --keyword */
     --named-arg: oklch(65% 0.060 128); /* desaturated --constant-field*/
@@ -38,10 +38,10 @@
 
     /* Effects */
     --error: oklch(55% 0.170 28);
-    --warning: oklch(45% 0.035 60);
-    --warning-stripe: oklch(70% 0.170 60);
+    --warning: oklch(45% 0.035 98);
+    --warning-stripe: oklch(70% 0.170 98);
     --mutable-underline: oklch(40% 0.090 128);
-    --typo-underline: oklch(40% 0.070 60);
+    --typo-underline: oklch(40% 0.070 98);
     --deprecated-strikethrough: var(--fg);
 
     /* Comments */
@@ -49,7 +49,7 @@
     --javadoc: oklch(60% 0.110 128); /* tag also */
     --javadoc-markup: var(--function-decl);
     --javadoc-tag-val: var(--string); /* tag + tag value + markup*/
-    --todo: oklch(0.75 0.17 60); /* bright & saturated string */
+    --todo: oklch(0.75 0.17 98); /* bright & saturated string */
 
     /* Diff */
     --diff-delete: oklch(35% 0.01 128); /* search result background */
