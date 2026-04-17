@@ -180,6 +180,7 @@
         <option name="FOREGROUND" value="85976f" />
       </value>
     </option>
+    <option name="KOTLIN_TYPE_PARAMETER" baseAttributes="TYPE_PARAMETER_NAME_ATTRIBUTES" />
     <option name="SEARCH_RESULT_ATTRIBUTES">
       <value>
         <option name="BACKGROUND" value="393c36" />
@@ -198,6 +199,11 @@
         <option name="FOREGROUND" value="cbad00" />
         <option name="FONT_TYPE" value="2" />
         <option name="ERROR_STRIPE_COLOR" value="977ab" />
+      </value>
+    </option>
+    <option name="TYPE_PARAMETER_NAME_ATTRIBUTES">
+      <value>
+        <option name="FOREGROUND" value="2a8558" />
       </value>
     </option>
     <option name="TYPO">

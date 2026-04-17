@@ -79,7 +79,7 @@
   .color-info { display: flex; flex-direction: column; }
   .color-name { font-size: 12px; color: var(--fg); }
   .color-hex { font-size: 11px; color: var(--fg-muted); }
-  .color-source { font-size: 10px; color: var(--static-method); margin-top: 1px; }
+  .color-source { font-size: 10px; color: var(--static-function); margin-top: 1px; }
 
   /* Code preview */
   .editor {
@@ -138,7 +138,7 @@
   .const { color: var(--constant-field); font-style: italic; } /* DEFAULT_CONSTANT */
   .field { color: var(--constant-field); }       /* DEFAULT_INSTANCE_FIELD */
   .sfield { color: var(--constant-field); font-style: italic; } /* DEFAULT_STATIC_FIELD */
-  .static-m { color: var(--static-method); font-style: italic; } /* DEFAULT_STATIC_METHOD */
+  .static-m { color: var(--static-function); font-style: italic; } /* DEFAULT_STATIC_METHOD */
   .ann { color: var(--string); }          /* ANNOTATION_NAME_ATTRIBUTES */
   .named-arg { color: var(--named-arg); } /* KOTLIN_NAMED_ARGUMENT */
   .impl { color: var(--implicit-param); } /* IMPLICIT_ANONYMOUS_CLASS_PARAMETER */
@@ -270,7 +270,7 @@
         <span class="color-source">DEFAULT_KEYWORD / DEFAULT_COMMA / SEMICOLON</span>
       </div>
     </div>
-    <div class="color-entry" data-var="static-method">
+    <div class="color-entry" data-var="static-function">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Static Method (Kotlin)</span>

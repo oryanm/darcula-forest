@@ -23,10 +23,18 @@ function parsePaletteCss(path) {
   return vars;
 }
 
-function resolveToHex(value) {
+function resolveToHex(value, vars, visited = new Set()) {
+  // Pure `var(--name)` reference → follow the chain
+  const pureVar = value.match(/^\s*var\(\s*--([a-z][\w-]*)\s*\)\s*$/);
+  if (pureVar) {
+    const refName = pureVar[1];
+    if (visited.has(refName)) return null; // cycle guard
+    if (!(refName in vars)) return null;
+    return resolveToHex(vars[refName], vars, new Set([...visited, refName]));
+  }
   // #hex → strip the #
   if (value.startsWith("#")) return value.slice(1);
-  // oklch(from ...) — relative color syntax, not convertible in Node
+  // oklch(from ...) — relative color syntax (with calc), not convertible in Node
   if (value.includes("from ") || value.includes("var(")) return null;
   // oklch(...) → convert
   if (value.startsWith("oklch(")) return oklchToHex(value);
@@ -39,7 +47,7 @@ const cssVars = parsePaletteCss(cssPath);
 // Build palette: variable name → 6-digit hex (no #)
 const palette = {};
 for (const [name, value] of Object.entries(cssVars)) {
-  palette[name] = resolveToHex(value);
+  palette[name] = resolveToHex(value, cssVars);
 }
 
 // ── ICLS schema ──────────────────────────────────────────────────────
@@ -67,19 +75,22 @@ const scheme = {
 
   // <attributes> section — each entry can have FOREGROUND, BACKGROUND,
   // EFFECT_COLOR (as ref or hex), plus FONT_TYPE and EFFECT_TYPE.
+  // An entry with `baseAttributes` inherits from another attribute and
+  // emits a self-closing <option name=".." baseAttributes=".." /> tag;
+  // any color/font fields on that entry are ignored.
   attributes: [
     {
       name: "ANNOTATION_ATTRIBUTE_NAME_ATTRIBUTES",
-      fg: "named-arg",
+      fg: "annotation-named-att",
     },
     {
       name: "ANNOTATION_NAME_ATTRIBUTES",
-      fg: "string",
+      fg: "annotation",
       effectType: 1,
     },
     {
       name: "DEFAULT_COMMA",
-      fg: "keyword",
+      fg: "punctuation",
     },
     {
       name: "DEFAULT_CONSTANT",
@@ -93,18 +104,18 @@ const scheme = {
     },
     {
       name: "DEFAULT_DOC_COMMENT_TAG",
-      fg: "javadoc",
+      fg: "javadoc-tag",
       fontType: 3,
-      effectColor: "javadoc",
+      effectColor: "javadoc-tag",
       effectType: 1
     },
     {
       name: "DEFAULT_DOC_COMMENT_TAG_VALUE",
-      fg: "string",
+      fg: "javadoc-tag-val",
     },
     {
       name: "DEFAULT_DOC_MARKUP",
-      fg: "function-decl",
+      fg: "javadoc-markup",
     },
     {
       name: "DEFAULT_FUNCTION_DECLARATION",
@@ -135,7 +146,7 @@ const scheme = {
     },
     {
       name: "DEFAULT_SEMICOLON",
-      fg: "keyword",
+      fg: "punctuation",
     },
     {
       name: "DEFAULT_STATIC_FIELD",
@@ -144,7 +155,7 @@ const scheme = {
     },
     {
       name: "DEFAULT_STATIC_METHOD",
-      fg: "static-method",
+      fg: "static-function",
       fontType: 2,
     },
     {
@@ -208,6 +219,10 @@ const scheme = {
       fg: "named-arg",
     },
     {
+      name: "KOTLIN_TYPE_PARAMETER",
+      baseAttributes: "TYPE_PARAMETER_NAME_ATTRIBUTES",
+    },
+    {
       name: "SEARCH_RESULT_ATTRIBUTES",
       bg: "search-result-bg",
       errorStripeColor: "530d",
@@ -223,6 +238,10 @@ const scheme = {
       fg: "todo",
       fontType: 2,
       errorStripeColor: "977ab",
+    },
+    {
+      name: "TYPE_PARAMETER_NAME_ATTRIBUTES",
+      fg: "generic-type-param",
     },
     {
       name: "TYPO",
@@ -280,6 +299,10 @@ function generateIcls() {
   // attributes
   lines.push("  <attributes>");
   for (const attr of s.attributes) {
+    if (attr.baseAttributes) {
+      lines.push(`    <option name="${attr.name}" baseAttributes="${attr.baseAttributes}" />`);
+      continue;
+    }
     lines.push(`    <option name="${attr.name}">`);
     lines.push("      <value>");
 
