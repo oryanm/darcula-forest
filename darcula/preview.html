@@ -569,24 +569,25 @@
   </div>
 </div>
 
-<script src="../oklch.js"></script>
 <script>
+  const probe = document.createElement("div");
+  document.body.appendChild(probe);
   const ctx = document.createElement("canvas").getContext("2d");
-  function cssToHex(cssColor) {
+
+  function toHex(cssColor) {
     ctx.fillStyle = "#000";
     ctx.fillStyle = cssColor;
     return ctx.fillStyle;
   }
 
   function updateColorCatalog() {
-    const styles = getComputedStyle(document.documentElement);
     for (const el of document.querySelectorAll("[data-var]")) {
       const varName = el.dataset.var;
-      const raw = styles.getPropertyValue("--" + varName).trim();
-      const hex = cssToHex(raw);
-      const oklchStr = hexToOklch(hex);
+      probe.style.color = "var(--" + varName + ")";
+      const resolved = getComputedStyle(probe).color;
+      const hex = toHex(resolved);
       el.querySelector(".color-dot").style.background = "var(--" + varName + ")";
-      el.querySelector(".color-hex").textContent = hex + " \u00b7 " + oklchStr;
+      el.querySelector(".color-hex").textContent = resolved + " \u00b7 " + hex;
     }
   }
 
