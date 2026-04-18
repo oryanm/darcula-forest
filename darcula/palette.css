@@ -1,31 +1,37 @@
 :root {
-    /* Editor */
-    --editor-bg: oklch(25% 0.01 128);
-    --caret-row: oklch(27% 0.01 128);
-    --selection-bg: oklch(35% 0.02 128);
-    --search-result-bg: oklch(35% 0.01 128);
-    --line-number: oklch(45% 0.01 128);
-    --fg: oklch(75% 0.01 128);
+    /* Hues */
+    --main-hue: 128;
+    --secondary-hue: calc(var(--main-hue) - 30);
+    --tertiary-hue: calc(var(--main-hue) + 30);
+    --red-hue: 28;
+    --blue-hue: 248;
+    --orange-hue: 60;
 
-    /* unused preview background colors */
+    /* Editor */
+    --editor-bg: oklch(25% 0.010 var(--main-hue));
+    --caret-row: oklch(27% 0.010 var(--main-hue));
+    --selection-bg: oklch(35% 0.020 var(--main-hue));
+    --search-result-bg: oklch(35% 0.010 var(--main-hue));
+    --line-number: oklch(45% 0.010 var(--main-hue));
+    --fg: oklch(75% 0.010 var(--main-hue));
+
+    /* Preview backgrounds */
     --page-bg: oklch(from var(--editor-bg) calc(l - 0.05) c h);
     --tab-bar-bg: oklch(from var(--page-bg) calc(l + 0.01) c h);
     --gutter-bg: oklch(from var(--editor-bg) calc(l + 0.05) c h);
     --fg-muted: var(--named-arg);
 
     /* Syntax */
-    --keyword: oklch(55% 0.110 128);
-    --function-decl: oklch(70% 0.110 128); /* bright --keyword */
-    --constant-field: oklch(65% 0.150 128); /* bright & saturated --keyword */
-    --implicit-param: oklch(70% 0.150 128); /* saturated --function-decl */
-    --number: oklch(55% 0.110 158); /* hue change of --keyword */
-    /* Strings */
-    --string: oklch(55% 0.080 98); /* desaturated hue change of --keyword */
-    --string-escape: oklch(0.55 0.080 128); /* hue change of --string */
-    --string-escape-bad: oklch(40% 0.080 98); /* darker --string */
-    /* Kotlin */
-    --static-function: oklch(50% 0.09 128); /* bright & desaturated --keyword */
-    --named-arg: oklch(65% 0.060 128); /* desaturated --constant-field */
+    --keyword: oklch(55% 0.110 var(--main-hue));
+    --function-decl: oklch(from var(--keyword) calc(l + 0.15) c h); /* bright keyword */
+    --constant-field: oklch(from var(--keyword) calc(l + 0.1) calc(c + 0.04) h); /* bright & saturated keyword */
+    --implicit-param: oklch(from var(--function-decl) l calc(c + 0.04) h); /* saturated function-decl */
+    --number: oklch(from var(--keyword) l c calc(h + 30)); /* hue shift of keyword */
+    --string: oklch(from var(--keyword) l calc(c - 0.03) calc(h - 30)); /* desaturated hue shift of keyword */
+    --string-escape: oklch(from var(--string) l c calc(h + 30)); /* hue shift of string */
+    --string-escape-bad: oklch(from var(--string) calc(l - 0.15) c h); /* darker string */
+    --static-function: oklch(from var(--keyword) calc(l - 0.05) calc(c - 0.02) h); /* dark & desaturated keyword */
+    --named-arg: oklch(from var(--constant-field) l calc(c - 0.09) h); /* desaturated constant-field */
 
     --class: var(--fg);
     --parameter: var(--fg);
@@ -39,24 +45,24 @@
     --annotation-named-att: var(--named-arg);
 
     /* Effects */
-    --error: oklch(55% 0.170 28);
-    --warning: oklch(45% 0.035 98);
-    --warning-stripe: oklch(70% 0.170 98);
-    --mutable-underline: oklch(40% 0.090 128);
-    --typo-underline: oklch(40% 0.070 98);
+    --error: oklch(55% 0.170 var(--red-hue));
+    --warning: oklch(45% 0.035 var(--secondary-hue));
+    --warning-stripe: oklch(70% 0.170 var(--secondary-hue));
+    --mutable-underline: oklch(40% 0.090 var(--main-hue));
+    --typo-underline: oklch(40% 0.070 var(--secondary-hue));
     --deprecated-strikethrough: var(--fg);
 
     /* Comments */
-    --comment: oklch(60% 0 0);
-    --javadoc: oklch(60% 0.110 128);
+    --comment: oklch(60% 0.000 0);
+    --javadoc: oklch(60% 0.110 var(--main-hue));
     --javadoc-markup: var(--function-decl);
     --javadoc-tag: var(--javadoc);
     --javadoc-tag-val: var(--string);
-    --todo: oklch(0.75 0.17 98); /* bright & saturated string */
+    --todo: oklch(from var(--string) calc(l + 0.2) calc(c + 0.09) h); /* bright & saturated string */
 
     /* Diff */
     --diff-delete: var(--search-result-bg);
-    --diff-change: oklch(35% 0.04 248);
-    --diff-add: oklch(35% 0.04 128); /* dark & saturated keyword */
-    --diff-conflict: oklch(35% 0.04 28);
+    --diff-change: oklch(35% 0.040 var(--blue-hue));
+    --diff-add: oklch(35% 0.040 var(--main-hue));
+    --diff-conflict: oklch(35% 0.040 var(--red-hue));
 }
