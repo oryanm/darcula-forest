@@ -4,3 +4,8 @@
 *.iml
 /.local/*
 /.claude/*
+
+# Gradle / Kotlin
+/.gradle/
+/.kotlin/
+/build/

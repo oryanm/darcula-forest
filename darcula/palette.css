@@ -12,8 +12,13 @@
     --caret-row: oklch(27% 0.010 var(--main-hue));
     --selection-bg: oklch(35% 0.020 var(--main-hue));
     --search-result-bg: oklch(35% 0.010 var(--main-hue));
+    --search-result-stripe: oklch(from var(--search-result-bg) l calc(c + 0.1) h);
+    --injected-lang-bg: oklch(26% 0.010 var(--main-hue));
     --line-number: oklch(45% 0.010 var(--main-hue));
     --fg: oklch(75% 0.010 var(--main-hue));
+    --folded-text-bg: var(--search-result-bg);
+    --tearline: var(--search-result-bg);
+    --template-lang: var(--search-result-bg);
 
     /* Preview backgrounds */
     --page-bg: oklch(from var(--editor-bg) calc(l - 0.05) c h);
@@ -47,7 +52,7 @@
     /* Effects */
     --error: oklch(55% 0.170 var(--red-hue));
     --warning: oklch(45% 0.035 var(--secondary-hue));
-    --warning-stripe: oklch(70% 0.170 var(--secondary-hue));
+    --warning-stripe: oklch(from var(--warning) l calc(c + 0.1) h);
     --mutable-underline: oklch(40% 0.090 var(--main-hue));
     --typo-underline: oklch(40% 0.070 var(--secondary-hue));
     --deprecated-strikethrough: var(--fg);
@@ -59,10 +64,15 @@
     --javadoc-tag: var(--javadoc);
     --javadoc-tag-val: var(--string);
     --todo: oklch(from var(--string) calc(l + 0.2) calc(c + 0.09) h); /* bright & saturated string */
+    --todo-stripe: oklch(from var(--todo) l calc(c + 0.1) h);
 
     /* Diff */
-    --diff-delete: var(--search-result-bg);
+    --diff-delete: oklch(from var(--search-result-bg) l c h);
     --diff-change: oklch(35% 0.040 var(--blue-hue));
     --diff-add: oklch(35% 0.040 var(--main-hue));
     --diff-conflict: oklch(35% 0.040 var(--red-hue));
+    --diff-delete-stripe: oklch(from var(--diff-delete) calc(l + 0.1) calc(c + 0.1) h);
+    --diff-change-stripe: oklch(from var(--diff-change) calc(l + 0.1) calc(c + 0.1) h);
+    --diff-add-stripe: oklch(from var(--diff-add) calc(l + 0.1) calc(c + 0.1) h);
+    --diff-conflict-stripe: oklch(from var(--diff-conflict) calc(l + 0.1) calc(c + 0.1) h);
 }

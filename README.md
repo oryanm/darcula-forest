@@ -5,6 +5,16 @@ using the [Oklch color space][oklab-wiki].
 
 Check out the [preview here][preview-html].
 
+## Regenerating
+
+```sh
+./gradlew run
+```
+
+Writes `darcula/palette.css`, `darcula/Darcula_Forest.icls`, and `darcula/alacritty.toml` from the sources in `src/main/kotlin/darculaforest/`.
+
+## Screenshots
+
 <img width="800" height="657" alt="image" src="https://github.com/user-attachments/assets/3e35fee4-a84e-4088-bbbc-5d0457eac3e9" />
 
 <img width="810" height="427" alt="image" src="https://github.com/user-attachments/assets/e59c36bd-dbed-484e-b9f0-3bcbe32e8cf3" />
@@ -15,3 +25,6 @@ Check out the [preview here][preview-html].
 [oklch-tool]: https://oklch.com
 [apca]: https://apcacontrast.com/
 [evilmartians]: https://evilmartians.com/chronicles/oklch-in-css-why-quit-rgb-hsl
+
+[vim-colorscheme]: https://vi.stackexchange.com/questions/2782/how-can-i-create-my-own-colorscheme
+[vim-colorscheme-vid]: http://vimcasts.org/episodes/creating-colorschemes-for-vim/
