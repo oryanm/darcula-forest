@@ -19,8 +19,12 @@ class Color(
     private fun resolve(expr: Expr, parent: Double?): Double = when (expr) {
         is Expr.Lit   -> expr.value
         is Expr.Ident -> parent ?: error("Ident requires a parent color")
-        is Expr.Calc  -> (parent ?: error("Calc requires a parent color")) + expr.delta
         is Expr.Var   -> expr.resolved
+        is Expr.Calc  -> {
+            val lhs = resolve(expr.lhs, parent)
+            val rhs = resolve(expr.rhs, parent)
+            if (expr.op == Expr.Op.Plus) lhs + rhs else lhs - rhs
+        }
     }
 
     /** 6-digit hex (no #) */

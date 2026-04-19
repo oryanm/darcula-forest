@@ -1,8 +1,9 @@
 :root {
     /* Hues */
     --main-hue: 128;
-    --secondary-hue: calc(var(--main-hue) - 30);
-    --tertiary-hue: calc(var(--main-hue) + 30);
+    --comp-offset: 30;
+    --secondary-hue: calc(var(--main-hue) - var(--comp-offset));
+    --tertiary-hue: calc(var(--main-hue) + var(--comp-offset));
     --red-hue: 28;
     --blue-hue: 248;
     --orange-hue: 60;
@@ -31,9 +32,9 @@
     --function-decl: oklch(from var(--keyword) calc(l + 0.15) c h); /* bright keyword */
     --constant-field: oklch(from var(--keyword) calc(l + 0.1) calc(c + 0.04) h); /* bright & saturated keyword */
     --implicit-param: oklch(from var(--function-decl) l calc(c + 0.04) h); /* saturated function-decl */
-    --number: oklch(from var(--keyword) l c calc(h + 30)); /* hue shift of keyword */
-    --string: oklch(from var(--keyword) l calc(c - 0.03) calc(h - 30)); /* desaturated hue shift of keyword */
-    --string-escape: oklch(from var(--string) l c calc(h + 30)); /* hue shift of string */
+    --number: oklch(from var(--keyword) l c calc(h + var(--comp-offset))); /* hue shift of keyword */
+    --string: oklch(from var(--keyword) l calc(c - 0.03) calc(h - var(--comp-offset))); /* desaturated hue shift of keyword */
+    --string-escape: oklch(from var(--string) l c calc(h + var(--comp-offset))); /* hue shift of string */
     --string-escape-bad: oklch(from var(--string) calc(l - 0.15) c h); /* darker string */
     --static-function: oklch(from var(--keyword) calc(l - 0.05) calc(c - 0.02) h); /* dark & desaturated keyword */
     --named-arg: oklch(from var(--constant-field) l calc(c - 0.09) h); /* desaturated constant-field */
