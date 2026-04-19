@@ -230,6 +230,10 @@
   <input class="hue-slider" type="range" min="0" max="360" value="128" oninput="updateHue(this.value)">
   <span id="hue-value">128</span>
   <div class="divider"></div>
+  <label>Complementaries</label>
+  <input type="range" min="0" max="180" value="45" oninput="updateCompOffset(this.value)">
+  <span id="comp-offset-value">45</span>
+  <div class="divider"></div>
   <label>Width</label>
   <input type="range" min="600" max="1800" value="1200" oninput="document.body.style.setProperty('--page-width', this.value + 'px'); this.nextElementSibling.textContent = this.value + 'px'">
   <span>1200px</span>
@@ -594,6 +598,12 @@
   function updateHue(value) {
     document.documentElement.style.setProperty("--main-hue", value);
     document.getElementById("hue-value").textContent = value;
+    updateColorCatalog();
+  }
+
+  function updateCompOffset(value) {
+    document.documentElement.style.setProperty("--comp-offset", value);
+    document.getElementById("comp-offset-value").textContent = value;
     updateColorCatalog();
   }
 
