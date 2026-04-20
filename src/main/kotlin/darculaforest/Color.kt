@@ -88,6 +88,14 @@ fun oklch(l: Double, c: Double, h: Double): Color =
 fun oklch(l: Double, c: Double, h: Expr): Color =
     Color(null, Expr.Lit(l), Expr.Lit(c), h)
 
+/** Base color with chroma expression: oklch(L var(--chroma) H) */
+fun oklch(l: Double, c: Expr, h: Double): Color =
+    Color(null, Expr.Lit(l), c, Expr.Lit(h))
+
+/** Base color with chroma and hue expressions: oklch(L var(--chroma) var(--hue)) */
+fun oklch(l: Double, c: Expr, h: Expr): Color =
+    Color(null, Expr.Lit(l), c, h)
+
 /** Derived color: oklch(from <color> L C H) */
 fun oklch(from: Color, l: Expr, c: Expr, h: Expr): Color =
     Color(from, l, c, h)

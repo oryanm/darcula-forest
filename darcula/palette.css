@@ -4,6 +4,7 @@
     --comp-offset: 30;
     --secondary-hue: calc(var(--main-hue) - var(--comp-offset));
     --tertiary-hue: calc(var(--main-hue) + var(--comp-offset));
+    --base-chroma: 0.11;
     --red-hue: 28;
     --blue-hue: 248;
 
@@ -27,7 +28,7 @@
     --fg-muted: var(--named-arg);
 
     /* Syntax */
-    --keyword: oklch(55% 0.110 var(--main-hue));
+    --keyword: oklch(55% var(--base-chroma) var(--main-hue));
     --function-decl: oklch(from var(--keyword) calc(l + 0.15) c h);
     --constant-field: oklch(from var(--keyword) calc(l + 0.1) calc(c + 0.04) h);
     --implicit-param: oklch(from var(--function-decl) l calc(c + 0.04) h);
@@ -50,8 +51,8 @@
     --annotation-named-att: var(--named-arg);
 
     /* Effects */
-    --error: oklch(55% 0.170 var(--red-hue));
-    --warning-bg: oklch(45% 0.035 var(--secondary-hue));
+    --error: oklch(from var(--keyword) l calc(c + 0.05) var(--red-hue));
+    --warning-bg: oklch(from var(--editor-bg) calc(l + 0.2) calc(c + 0.025) var(--secondary-hue));
     --warning-stripe: oklch(from var(--warning-bg) l calc(c + 0.1) h);
     --mutable-underline: oklch(from var(--keyword) calc(l - 0.15) c h);
     --typo-underline: oklch(from var(--mutable-underline) l c var(--secondary-hue));

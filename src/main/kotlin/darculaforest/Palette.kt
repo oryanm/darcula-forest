@@ -15,6 +15,7 @@ val mainHue      = Expr.Var("main-hue",      128.0)
 val complementaryColorOffset      = Expr.Var("comp-offset",      30.0)
 val secondaryHue = Expr.Var("secondary-hue", mainHue.resolved - complementaryColorOffset.resolved)
 val tertiaryHue  = Expr.Var("tertiary-hue",  mainHue.resolved + complementaryColorOffset.resolved)
+val baseChroma   = Expr.Var("base-chroma",   0.110)
 val redHue       = Expr.Var("red-hue",       28.0)
 val blueHue      = Expr.Var("blue-hue",      248.0)
 
@@ -24,6 +25,7 @@ val hueVarDefs = listOf(
     complementaryColorOffset      to "${complementaryColorOffset.resolved.roundToInt()}",
     secondaryHue to "calc(var(--main-hue) - var(--comp-offset))",
     tertiaryHue  to "calc(var(--main-hue) + var(--comp-offset))",
+    baseChroma   to "${baseChroma.resolved}",
     redHue       to "${redHue.resolved.roundToInt()}",
     blueHue      to "${blueHue.resolved.roundToInt()}",
 )
@@ -45,7 +47,7 @@ val gutterBg = oklch(editorBg, l + 0.05, c, h)
 
 // ── Syntax ──────────────────────────────────────────────────────────
 
-val keyword       = oklch(0.55, 0.110, mainHue)
+val keyword       = oklch(0.55, baseChroma, mainHue)
 val functionDecl  = oklch(keyword, l + 0.15, c, h)
 val constantField = oklch(keyword, l + 0.10, c + 0.04, h)
 val implicitParam = oklch(functionDecl, l, c + 0.04, h)
@@ -58,8 +60,8 @@ val namedArg      = oklch(keyword, l + 0.1, c - 0.05, h)
 
 // ── Effects ─────────────────────────────────────────────────────────
 
-val error            = oklch(0.55, 0.170, redHue)
-val warningBg          = oklch(0.45, 0.035, secondaryHue)
+val error            = oklch(keyword, l, c + 0.05, redHue)
+val warningBg        = oklch(editorBg, l + 0.2, c + 0.025, secondaryHue)
 val mutableUnderline = oklch(keyword, l - 0.15, c, h)
 val typoUnderline    = oklch(mutableUnderline, l, c, secondaryHue)
 

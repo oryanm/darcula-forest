@@ -76,7 +76,7 @@
     <option name="DEFAULT_INVALID_STRING_ESCAPE">
       <value>
         <option name="FOREGROUND" value="534805" />
-        <option name="EFFECT_COLOR" value="C13D34" />
+        <option name="EFFECT_COLOR" value="BD4238" />
         <option name="EFFECT_TYPE" value="2" />
       </value>
     </option>
@@ -221,7 +221,7 @@
     </option>
     <option name="WRONG_REFERENCES_ATTRIBUTES">
       <value>
-        <option name="FOREGROUND" value="C13D34" />
+        <option name="FOREGROUND" value="BD4238" />
       </value>
     </option>
   </attributes>
