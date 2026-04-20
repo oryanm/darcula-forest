@@ -81,6 +81,6 @@ val iclsAttributes = listOf(
     IclsAttr("TODO_DEFAULT_ATTRIBUTES", fg = "todo", fontType = ITALIC, errorStripeColor = "todo-stripe"),
     IclsAttr("TYPE_PARAMETER_NAME_ATTRIBUTES", fg = "generic-type-param"),
     IclsAttr("TYPO", effectColor = "typo-underline", effectType = WAVE_UNDERSCORE),
-    IclsAttr("WARNING_ATTRIBUTES", bg = "warning", errorStripeColor = "warning-stripe", effectType = WAVE_UNDERSCORE),
+    IclsAttr("WARNING_ATTRIBUTES", bg = "warning-bg", errorStripeColor = "warning-stripe", effectType = WAVE_UNDERSCORE),
     IclsAttr("WRONG_REFERENCES_ATTRIBUTES", fg = "error"),
 )

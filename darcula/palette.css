@@ -51,8 +51,8 @@
 
     /* Effects */
     --error: oklch(55% 0.170 var(--red-hue));
-    --warning: oklch(45% 0.035 var(--secondary-hue));
-    --warning-stripe: oklch(from var(--warning) l calc(c + 0.1) h);
+    --warning-bg: oklch(45% 0.035 var(--secondary-hue));
+    --warning-stripe: oklch(from var(--warning-bg) l calc(c + 0.1) h);
     --mutable-underline: oklch(from var(--keyword) calc(l - 0.15) c h);
     --typo-underline: oklch(from var(--mutable-underline) l c var(--secondary-hue));
     --deprecated-strikethrough: var(--fg);

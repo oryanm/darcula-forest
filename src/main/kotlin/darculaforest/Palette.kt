@@ -59,7 +59,7 @@ val namedArg      = oklch(keyword, l + 0.1, c - 0.05, h)
 // ── Effects ─────────────────────────────────────────────────────────
 
 val error            = oklch(0.55, 0.170, redHue)
-val warning          = oklch(0.45, 0.035, secondaryHue)
+val warningBg          = oklch(0.45, 0.035, secondaryHue)
 val mutableUnderline = oklch(keyword, l - 0.15, c, h)
 val typoUnderline    = oklch(mutableUnderline, l, c, secondaryHue)
 
@@ -81,7 +81,7 @@ val diffConflict = oklch(diffDelete, l, c + 0.03, redHue)
 
 val searchResultStripe  = oklch(searchResultBg, l, c + 0.1, h)
 val todoStripe          = oklch(todo, l, c + 0.1, h)
-val warningStripe       = oklch(warning, l, c + 0.1, h)
+val warningStripe       = oklch(warningBg, l, c + 0.1, h)
 val diffDeleteStripe   = oklch(diffDelete, l + 0.1, c + 0.1, h)
 val diffChangeStripe   = oklch(diffChange, l + 0.1, c + 0.1, h)
 val diffAddStripe      = oklch(diffAdd, l + 0.1, c + 0.1, h)
@@ -142,7 +142,7 @@ val paletteEntries: List<PaletteEntry> = listOf(
 
     Section("Effects"),
     Def("error", error),
-    Def("warning", warning),
+    Def("warning-bg", warningBg),
     Def("warning-stripe", warningStripe),
     Def("mutable-underline", mutableUnderline),
     Def("typo-underline", typoUnderline),
