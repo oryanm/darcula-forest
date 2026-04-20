@@ -17,7 +17,6 @@ val secondaryHue = Expr.Var("secondary-hue", mainHue.resolved - complementaryCol
 val tertiaryHue  = Expr.Var("tertiary-hue",  mainHue.resolved + complementaryColorOffset.resolved)
 val redHue       = Expr.Var("red-hue",       28.0)
 val blueHue      = Expr.Var("blue-hue",      248.0)
-val orangeHue    = Expr.Var("orange-hue",    60.0)
 
 // CSS custom property declarations for hues
 val hueVarDefs = listOf(
@@ -27,7 +26,6 @@ val hueVarDefs = listOf(
     tertiaryHue  to "calc(var(--main-hue) + var(--comp-offset))",
     redHue       to "${redHue.resolved.roundToInt()}",
     blueHue      to "${blueHue.resolved.roundToInt()}",
-    orangeHue    to "${orangeHue.resolved.roundToInt()}",
 )
 
 // ── Editor ──────────────────────────────────────────────────────────
@@ -91,8 +89,8 @@ val diffConflictStripe = oklch(diffConflict, l + 0.1, c + 0.1, h)
 
 // ── Terminal ────────────────────────────────────────────────────────
 
-val termRed         = oklch(0.55, 0.080, orangeHue)
-val termYellow      = oklch(0.55, 0.060, orangeHue)
+val termRed         = oklch(string, l, c, h)
+val termYellow      = oklch(termRed, l, c - 0.2, h)
 val termBrightWhite = oklch(fg, l, c + 0.05, h)
 
 // ── Palette ─────────────────────────────────────────────────────────

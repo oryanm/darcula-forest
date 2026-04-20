@@ -8,9 +8,9 @@ foreground = "#acafa9"
 
 [colors.normal]
 black   = "#20231e"
-red     = "#946640"
+red     = "#7e7238"
 green   = "#647b47"
-yellow  = "#8c694e"
+yellow  = "#6269b6"
 blue    = "#5f7d31"
 magenta = "#8aab5f"
 cyan    = "#749f2b"
@@ -18,9 +18,9 @@ white   = "#acafa9"
 
 [colors.bright]
 black   = "#373d32"
-red     = "#946640"
+red     = "#7e7238"
 green   = "#647b47"
-yellow  = "#8c694e"
+yellow  = "#6269b6"
 blue    = "#5f7d31"
 magenta = "#8aab5f"
 cyan    = "#749f2b"

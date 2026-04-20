@@ -6,7 +6,6 @@
     --tertiary-hue: calc(var(--main-hue) + var(--comp-offset));
     --red-hue: 28;
     --blue-hue: 248;
-    --orange-hue: 60;
 
     /* Editor */
     --editor-bg: oklch(25% 0.010 var(--main-hue));
