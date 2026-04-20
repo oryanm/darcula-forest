@@ -9,12 +9,12 @@
 
     /* Editor */
     --editor-bg: oklch(25% 0.010 var(--main-hue));
-    --caret-row: oklch(27% 0.010 var(--main-hue));
-    --selection-bg: oklch(35% 0.020 var(--main-hue));
-    --search-result-bg: oklch(35% 0.010 var(--main-hue));
+    --caret-row: oklch(from var(--editor-bg) calc(l + 0.02) c h);
+    --selection-bg: oklch(from var(--search-result-bg) l calc(c + 0.01) h);
+    --search-result-bg: oklch(from var(--editor-bg) calc(l + 0.1) c h);
     --search-result-stripe: oklch(from var(--search-result-bg) l calc(c + 0.1) h);
-    --injected-lang-bg: oklch(26% 0.010 var(--main-hue));
-    --line-number: oklch(45% 0.010 var(--main-hue));
+    --injected-lang-bg: oklch(from var(--editor-bg) calc(l + 0.01) c h);
+    --line-number: oklch(from var(--editor-bg) calc(l + 0.2) c h);
     --fg: oklch(75% 0.010 var(--main-hue));
     --folded-text-bg: var(--search-result-bg);
     --tearline: var(--search-result-bg);
@@ -28,15 +28,15 @@
 
     /* Syntax */
     --keyword: oklch(55% 0.110 var(--main-hue));
-    --function-decl: oklch(from var(--keyword) calc(l + 0.15) c h); /* bright keyword */
-    --constant-field: oklch(from var(--keyword) calc(l + 0.1) calc(c + 0.04) h); /* bright & saturated keyword */
-    --implicit-param: oklch(from var(--function-decl) l calc(c + 0.04) h); /* saturated function-decl */
-    --number: oklch(from var(--keyword) l c calc(h + var(--comp-offset))); /* hue shift of keyword */
-    --string: oklch(from var(--keyword) l calc(c - 0.03) calc(h - var(--comp-offset))); /* desaturated hue shift of keyword */
-    --string-escape: oklch(from var(--string) l c calc(h + var(--comp-offset))); /* hue shift of string */
-    --string-escape-bad: oklch(from var(--string) calc(l - 0.15) c h); /* darker string */
-    --static-function: oklch(from var(--keyword) calc(l - 0.05) calc(c - 0.02) h); /* dark & desaturated keyword */
-    --named-arg: oklch(from var(--constant-field) l calc(c - 0.09) h); /* desaturated constant-field */
+    --function-decl: oklch(from var(--keyword) calc(l + 0.15) c h);
+    --constant-field: oklch(from var(--keyword) calc(l + 0.1) calc(c + 0.04) h);
+    --implicit-param: oklch(from var(--function-decl) l calc(c + 0.04) h);
+    --number: oklch(from var(--keyword) l c calc(h + var(--comp-offset)));
+    --string: oklch(from var(--keyword) l calc(c - 0.03) calc(h - var(--comp-offset)));
+    --string-escape: oklch(from var(--string) l c calc(h + var(--comp-offset)));
+    --string-escape-bad: oklch(from var(--string) calc(l - 0.15) c h);
+    --static-function: oklch(from var(--keyword) calc(l - 0.05) calc(c - 0.02) h);
+    --named-arg: oklch(from var(--keyword) calc(l + 0.1) calc(c - 0.05) h);
 
     --class: var(--fg);
     --parameter: var(--fg);
@@ -53,24 +53,24 @@
     --error: oklch(55% 0.170 var(--red-hue));
     --warning: oklch(45% 0.035 var(--secondary-hue));
     --warning-stripe: oklch(from var(--warning) l calc(c + 0.1) h);
-    --mutable-underline: oklch(40% 0.090 var(--main-hue));
-    --typo-underline: oklch(40% 0.070 var(--secondary-hue));
+    --mutable-underline: oklch(from var(--keyword) calc(l - 0.15) c h);
+    --typo-underline: oklch(from var(--mutable-underline) l c var(--secondary-hue));
     --deprecated-strikethrough: var(--fg);
 
     /* Comments */
-    --comment: oklch(60% 0.000 0);
-    --javadoc: oklch(60% 0.110 var(--main-hue));
+    --comment: oklch(from var(--keyword) calc(l + 0.05) 0.000 h);
+    --javadoc: oklch(from var(--keyword) calc(l + 0.05) c h);
     --javadoc-markup: var(--function-decl);
     --javadoc-tag: var(--javadoc);
     --javadoc-tag-val: var(--string);
-    --todo: oklch(from var(--string) calc(l + 0.2) calc(c + 0.09) h); /* bright & saturated string */
+    --todo: oklch(from var(--string) calc(l + 0.2) calc(c + 0.09) h);
     --todo-stripe: oklch(from var(--todo) l calc(c + 0.1) h);
 
     /* Diff */
     --diff-delete: oklch(from var(--search-result-bg) l c h);
-    --diff-change: oklch(35% 0.040 var(--blue-hue));
-    --diff-add: oklch(35% 0.040 var(--main-hue));
-    --diff-conflict: oklch(35% 0.040 var(--red-hue));
+    --diff-change: oklch(from var(--diff-delete) l calc(c + 0.03) var(--blue-hue));
+    --diff-add: oklch(from var(--diff-delete) l calc(c + 0.03) var(--main-hue));
+    --diff-conflict: oklch(from var(--diff-delete) l calc(c + 0.03) var(--red-hue));
     --diff-delete-stripe: oklch(from var(--diff-delete) calc(l + 0.1) calc(c + 0.1) h);
     --diff-change-stripe: oklch(from var(--diff-change) calc(l + 0.1) calc(c + 0.1) h);
     --diff-add-stripe: oklch(from var(--diff-add) calc(l + 0.1) calc(c + 0.1) h);

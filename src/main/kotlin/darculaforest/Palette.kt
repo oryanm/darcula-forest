@@ -31,11 +31,11 @@ val hueVarDefs = listOf(
 // ── Editor ──────────────────────────────────────────────────────────
 
 val editorBg       = oklch(0.25, 0.010, mainHue)
-val caretRow       = oklch(0.27, 0.010, mainHue)
-val selectionBg    = oklch(0.35, 0.020, mainHue)
-val searchResultBg = oklch(0.35, 0.010, mainHue)
-val lineNumber     = oklch(0.45, 0.010, mainHue)
-val injectedLangBg = oklch(0.26, 0.010, mainHue)
+val caretRow       = oklch(editorBg, l + 0.02, c, h)
+val searchResultBg = oklch(editorBg, l + 0.1, c, h)
+val selectionBg    = oklch(searchResultBg, l, c + 0.01, h)
+val lineNumber     = oklch(editorBg, l + 0.2, c, h)
+val injectedLangBg = oklch(editorBg, l + 0.01, c, h)
 val fg             = oklch(0.75, 0.010, mainHue)
 
 // Preview backgrounds (derived from editor)
@@ -54,28 +54,28 @@ val string        = oklch(keyword, l, c - 0.03, h - complementaryColorOffset)
 val stringEscape  = oklch(string, l, c, h + complementaryColorOffset)
 val stringEscBad  = oklch(string, l - 0.15, c, h)
 val staticFunc    = oklch(keyword, l - 0.05, c - 0.02, h)
-val namedArg      = oklch(constantField, l, c - 0.09, h)
+val namedArg      = oklch(keyword, l + 0.1, c - 0.05, h)
 
 // ── Effects ─────────────────────────────────────────────────────────
 
 val error            = oklch(0.55, 0.170, redHue)
 val warning          = oklch(0.45, 0.035, secondaryHue)
-val mutableUnderline = oklch(0.40, 0.090, mainHue)
-val typoUnderline    = oklch(0.40, 0.070, secondaryHue)
+val mutableUnderline = oklch(keyword, l - 0.15, c, h)
+val typoUnderline    = oklch(mutableUnderline, l, c, secondaryHue)
 
 // ── Comments ────────────────────────────────────────────────────────
 
-val comment = oklch(0.60, 0.000, 0.0)           // pure gray
-val javadoc = oklch(0.60, 0.110, mainHue)
+val comment = oklch(keyword, l + 0.05, Expr.Lit(0.0), h)
+val javadoc = oklch(keyword, l + 0.05, c, h)
 val todo    = oklch(string, l + 0.20, c + 0.09, h)
 
 
 // ── Diff ────────────────────────────────────────────────────────────
 
 val diffDelete   = oklch(searchResultBg, l, c, h)
-val diffChange   = oklch(0.35, 0.040, blueHue)
-val diffAdd      = oklch(0.35, 0.040, mainHue)
-val diffConflict = oklch(0.35, 0.040, redHue)
+val diffChange   = oklch(diffDelete, l, c + 0.03, blueHue)
+val diffAdd      = oklch(diffDelete, l, c + 0.03, mainHue)
+val diffConflict = oklch(diffDelete, l, c + 0.03, redHue)
 
 // ── Editor right side stripe ────────────────────────────────────────
 
@@ -119,15 +119,15 @@ val paletteEntries: List<PaletteEntry> = listOf(
 
     Section("Syntax"),
     Def("keyword", keyword),
-    Def("function-decl", functionDecl, "bright keyword"),
-    Def("constant-field", constantField, "bright & saturated keyword"),
-    Def("implicit-param", implicitParam, "saturated function-decl"),
-    Def("number", number, "hue shift of keyword"),
-    Def("string", string, "desaturated hue shift of keyword"),
-    Def("string-escape", stringEscape, "hue shift of string"),
-    Def("string-escape-bad", stringEscBad, "darker string"),
-    Def("static-function", staticFunc, "dark & desaturated keyword"),
-    Def("named-arg", namedArg, "desaturated constant-field"),
+    Def("function-decl", functionDecl),
+    Def("constant-field", constantField),
+    Def("implicit-param", implicitParam),
+    Def("number", number),
+    Def("string", string),
+    Def("string-escape", stringEscape),
+    Def("string-escape-bad", stringEscBad),
+    Def("static-function", staticFunc),
+    Def("named-arg", namedArg),
     Blank,
     Alias("class", "fg"),
     Alias("parameter", "fg"),
@@ -154,7 +154,7 @@ val paletteEntries: List<PaletteEntry> = listOf(
     Alias("javadoc-markup", "function-decl"),
     Alias("javadoc-tag", "javadoc"),
     Alias("javadoc-tag-val", "string"),
-    Def("todo", todo, "bright & saturated string"),
+    Def("todo", todo),
     Def("todo-stripe", todoStripe),
 
     Section("Diff"),
