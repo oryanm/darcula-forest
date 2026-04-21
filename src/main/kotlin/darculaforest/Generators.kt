@@ -4,8 +4,8 @@ fun generateCss(): String = buildString {
     appendLine(":root {")
 
     appendLine("    /* Hues */")
-    for ((hue, cssValue) in hueVarDefs) {
-        appendLine("    --${hue.name}: $cssValue;")
+    for (v in hueVarDefs) {
+        appendLine("    --${v.name}: ${fmtVarValue(v.value)};")
     }
 
     for (entry in paletteEntries) {

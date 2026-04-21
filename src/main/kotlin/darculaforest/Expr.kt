@@ -20,8 +20,24 @@ sealed class Expr {
     /** calc(lhs op rhs) — recursive; lhs is typically Ident or nested Calc, rhs is Lit or Var */
     data class Calc(val lhs: Expr, val op: Op, val rhs: Expr) : Expr()
 
-    /** var(--name) with pre-resolved value for hex computation */
-    data class Var(val name: String, val resolved: Double) : Expr()
+    /** var(--name) whose value is itself an expression (Lit, Var, or Calc) */
+    data class Var(val name: String, val value: Expr) : Expr() {
+        constructor(name: String, value: Double) : this(name, Lit(value))
+
+        /** Numeric resolution for hex computation — evaluates the value expression */
+        val resolved: Double get() = eval(value)
+
+        private fun eval(e: Expr): Double = when (e) {
+            is Lit   -> e.value
+            is Var   -> eval(e.value)
+            is Calc  -> {
+                val l = eval(e.lhs)
+                val r = eval(e.rhs)
+                if (e.op == Op.Plus) l + r else l - r
+            }
+            is Ident -> error("Ident (channel passthrough) not allowed inside a Var value")
+        }
+    }
 
     enum class Op(val sym: String) { Plus("+"), Minus("-") }
 
@@ -39,15 +55,18 @@ sealed class Expr {
     }
 
     private fun requireAddable() {
-        require(this is Ident || this is Calc) { "can only add/subtract from Ident or Calc, got $this" }
+        require(this is Ident || this is Calc || this is Var) {
+            "can only add/subtract from Ident, Calc, or Var, got $this"
+        }
     }
 
     private fun addLit(d: Double): Expr {
         if (d == 0.0) return this
         return when (this) {
             is Ident -> mkCalc(this, d)
+            is Var   -> mkCalc(this, d)
             is Calc  -> foldOrNest(d)
-            else     -> error("can only add literal to Ident or Calc, got $this")
+            is Lit   -> error("can only add literal to Ident, Calc, or Var, got Lit")
         }
     }
 
@@ -113,3 +132,13 @@ private fun fmtChannel(expr: Expr, channel: Char): String = when (expr) {
 fun fmtL(expr: Expr): String = fmtChannel(expr, 'l')
 fun fmtC(expr: Expr): String = fmtChannel(expr, 'c')
 fun fmtH(expr: Expr): String = fmtChannel(expr, 'h')
+
+// Formats a Var's value expression for a top-level declaration (e.g. `--name: <value>;`).
+// Nested Calcs emit nested calc() — verbose but always correct; flattening would break
+// precedence when a Calc sits on the RHS of a minus.
+fun fmtVarValue(expr: Expr): String = when (expr) {
+    is Expr.Lit   -> fmtNum(expr.value, 3)
+    is Expr.Var   -> "var(--${expr.name})"
+    is Expr.Calc  -> "calc(${fmtVarValue(expr.lhs)} ${expr.op.sym} ${fmtVarValue(expr.rhs)})"
+    is Expr.Ident -> error("Ident not allowed in Var value")
+}

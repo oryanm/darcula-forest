@@ -1,7 +1,6 @@
 package darculaforest
 
 import java.util.IdentityHashMap
-import kotlin.math.roundToInt
 
 sealed interface PaletteEntry
 data class Def(val name: String, val color: Color, val comment: String? = null) : PaletteEntry
@@ -11,23 +10,18 @@ data object Blank : PaletteEntry
 
 // ── Hues ────────────────────────────────────────────────────────────
 
-val mainHue      = Expr.Var("main-hue",      128.0)
-val complementaryColorOffset      = Expr.Var("comp-offset",      30.0)
-val secondaryHue = Expr.Var("secondary-hue", mainHue.resolved - complementaryColorOffset.resolved)
-val tertiaryHue  = Expr.Var("tertiary-hue",  mainHue.resolved + complementaryColorOffset.resolved)
-val baseChroma   = Expr.Var("base-chroma",   0.110)
-val redHue       = Expr.Var("red-hue",       28.0)
-val blueHue      = Expr.Var("blue-hue",      248.0)
+val mainHue                  = Expr.Var("main-hue",     128.0)
+val complementaryColorOffset = Expr.Var("comp-offset",  30.0)
+val secondaryHue             = Expr.Var("secondary-hue", mainHue - complementaryColorOffset)
+val tertiaryHue              = Expr.Var("tertiary-hue",  mainHue + complementaryColorOffset)
+val baseChroma               = Expr.Var("base-chroma",  0.110)
+val redHue                   = Expr.Var("red-hue",      28.0)
+val blueHue                  = Expr.Var("blue-hue",     248.0)
 
-// CSS custom property declarations for hues
-val hueVarDefs = listOf(
-    mainHue      to "${mainHue.resolved.roundToInt()}",
-    complementaryColorOffset      to "${complementaryColorOffset.resolved.roundToInt()}",
-    secondaryHue to "calc(var(--main-hue) - var(--comp-offset))",
-    tertiaryHue  to "calc(var(--main-hue) + var(--comp-offset))",
-    baseChroma   to "${baseChroma.resolved}",
-    redHue       to "${redHue.resolved.roundToInt()}",
-    blueHue      to "${blueHue.resolved.roundToInt()}",
+// Ordered list of CSS custom property declarations; CSS is derived structurally from each var's value expr.
+val hueVarDefs: List<Expr.Var> = listOf(
+    mainHue, complementaryColorOffset, secondaryHue, tertiaryHue,
+    baseChroma, redHue, blueHue,
 )
 
 // ── Editor ──────────────────────────────────────────────────────────
