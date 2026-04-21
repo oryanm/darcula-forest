@@ -174,11 +174,9 @@ val paletteEntries: List<PaletteEntry> = listOf(
 
 // Reverse lookup: Color object → palette name (first name wins).
 // Uses identity comparison so derived colors find their exact parent.
-val colorNames: Map<Color, String> = IdentityHashMap<Color, String>().also { map ->
-    for (entry in paletteEntries) {
-        if (entry is Def) map.putIfAbsent(entry.color, entry.name)
-    }
-}
+val colorNames: Map<Color, String> = paletteEntries
+    .filterIsInstance<Def>()
+    .associate { Pair(it.color, it.name) }
 
 fun nameOf(color: Color): String? = colorNames[color]
 
@@ -186,8 +184,6 @@ fun nameOf(color: Color): String? = colorNames[color]
 val hexMap: Map<String, String> = buildMap {
     for (entry in paletteEntries) {
         if (entry is Def) put(entry.name, entry.color.toHex().uppercase())
-    }
-    for (entry in paletteEntries) {
         if (entry is Alias) get(entry.target)?.let { put(entry.name, it) }
     }
 }
