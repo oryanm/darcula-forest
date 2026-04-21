@@ -13,10 +13,6 @@ fun generateCss(): String = buildString {
                 val comment = entry.comment?.let { " /* $it */" } ?: ""
                 appendLine("    --${entry.variable.name}: $value;$comment")
             }
-            is Alias -> {
-                val comment = entry.comment?.let { " /* $it */" } ?: ""
-                appendLine("    --${entry.name}: var(--${entry.target.name});$comment")
-            }
             Blank -> appendLine()
         }
     }

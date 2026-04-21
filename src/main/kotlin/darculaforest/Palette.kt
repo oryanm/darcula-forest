@@ -2,7 +2,6 @@ package darculaforest
 
 sealed interface PaletteEntry
 data class Def(val variable: Expr.Var, val comment: String? = null) : PaletteEntry
-data class Alias(val name: String, val target: Expr.Var, val comment: String? = null) : PaletteEntry
 data class Section(val title: String) : PaletteEntry
 data object Blank : PaletteEntry
 
@@ -26,10 +25,9 @@ val lineNumber     = Expr.Var("line-number",      oklch(editorBg, l + 0.2, c, h)
 val injectedLangBg = Expr.Var("injected-lang-bg", oklch(editorBg, l + 0.01, c, h))
 val fg             = Expr.Var("fg",               oklch(0.75, 0.010, mainHue))
 
-// Preview backgrounds (derived from editor)
-val pageBg   = Expr.Var("page-bg",    oklch(editorBg, l - 0.05, c, h))
-val tabBarBg = Expr.Var("tab-bar-bg", oklch(pageBg,   l + 0.01, c, h))
-val gutterBg = Expr.Var("gutter-bg",  oklch(editorBg, l + 0.05, c, h))
+val foldedTextBg = Expr.Var("folded-text-bg", searchResultBg)
+val tearline     = Expr.Var("tearline",       searchResultBg)
+val templateLang = Expr.Var("template-lang",  searchResultBg)
 
 // ── Syntax ──────────────────────────────────────────────────────────
 
@@ -44,17 +42,32 @@ val stringEscBad  = Expr.Var("string-escape-bad", oklch(string, l - 0.15, c, h))
 val staticFunc    = Expr.Var("static-function",   oklch(keyword, l - 0.05, c - 0.02, h))
 val namedArg      = Expr.Var("named-arg",         oklch(keyword, l + 0.1, c - 0.05, h))
 
+val `class`            = Expr.Var("class",                fg)
+val parameter          = Expr.Var("parameter",            fg)
+val functionCall       = Expr.Var("function-call",        fg)
+val localVar           = Expr.Var("local-var",            fg)
+val operator           = Expr.Var("operator",             fg)
+val parens             = Expr.Var("parens",               fg)
+val punctuation        = Expr.Var("punctuation",          keyword)
+val genericTypeParam   = Expr.Var("generic-type-param",   number)
+val annotation         = Expr.Var("annotation",           string)
+val annotationNamedAtt = Expr.Var("annotation-named-att", namedArg)
+
 // ── Effects ─────────────────────────────────────────────────────────
 
 val error            = Expr.Var("error",             oklch(keyword, l, c + 0.05, redHue))
 val warningBg        = Expr.Var("warning-bg",        oklch(editorBg, l + 0.2, c + 0.025, secondaryHue))
 val mutableUnderline = Expr.Var("mutable-underline", oklch(keyword, l - 0.15, c, h))
 val typoUnderline    = Expr.Var("typo-underline",    oklch(mutableUnderline, l, c, secondaryHue))
+val deprecatedStrikethrough = Expr.Var("deprecated-strikethrough", fg)
 
 // ── Comments ────────────────────────────────────────────────────────
 
 val comment = Expr.Var("comment", oklch(keyword, l + 0.05, Expr.Lit(0.0), h))
 val javadoc = Expr.Var("javadoc", oklch(keyword, l + 0.05, c, h))
+val javadocMarkup = Expr.Var("javadoc-markup",  functionDecl)
+val javadocTag    = Expr.Var("javadoc-tag",     javadoc)
+val javadocTagVal = Expr.Var("javadoc-tag-val", string)
 val todo    = Expr.Var("todo",    oklch(string, l + 0.20, c + 0.09, h))
 
 // ── Diff ────────────────────────────────────────────────────────────
@@ -73,6 +86,12 @@ val diffDeleteStripe   = Expr.Var("diff-delete-stripe",   oklch(diffDelete, l + 
 val diffChangeStripe   = Expr.Var("diff-change-stripe",   oklch(diffChange, l + 0.1, c + 0.1, h))
 val diffAddStripe      = Expr.Var("diff-add-stripe",      oklch(diffAdd, l + 0.1, c + 0.1, h))
 val diffConflictStripe = Expr.Var("diff-conflict-stripe", oklch(diffConflict, l + 0.1, c + 0.1, h))
+
+// preview.html colors (not part of color-scheme)
+val pageBg   = Expr.Var("page-bg",    oklch(editorBg, l - 0.05, c, h))
+val tabBarBg = Expr.Var("tab-bar-bg", oklch(pageBg,   l + 0.01, c, h))
+val gutterBg = Expr.Var("gutter-bg",  oklch(editorBg, l + 0.05, c, h))
+val fgMuted = Expr.Var("fg-muted", namedArg)
 
 // ── Terminal (alacritty-only; not in paletteEntries) ────────────────
 
@@ -102,15 +121,15 @@ val paletteEntries: List<PaletteEntry> = listOf(
     Def(injectedLangBg),
     Def(lineNumber),
     Def(fg),
-    Alias("folded-text-bg", searchResultBg),
-    Alias("tearline", searchResultBg),
-    Alias("template-lang", searchResultBg),
+    Def(foldedTextBg),
+    Def(tearline),
+    Def(templateLang),
 
     Section("Preview backgrounds"),
     Def(pageBg),
     Def(tabBarBg),
     Def(gutterBg),
-    Alias("fg-muted", namedArg),
+    Def(fgMuted),
 
     Section("Syntax"),
     Def(keyword),
@@ -124,16 +143,16 @@ val paletteEntries: List<PaletteEntry> = listOf(
     Def(staticFunc),
     Def(namedArg),
     Blank,
-    Alias("class", fg),
-    Alias("parameter", fg),
-    Alias("function-call", fg),
-    Alias("local-var", fg),
-    Alias("operator", fg),
-    Alias("parens", fg, "brackets also"),
-    Alias("punctuation", keyword, "comma, semicolon"),
-    Alias("generic-type-param", number),
-    Alias("annotation", string),
-    Alias("annotation-named-att", namedArg),
+    Def(`class`),
+    Def(parameter),
+    Def(functionCall),
+    Def(localVar),
+    Def(operator),
+    Def(parens, "brackets also"),
+    Def(punctuation, "comma, semicolon"),
+    Def(genericTypeParam),
+    Def(annotation),
+    Def(annotationNamedAtt),
 
     Section("Effects"),
     Def(error),
@@ -141,14 +160,14 @@ val paletteEntries: List<PaletteEntry> = listOf(
     Def(warningStripe),
     Def(mutableUnderline),
     Def(typoUnderline),
-    Alias("deprecated-strikethrough", fg),
+    Def(deprecatedStrikethrough),
 
     Section("Comments"),
     Def(comment),
     Def(javadoc),
-    Alias("javadoc-markup", functionDecl),
-    Alias("javadoc-tag", javadoc),
-    Alias("javadoc-tag-val", string),
+    Def(javadocMarkup),
+    Def(javadocTag),
+    Def(javadocTagVal),
     Def(todo),
     Def(todoStripe),
 
@@ -165,16 +184,16 @@ val paletteEntries: List<PaletteEntry> = listOf(
 
 // ── Palette Utilities ───────────────────────────────────────────────
 
-/** Forward lookup: palette name → uppercase hex. Resolves aliases. Only Oklch defs contribute. */
+/** Forward lookup: palette name → uppercase hex. Walks Var chains to find the underlying Oklch. */
 val hexMap: Map<String, String> = buildMap {
+    tailrec fun oklchOf(e: Expr): Expr.Oklch? = when (e) {
+        is Expr.Oklch -> e
+        is Expr.Var   -> oklchOf(e.value)
+        else          -> null
+    }
     for (entry in paletteEntries) {
-        when (entry) {
-            is Def -> {
-                val value = entry.variable.value
-                if (value is Expr.Oklch) put(entry.variable.name, hexOf(value).uppercase())
-            }
-            is Alias -> get(entry.target.name)?.let { put(entry.name, it) }
-            is Section, Blank -> {}
+        if (entry is Def) oklchOf(entry.variable.value)?.let {
+            put(entry.variable.name, hexOf(it).uppercase())
         }
     }
 }
