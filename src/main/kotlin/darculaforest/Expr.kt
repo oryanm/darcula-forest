@@ -61,38 +61,17 @@ sealed class Expr {
     }
 
     private fun addLit(d: Double): Expr {
+        requireAddable()
         if (d == 0.0) return this
-        return when (this) {
-            is Ident -> mkCalc(this, d)
-            is Var   -> mkCalc(this, d)
-            is Calc  -> foldOrNest(d)
-            is Lit   -> error("can only add literal to Ident, Calc, or Var, got Lit")
-        }
+        return if (d >= 0) Calc(this, Op.Plus, Lit(d))
+        else Calc(this, Op.Minus, Lit(-d))
     }
-
-    private fun Calc.foldOrNest(d: Double): Expr {
-        // If rhs is a Lit, fold the new delta into it so `l + 0.15 + 0.05` collapses to `calc(l + 0.20)`.
-        if (rhs is Lit) {
-            val signed = (if (op == Op.Plus) rhs.value else -rhs.value) + d
-            return when {
-                signed == 0.0    -> lhs
-                signed > 0       -> Calc(lhs, Op.Plus, Lit(signed))
-                else             -> Calc(lhs, Op.Minus, Lit(-signed))
-            }
-        }
-        // Otherwise chain: calc((...) + 0.05)
-        return mkCalc(this, d)
-    }
-
-    private fun mkCalc(lhs: Expr, signedDelta: Double): Expr =
-        if (signedDelta >= 0) Calc(lhs, Op.Plus, Lit(signedDelta))
-        else Calc(lhs, Op.Minus, Lit(-signedDelta))
 }
 
 // Channel identity markers — used like CSS's l, c, h keywords
-val l: Expr get() = Expr.Ident
-val c: Expr get() = Expr.Ident
-val h: Expr get() = Expr.Ident
+val l: Expr = Expr.Ident
+val c: Expr = Expr.Ident
+val h: Expr = Expr.Ident
 
 private fun fmtNum(value: Double, precision: Int): String {
     val s = "%.${precision}f".format(value)

@@ -1,7 +1,5 @@
 package darculaforest
 
-import java.util.IdentityHashMap
-
 sealed interface PaletteEntry
 data class Def(val name: String, val color: Color, val comment: String? = null) : PaletteEntry
 data class Alias(val name: String, val target: String, val comment: String? = null) : PaletteEntry
