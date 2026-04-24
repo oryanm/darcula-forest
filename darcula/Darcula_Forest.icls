@@ -131,25 +131,25 @@
     <option name="DIFF_CONFLICT">
       <value>
         <option name="BACKGROUND" value="4D332F" />
-        <option name="ERROR_STRIPE_COLOR" value="932C25" />
+        <option name="ERROR_STRIPE_COLOR" value="D76A5E" />
       </value>
     </option>
     <option name="DIFF_DELETED">
       <value>
         <option name="BACKGROUND" value="393C36" />
-        <option name="ERROR_STRIPE_COLOR" value="43600E" />
+        <option name="ERROR_STRIPE_COLOR" value="8D908A" />
       </value>
     </option>
     <option name="DIFF_INSERTED">
       <value>
         <option name="BACKGROUND" value="343F28" />
-        <option name="ERROR_STRIPE_COLOR" value="3E6200" />
+        <option name="ERROR_STRIPE_COLOR" value="769F36" />
       </value>
     </option>
     <option name="DIFF_MODIFIED">
       <value>
         <option name="BACKGROUND" value="2A3C4F" />
-        <option name="ERROR_STRIPE_COLOR" value="00579E" />
+        <option name="ERROR_STRIPE_COLOR" value="3D94E0" />
       </value>
     </option>
     <option name="IMPLICIT_ANONYMOUS_CLASS_PARAMETER_ATTRIBUTES">

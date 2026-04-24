@@ -73,8 +73,8 @@
     --diff-change: oklch(from var(--diff-delete) l calc(c + 0.03) var(--blue-hue));
     --diff-add: oklch(from var(--diff-delete) l calc(c + 0.03) var(--main-hue));
     --diff-conflict: oklch(from var(--diff-delete) l calc(c + 0.03) var(--red-hue));
-    --diff-delete-stripe: oklch(from var(--diff-delete) calc(l + 0.1) calc(c + 0.1) h);
-    --diff-change-stripe: oklch(from var(--diff-change) calc(l + 0.1) calc(c + 0.1) h);
-    --diff-add-stripe: oklch(from var(--diff-add) calc(l + 0.1) calc(c + 0.1) h);
-    --diff-conflict-stripe: oklch(from var(--diff-conflict) calc(l + 0.1) calc(c + 0.1) h);
+    --diff-delete-stripe: oklch(from var(--diff-delete) calc(l + 0.3) c h);
+    --diff-change-stripe: oklch(from var(--diff-change) calc(l + 0.3) calc(c + 0.1) h);
+    --diff-add-stripe: oklch(from var(--diff-add) calc(l + 0.3) calc(c + 0.1) h);
+    --diff-conflict-stripe: oklch(from var(--diff-conflict) calc(l + 0.3) calc(c + 0.1) h);
 }
