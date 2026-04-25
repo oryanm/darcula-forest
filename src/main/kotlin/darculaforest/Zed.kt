@@ -1,0 +1,241 @@
+package darculaforest
+
+// Mapping for Zed themes (JSON schema v0.2.0).
+//
+// Each ZedColor emits "<key>": "#RRGGBBAA" in the theme's `style` object.
+// `ref` is a palette Var; `alpha` is the two-char alpha byte (default "ff").
+
+data class ZedColor(val key: String, val ref: Expr.Var, val alpha: String = "ff")
+
+data class ZedSyntax(
+    val key: String,
+    val ref: Expr.Var,
+    val fontStyle: String? = null,
+    val fontWeight: Int? = null,
+)
+
+data class ZedPlayer(val ref: Expr.Var)
+
+// ── Style (flat key → color) ────────────────────────────────────────
+
+val zedStyle: List<ZedColor> = listOf(
+    // Borders
+    ZedColor("border",                         borderColor),
+    ZedColor("border.variant",                 borderVariant),
+    ZedColor("border.focused",                 borderFocused),
+    ZedColor("border.selected",                selectionBg),
+    ZedColor("border.transparent",             editorBg,      alpha = "00"),
+    ZedColor("border.disabled",                borderVariant),
+
+    // Surfaces — reuse preview-chrome vars that already exist.
+    ZedColor("elevated_surface.background",    pageBg),
+    ZedColor("surface.background",             pageBg),
+    ZedColor("background",                     gutterBg),
+    ZedColor("element.background",             tabBarBg),
+    ZedColor("element.hover",                  elementHover),
+    ZedColor("element.active",                 elementActive),
+    ZedColor("element.selected",               selectionBg),
+    ZedColor("element.disabled",               tabBarBg),
+    ZedColor("drop_target.background",         selectionBg,   alpha = "80"),
+    ZedColor("ghost_element.background",       editorBg,      alpha = "00"),
+    ZedColor("ghost_element.hover",            elementHover),
+    ZedColor("ghost_element.active",           elementActive),
+    ZedColor("ghost_element.selected",         selectionBg),
+    ZedColor("ghost_element.disabled",         tabBarBg),
+
+    // Text & icons
+    ZedColor("text",                           fg),
+    ZedColor("text.muted",                     textMuted),
+    ZedColor("text.placeholder",               textPlaceholder),
+    ZedColor("text.disabled",                  textPlaceholder),
+    ZedColor("text.accent",                    textAccent),
+    ZedColor("icon",                           fg),
+    ZedColor("icon.muted",                     textMuted),
+    ZedColor("icon.disabled",                  textPlaceholder),
+    ZedColor("icon.placeholder",               textMuted),
+    ZedColor("icon.accent",                    textAccent),
+
+    // Chrome bars.
+    ZedColor("status_bar.background",          gutterBg),
+    ZedColor("title_bar.background",           gutterBg),
+    ZedColor("title_bar.inactive_background",  pageBg),
+    ZedColor("toolbar.background",             pageBg),
+    ZedColor("tab_bar.background",             tabBarBg),
+    ZedColor("tab.inactive_background",        tabBarBg),
+    ZedColor("tab.active_background",          editorBg),
+    ZedColor("search.match_background",        searchResultBg),
+    ZedColor("search.active_match_background", searchResultStripe),
+    ZedColor("panel.background",               tabBarBg),
+
+    // Scrollbar — bridges.
+    ZedColor("scrollbar.thumb.background",       scrollbarThumb),
+    ZedColor("scrollbar.thumb.hover_background", elementHover),
+    ZedColor("scrollbar.thumb.border",           borderVariant),
+    ZedColor("scrollbar.track.background",       scrollbarTrack),
+    ZedColor("scrollbar.track.border",           borderVariant),
+
+    // Editor pane — direct counterparts.
+    ZedColor("editor.foreground",                          fg),
+    ZedColor("editor.background",                          editorBg),
+    ZedColor("editor.gutter.background",                   editorBg),
+    ZedColor("editor.subheader.background",                pageBg),
+    ZedColor("editor.active_line.background",              caretRow),
+    ZedColor("editor.highlighted_line.background",         caretRow),
+    ZedColor("editor.line_number",                         lineNumber),
+    ZedColor("editor.active_line_number",                  fg),
+    ZedColor("editor.hover_line_number",                   textMuted),
+    ZedColor("editor.invisible",                           lineNumber),
+    ZedColor("editor.wrap_guide",                          borderVariant),
+    ZedColor("editor.active_wrap_guide",                   borderColor),
+    ZedColor("editor.document_highlight.read_background",  searchResultBg),
+    ZedColor("editor.document_highlight.write_background", selectionBg),
+
+    // Terminal.
+    ZedColor("terminal.background",              editorBg),
+    ZedColor("terminal.foreground",              fg),
+    ZedColor("terminal.bright_foreground",       termBrightWhite),
+    ZedColor("terminal.dim_foreground",          textMuted),
+    ZedColor("terminal.ansi.black",              editorBg),
+    ZedColor("terminal.ansi.bright_black",       selectionBg),
+    ZedColor("terminal.ansi.dim_black",          editorBg),
+    ZedColor("terminal.ansi.red",                termRed),
+    ZedColor("terminal.ansi.bright_red",         error),
+    ZedColor("terminal.ansi.dim_red",            termRed),
+    ZedColor("terminal.ansi.green",              termGreen),
+    ZedColor("terminal.ansi.bright_green",       termGreen),
+    ZedColor("terminal.ansi.dim_green",          termGreen),
+    ZedColor("terminal.ansi.yellow",             termYellow),
+    ZedColor("terminal.ansi.bright_yellow",      todo),
+    ZedColor("terminal.ansi.dim_yellow",         termYellow),
+    ZedColor("terminal.ansi.blue",               termBlue),
+    ZedColor("terminal.ansi.bright_blue",        termBlue),
+    ZedColor("terminal.ansi.dim_blue",           termBlue),
+    ZedColor("terminal.ansi.magenta",            termMagenta),
+    ZedColor("terminal.ansi.bright_magenta",     termMagenta),
+    ZedColor("terminal.ansi.dim_magenta",        termMagenta),
+    ZedColor("terminal.ansi.cyan",               termCyan),
+    ZedColor("terminal.ansi.bright_cyan",        termCyan),
+    ZedColor("terminal.ansi.dim_cyan",           termCyan),
+    ZedColor("terminal.ansi.white",              fg),
+    ZedColor("terminal.ansi.bright_white",       termBrightWhite),
+    ZedColor("terminal.ansi.dim_white",          textMuted),
+
+    // Version control — direct counterparts.
+    ZedColor("link_text.hover",                        textAccent),
+    ZedColor("version_control.added",                  diffAddStripe),
+    ZedColor("version_control.modified",               diffChangeStripe),
+    ZedColor("version_control.deleted",                diffDeleteStripe),
+    ZedColor("version_control.word_added",             diffAdd),
+    ZedColor("version_control.word_deleted",           diffDelete),
+    ZedColor("version_control.conflict_marker.ours",   diffAdd),
+    ZedColor("version_control.conflict_marker.theirs", diffConflict),
+
+    // Status / diagnostics (fg,bg,border triples). fg mostly direct;
+    // bg/border are bridges (see Palette.kt "Zed status tints").
+    ZedColor("conflict",               diffConflictStripe),
+    ZedColor("conflict.background",    warningBg),
+    ZedColor("conflict.border",        warningBorder),
+    ZedColor("created",                diffAddStripe),
+    ZedColor("created.background",     successBg),
+    ZedColor("created.border",         successBorder),
+    ZedColor("deleted",                diffDeleteStripe),
+    ZedColor("deleted.background",     errorBg),
+    ZedColor("deleted.border",         errorBorder),
+    ZedColor("error",                  error),
+    ZedColor("error.background",       errorBg),
+    ZedColor("error.border",           errorBorder),
+    ZedColor("hidden",                 textMuted),
+    ZedColor("hidden.background",      tabBarBg),
+    ZedColor("hidden.border",          borderVariant),
+    ZedColor("hint",                   textMuted),
+    ZedColor("hint.background",        infoBg),
+    ZedColor("hint.border",            infoBorder),
+    ZedColor("ignored",                textMuted),
+    ZedColor("ignored.background",     tabBarBg),
+    ZedColor("ignored.border",         borderVariant),
+    ZedColor("info",                   keyword),
+    ZedColor("info.background",        infoBg),
+    ZedColor("info.border",            infoBorder),
+    ZedColor("modified",               diffChangeStripe),
+    ZedColor("modified.background",    warningBg),
+    ZedColor("modified.border",        warningBorder),
+    ZedColor("predictive",             textPlaceholder),
+    ZedColor("predictive.background",  tabBarBg),
+    ZedColor("predictive.border",      borderVariant),
+    ZedColor("renamed",                diffChangeStripe),
+    ZedColor("renamed.background",     infoBg),
+    ZedColor("renamed.border",         infoBorder),
+    ZedColor("success",                diffAddStripe),
+    ZedColor("success.background",     successBg),
+    ZedColor("success.border",         successBorder),
+    ZedColor("unreachable",            textMuted),
+    ZedColor("unreachable.background", tabBarBg),
+    ZedColor("unreachable.border",     borderVariant),
+    ZedColor("warning",                todoStripe),
+    ZedColor("warning.background",     warningBg),
+    ZedColor("warning.border",         warningBorder),
+)
+
+// ── Players ─────────────────────────────────────────────────────────
+// 8 distinct colors for multi-user cursors.
+
+val zedPlayers: List<ZedPlayer> = listOf(
+    ZedPlayer(keyword),
+    ZedPlayer(error),
+    ZedPlayer(number),
+    ZedPlayer(functionDecl),
+    ZedPlayer(constantField),
+    ZedPlayer(todoStripe),
+    ZedPlayer(string),
+    ZedPlayer(diffAddStripe),
+)
+
+// ── Syntax (tree-sitter captures) ───────────────────────────────────
+
+val zedSyntax: List<ZedSyntax> = listOf(
+    ZedSyntax("attribute",               annotationNamedAtt),
+    ZedSyntax("boolean",                 keyword),
+    ZedSyntax("comment",                 comment,         fontStyle = "italic"),
+    ZedSyntax("comment.doc",             javadoc,         fontStyle = "italic"),
+    ZedSyntax("constant",                constantField,   fontStyle = "italic"),
+    ZedSyntax("constructor",             functionDecl),
+    ZedSyntax("embedded",                fg),
+    ZedSyntax("emphasis",                keyword,         fontStyle = "italic"),
+    ZedSyntax("emphasis.strong",         keyword,         fontWeight = 700),
+    ZedSyntax("enum",                    constantField),
+    ZedSyntax("function",                functionDecl),
+    ZedSyntax("hint",                    textMuted),
+    ZedSyntax("keyword",                 keyword),
+    ZedSyntax("label",                   number),
+    ZedSyntax("link_text",               string,          fontStyle = "italic"),
+    ZedSyntax("link_uri",                keyword),
+    ZedSyntax("namespace",               fg),
+    ZedSyntax("number",                  number),
+    ZedSyntax("operator",                operator),
+    ZedSyntax("predictive",              textPlaceholder, fontStyle = "italic"),
+    ZedSyntax("preproc",                 annotation),
+    ZedSyntax("primary",                 fg),
+    ZedSyntax("property",                fg),
+    ZedSyntax("punctuation",             punctuation),
+    ZedSyntax("punctuation.bracket",     parens),
+    ZedSyntax("punctuation.delimiter",   punctuation),
+    ZedSyntax("punctuation.list_marker", keyword),
+    ZedSyntax("punctuation.markup",      keyword),
+    ZedSyntax("punctuation.special",     stringEscape),
+    ZedSyntax("selector",                keyword),
+    ZedSyntax("selector.pseudo",         functionDecl),
+    ZedSyntax("string",                  string),
+    ZedSyntax("string.escape",           stringEscape),
+    ZedSyntax("string.regex",            stringEscape),
+    ZedSyntax("string.special",          stringEscape),
+    ZedSyntax("string.special.symbol",   stringEscape),
+    ZedSyntax("tag",                     keyword),
+    ZedSyntax("text.literal",            string),
+    ZedSyntax("title",                   functionDecl,    fontWeight = 700),
+    ZedSyntax("type",                    fg),
+    ZedSyntax("variable",                fg),
+    ZedSyntax("variable.special",        implicitParam),
+    ZedSyntax("variant",                 constantField),
+    ZedSyntax("diff.plus",               diffAddStripe),
+    ZedSyntax("diff.minus",              diffDeleteStripe),
+)

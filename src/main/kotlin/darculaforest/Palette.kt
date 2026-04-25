@@ -90,17 +90,46 @@ val diffChangeStripe   = Var("diff-change-stripe",   oklch(diffChange, l + 0.3, 
 val diffAddStripe      = Var("diff-add-stripe",      oklch(diffAdd, l + 0.3, c + 0.1, h))
 val diffConflictStripe = Var("diff-conflict-stripe", oklch(diffConflict, l + 0.3, c + 0.1, h))
 
-// preview.html colors (not part of color-scheme)
+// preview.html backgrounds — also re-used as Zed UI surfaces.
 val pageBg   = Var("page-bg",    oklch(editorBg, l - 0.05, c, h))
 val tabBarBg = Var("tab-bar-bg", oklch(pageBg,   l + 0.01, c, h))
 val gutterBg = Var("gutter-bg",  oklch(editorBg, l + 0.05, c, h))
 val fgMuted = Var("fg-muted", namedArg)
 
-// ── Terminal (alacritty-only; not in paletteEntries) ────────────────
+// ── Terminal ────────────────────────────────────────────────────────
 
 val termRed         = Var("term-red",          oklch(string, l, c, h))
 val termYellow      = Var("term-yellow",       oklch(termRed, l, c - 0.03, h))
 val termBrightWhite = Var("term-bright-white", oklch(fg, l, c + 0.05, h))
+val termGreen       = Var("term-green",        stringEscape)
+val termBlue        = Var("term-blue",         keyword)
+val termMagenta     = Var("term-magenta",      functionDecl)
+val termCyan        = Var("term-cyan",         constantField)
+
+// ── Zed UI ───────────────────────────────────────────────────
+// colors for Zed's UI surface. Each is derived from editorBg/fg so the tone stays consistent with the code pane
+
+val textMuted       = Var("text-muted",       oklch(fg, l - 0.05, c, h))
+val borderColor     = Var("border",           oklch(editorBg, l + 0.08, c, h))
+val borderVariant   = Var("border-variant",   oklch(editorBg, l + 0.04, c, h))
+val borderFocused   = Var("border-focused",   keyword)
+val elementHover    = Var("element-hover",    oklch(editorBg, l + 0.06, c, h))
+val elementActive   = Var("element-active",   oklch(editorBg, l + 0.10, c, h))
+val textAccent      = Var("text-accent",      keyword)
+val textPlaceholder = Var("text-placeholder", oklch(fg, l - 0.20, c, h))
+val scrollbarThumb  = Var("scrollbar-thumb",  oklch(editorBg, l + 0.08, c, h))
+val scrollbarTrack  = Var("scrollbar-track",  oklch(editorBg, l + 0.02, c, h))
+
+// ── Zed status tints ────────────────────────────────────────────────
+// Zed renders error/warning/info/success as a triple (fg, bg, border)
+
+val errorBg       = Var("error-bg",       oklch(editorBg, l + 0.04, c + 0.02, redHue))
+val errorBorder   = Var("error-border",   oklch(editorBg, l + 0.10, c + 0.03, redHue))
+val warningBorder = Var("warning-border", oklch(editorBg, l + 0.10, c + 0.03, secondaryHue))
+val infoBg        = Var("info-bg",        oklch(editorBg, l + 0.04, c + 0.02, blueHue))
+val infoBorder    = Var("info-border",    oklch(editorBg, l + 0.10, c + 0.03, blueHue))
+val successBg     = Var("success-bg",     oklch(editorBg, l + 0.04, c + 0.02, mainHue))
+val successBorder = Var("success-border", oklch(editorBg, l + 0.10, c + 0.03, mainHue))
 
 // ── Palette ─────────────────────────────────────────────────────────
 // Ordered list of palette entries. Drives CSS generation and ICLS hex resolution.
@@ -187,18 +216,14 @@ val paletteEntries: List<PaletteEntry> = listOf(
 
 // ── Palette Utilities ───────────────────────────────────────────────
 
-/** Forward lookup: palette name → uppercase hex. Walks Var chains to find the underlying Oklch. */
-val hexMap: Map<String, String> = paletteEntries
-  .filterIsInstance<Def>()
-  .map { Pair(it.variable.name, oklchOf(it.variable.value)) }
-  .filterNot { it.second == null }
-  .associate { Pair(it.first, hexOf(it.second!!).uppercase()) }
-
 tailrec fun oklchOf(e: Expr): Oklch? = when (e) {
   is Oklch -> e
   is Var -> oklchOf(e.value)
   else -> null
 }
 
-/** Resolve a palette key to uppercase hex, or pass through literal hex */
-fun resolve(value: String): String = hexMap[value] ?: value.uppercase()
+/** Lowercase 6-char hex for a color Var. Errors if the var doesn't resolve to an Oklch. */
+fun hexOf(v: Var): String {
+  val oklch = oklchOf(v) ?: error("'${v.name}' does not resolve to a color")
+  return hexOf(oklch)
+}
