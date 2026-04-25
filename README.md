@@ -28,3 +28,10 @@ Writes `darcula/palette.css`, `darcula/Darcula_Forest.icls`, and `darcula/alacri
 
 [vim-colorscheme]: https://vi.stackexchange.com/questions/2782/how-can-i-create-my-own-colorscheme
 [vim-colorscheme-vid]: http://vimcasts.org/episodes/creating-colorschemes-for-vim/
+
+[zed-builder]: https://zed.dev/theme-builder
+[zed-syntax-highlighting]: https://zed.dev/docs/extensions/languages#syntax-highlighting
+[zed-languages]: https://github.com/zed-industries/zed/tree/main/crates/languages
+[nvim-ts-highlights]: https://github.com/nvim-treesitter/nvim-treesitter/blob/master/CONTRIBUTING.md#highlights
+[helix-themes]: https://docs.helix-editor.com/themes.html
+[tree-sitter-highlight]: https://tree-sitter.github.io/tree-sitter/3-syntax-highlighting.html
