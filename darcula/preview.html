@@ -14,7 +14,7 @@
     max-width: var(--page-width, 1200px);
     margin: 0 auto;
   }
-  .width-control {
+  .controls {
     position: fixed;
     top: 12px;
     right: 16px;
@@ -25,11 +25,41 @@
     color: var(--fg-muted);
     z-index: 10;
   }
-  .width-control input {
+  .controls label { white-space: nowrap; }
+  .controls span { min-width: 36px; text-align: right; }
+  .controls .divider { width: 1px; height: 16px; background: var(--gutter-bg); margin: 0 4px; }
+  .controls input[type="range"] {
     width: 100px;
     accent-color: var(--keyword);
   }
-  .width-control span { min-width: 48px; text-align: right; }
+  .controls input.hue-slider {
+    width: 1200px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(to right,
+      oklch(55% 0.11 0), oklch(55% 0.11 90), oklch(55% 0.11 180), oklch(55% 0.11 270),oklch(55% 0.11 360));
+    outline: none;
+    cursor: pointer;
+  }
+  .controls .hue-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--keyword);
+    border: 2px solid var(--fg);
+    cursor: pointer;
+  }
+  .controls .hue-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--keyword);
+    border: 2px solid var(--fg);
+    cursor: pointer;
+  }
   h1 {
     font-size: 18px;
     font-weight: 600;
@@ -79,7 +109,7 @@
   .color-info { display: flex; flex-direction: column; }
   .color-name { font-size: 12px; color: var(--fg); }
   .color-hex { font-size: 11px; color: var(--fg-muted); }
-  .color-source { font-size: 10px; color: var(--static-method); margin-top: 1px; }
+  .color-source { font-size: 10px; color: var(--static-function); margin-top: 1px; }
 
   /* Code preview */
   .editor {
@@ -138,7 +168,7 @@
   .const { color: var(--constant-field); font-style: italic; } /* DEFAULT_CONSTANT */
   .field { color: var(--constant-field); }       /* DEFAULT_INSTANCE_FIELD */
   .sfield { color: var(--constant-field); font-style: italic; } /* DEFAULT_STATIC_FIELD */
-  .static-m { color: var(--static-method); font-style: italic; } /* DEFAULT_STATIC_METHOD */
+  .static-m { color: var(--static-function); font-style: italic; } /* DEFAULT_STATIC_METHOD */
   .ann { color: var(--string); }          /* ANNOTATION_NAME_ATTRIBUTES */
   .named-arg { color: var(--named-arg); } /* KOTLIN_NAMED_ARGUMENT */
   .impl { color: var(--implicit-param); } /* IMPLICIT_ANONYMOUS_CLASS_PARAMETER */
@@ -155,7 +185,7 @@
   .param { color: var(--fg); }            /* PARAMETER */
   .local { color: var(--fg); }            /* LOCAL_VARIABLE */
   .err { color: var(--error); }           /* ERRORS (Darcula) */
-  .warn-underline { text-decoration: wavy underline; text-decoration-color: var(--warning); }
+  .warn-underline { text-decoration: wavy underline; text-decoration-color: var(--warning-bg); }
   .err-underline { text-decoration: wavy underline; text-decoration-color: var(--error); }
   .typo-underline { text-decoration: underline; text-decoration-style: wavy; text-decoration-color: var(--typo-underline); }
 
@@ -195,7 +225,19 @@
 </head>
 <body>
 
-<div class="width-control">
+<div class="controls">
+  <label>Hue</label>
+  <input class="hue-slider" type="range" min="0" max="360" value="128" oninput="updateHue(this.value)">
+  <span id="hue-value">128</span>
+  <div class="divider"></div>
+  <label>Complementaries</label>
+  <input type="range" min="0" max="180" value="45" oninput="updateCompOffset(this.value)">
+  <span id="comp-offset-value">45</span>
+  <div class="divider"></div>
+  <label>Chroma</label>
+  <input type="range" min="0" max="0.2" step="0.005" value="0.11" oninput="updateBaseChroma(this.value)">
+  <span id="base-chroma-value">0.11</span>
+  <div class="divider"></div>
   <label>Width</label>
   <input type="range" min="600" max="1800" value="1200" oninput="document.body.style.setProperty('--page-width', this.value + 'px'); this.nextElementSibling.textContent = this.value + 'px'">
   <span>1200px</span>
@@ -270,7 +312,7 @@
         <span class="color-source">DEFAULT_KEYWORD / DEFAULT_COMMA / SEMICOLON</span>
       </div>
     </div>
-    <div class="color-entry" data-var="static-method">
+    <div class="color-entry" data-var="static-function">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Static Method (Kotlin)</span>
@@ -362,7 +404,7 @@
         <span class="color-source">ERRORS_ATTRIBUTES</span>
       </div>
     </div>
-    <div class="color-entry" data-var="warning">
+    <div class="color-entry" data-var="warning-bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Warning</span>
@@ -535,26 +577,47 @@
   </div>
 </div>
 
-<script src="../oklch.js"></script>
 <script>
-  // Resolve any CSS color to #rrggbb using a canvas context
+  const probe = document.createElement("div");
+  document.body.appendChild(probe);
   const ctx = document.createElement("canvas").getContext("2d");
-  function cssToHex(cssColor) {
-    ctx.fillStyle = "#000";  // reset
+
+  function toHex(cssColor) {
+    ctx.fillStyle = "#000";
     ctx.fillStyle = cssColor;
-    return ctx.fillStyle;    // always returns #rrggbb
+    return ctx.fillStyle;
   }
 
-  const styles = getComputedStyle(document.documentElement);
-  for (const el of document.querySelectorAll("[data-var]")) {
-    const varName = el.dataset.var;
-    const raw = styles.getPropertyValue("--" + varName).trim();
-    const hex = cssToHex(raw);
-    const isOklch = raw.startsWith("oklch(");
-    const oklch = isOklch ? raw : hexToOklch(hex);
-    el.querySelector(".color-dot").style.background = "var(--" + varName + ")";
-    el.querySelector(".color-hex").textContent = hex + " \u00b7 " + oklch;
+  function updateColorCatalog() {
+    for (const el of document.querySelectorAll("[data-var]")) {
+      const varName = el.dataset.var;
+      probe.style.color = "var(--" + varName + ")";
+      const resolved = getComputedStyle(probe).color;
+      const hex = toHex(resolved);
+      el.querySelector(".color-dot").style.background = "var(--" + varName + ")";
+      el.querySelector(".color-hex").textContent = resolved + " \u00b7 " + hex;
+    }
   }
+
+  function updateHue(value) {
+    document.documentElement.style.setProperty("--main-hue", value);
+    document.getElementById("hue-value").textContent = value;
+    updateColorCatalog();
+  }
+
+  function updateCompOffset(value) {
+    document.documentElement.style.setProperty("--comp-offset", value);
+    document.getElementById("comp-offset-value").textContent = value;
+    updateColorCatalog();
+  }
+
+  function updateBaseChroma(value) {
+    document.documentElement.style.setProperty("--base-chroma", value);
+    document.getElementById("base-chroma-value").textContent = value;
+    updateColorCatalog();
+  }
+
+  updateColorCatalog();
 </script>
 </body>
 </html>
