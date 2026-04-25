@@ -86,3 +86,42 @@ val iclsAttributes = listOf(
     IclsAttr("WARNING_ATTRIBUTES", bg = warningBg, errorStripeColor = warningStripe, effectType = WAVE_UNDERSCORE),
     IclsAttr("WRONG_REFERENCES_ATTRIBUTES", fg = error),
 )
+
+fun generateIcls(): String = buildString {
+    fun opt(name: String, value: String, indent: String) = "$indent<option name=\"$name\" value=\"$value\" />"
+    fun hex(v: Expr.Var) = hexOf(v).uppercase()
+
+    appendLine("""<scheme name="Darcula Forest" version="142" parent_scheme="Darcula">""")
+
+    appendLine("  <metaInfo>")
+    appendLine("    <property name=\"ide\">idea</property>")
+    appendLine("    <property name=\"ideVersion\">2025.3.2.0.0</property>")
+    appendLine("    <property name=\"originalScheme\">Darcula Forest</property>")
+    appendLine("  </metaInfo>")
+
+    appendLine("  <colors>")
+    for (c in iclsColors) {
+        appendLine(opt(c.name, hex(c.ref), " ".repeat(4)))
+    }
+    appendLine("  </colors>")
+
+    appendLine("  <attributes>")
+    for (attr in iclsAttributes) {
+        if (attr.baseAttributes != null) {
+            appendLine("    <option name=\"${attr.name}\" baseAttributes=\"${attr.baseAttributes}\" />")
+            continue
+        }
+        appendLine("    <option name=\"${attr.name}\">")
+        appendLine("      <value>")
+        attr.fg?.let               { appendLine(opt("FOREGROUND", hex(it), " ".repeat(8))) }
+        attr.bg?.let               { appendLine(opt("BACKGROUND", hex(it), " ".repeat(8))) }
+        attr.fontType?.let         { appendLine(opt("FONT_TYPE", it.value.toString(), " ".repeat(8))) }
+        attr.errorStripeColor?.let { appendLine(opt("ERROR_STRIPE_COLOR", hex(it), " ".repeat(8))) }
+        attr.effectColor?.let      { appendLine(opt("EFFECT_COLOR", hex(it), " ".repeat(8))) }
+        attr.effectType?.let       { appendLine(opt("EFFECT_TYPE", it.value.toString(), " ".repeat(8))) }
+        appendLine("      </value>")
+        appendLine("    </option>")
+    }
+    appendLine("  </attributes>")
+    append("</scheme>")
+}

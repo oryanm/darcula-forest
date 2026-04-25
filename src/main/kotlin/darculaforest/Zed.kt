@@ -1,7 +1,9 @@
 package darculaforest
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 
 // ── Schema (Zed theme JSON v0.2.0) ──────────────────────────────────
 // Field ordering here drives JSON key ordering in the output.
@@ -477,3 +479,11 @@ val zedTheme: ZedTheme = ZedTheme(
         ),
     ),
 )
+
+@OptIn(ExperimentalSerializationApi::class)
+private val zedJson = Json {
+    prettyPrint = true
+    prettyPrintIndent = "  "
+}
+
+fun generateZed(): String = zedJson.encodeToString(ZedTheme.serializer(), zedTheme)
