@@ -1,5 +1,8 @@
 package darculaforest
 
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+
 fun generateCss(): String = buildString {
     appendLine(":root {")
     for (entry in paletteEntries) {
@@ -92,51 +95,10 @@ fun generateAlacritty(): String = buildString {
     append("white   = ${hex(termBrightWhite)}")
 }
 
-fun generateZed(): String = buildString {
-    fun hex(v: Expr.Var, alpha: String = "ff"): String = "#${hexOf(v)}$alpha"
-    fun q(s: String): String = "\"$s\""
-    val schemaKey = "\"\$schema\""
-
-    appendLine("{")
-    appendLine("""  $schemaKey: "https://zed.dev/schema/themes/v0.2.0.json",""")
-    appendLine("""  "name": "Darcula Forest",""")
-    appendLine("""  "author": "Oryan",""")
-    appendLine("""  "themes": [""")
-    appendLine("""    {""")
-    appendLine("""      "name": "Darcula Forest",""")
-    appendLine("""      "appearance": "dark",""")
-    appendLine("""      "style": {""")
-
-    for (e in zedStyle) {
-        appendLine("""        ${q(e.key)}: ${q(hex(e.ref, e.alpha))},""")
-    }
-
-    appendLine("""        "players": [""")
-    zedPlayers.forEachIndexed { i, p ->
-        val trail = if (i == zedPlayers.lastIndex) "" else ","
-        appendLine("""          {""")
-        appendLine("""            "cursor": ${q(hex(p.ref))},""")
-        appendLine("""            "background": ${q(hex(p.ref))},""")
-        appendLine("""            "selection": ${q(hex(p.ref, alpha = "3d"))}""")
-        appendLine("""          }$trail""")
-    }
-    appendLine("""        ],""")
-
-    appendLine("""        "syntax": {""")
-    zedSyntax.forEachIndexed { i, s ->
-        val trail = if (i == zedSyntax.lastIndex) "" else ","
-        val style = s.fontStyle?.let { q(it) } ?: "null"
-        val weight = s.fontWeight?.toString() ?: "null"
-        appendLine("""          ${q(s.key)}: {""")
-        appendLine("""            "color": ${q(hex(s.ref))},""")
-        appendLine("""            "font_style": $style,""")
-        appendLine("""            "font_weight": $weight""")
-        appendLine("""          }$trail""")
-    }
-    appendLine("""        }""")
-
-    appendLine("""      }""")
-    appendLine("""    }""")
-    appendLine("""  ]""")
-    append("}")
+@OptIn(ExperimentalSerializationApi::class)
+private val zedJson = Json {
+    prettyPrint = true
+    prettyPrintIndent = "  "
 }
+
+fun generateZed(): String = zedJson.encodeToString(ZedTheme.serializer(), zedTheme)
