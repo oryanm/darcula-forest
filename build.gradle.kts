@@ -1,10 +1,15 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.serialization)
     application
 }
 
 repositories {
     mavenCentral()
+}
+
+dependencies {
+    implementation(libs.kotlinx.serialization.json)
 }
 
 kotlin {

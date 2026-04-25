@@ -131,89 +131,6 @@ val infoBorder    = Var("info-border",    oklch(editorBg, l + 0.10, c + 0.03, bl
 val successBg     = Var("success-bg",     oklch(editorBg, l + 0.04, c + 0.02, mainHue))
 val successBorder = Var("success-border", oklch(editorBg, l + 0.10, c + 0.03, mainHue))
 
-// ── Palette ─────────────────────────────────────────────────────────
-// Ordered list of palette entries. Drives CSS generation and ICLS hex resolution.
-
-val paletteEntries: List<PaletteEntry> = listOf(
-    Section("Hues"),
-    Def(mainHue),
-    Def(complementaryColorOffset),
-    Def(secondaryHue),
-    Def(tertiaryHue),
-    Def(baseChroma),
-    Def(redHue),
-    Def(blueHue),
-
-    Section("Editor"),
-    Def(editorBg),
-    Def(caretRow),
-    Def(selectionBg),
-    Def(searchResultBg),
-    Def(searchResultStripe),
-    Def(injectedLangBg),
-    Def(lineNumber),
-    Def(fg),
-    Def(foldedTextBg),
-    Def(tearline),
-    Def(templateLang),
-
-    Section("Preview backgrounds"),
-    Def(pageBg),
-    Def(tabBarBg),
-    Def(gutterBg),
-    Def(fgMuted),
-
-    Section("Syntax"),
-    Def(keyword),
-    Def(functionDecl),
-    Def(constantField),
-    Def(implicitParam),
-    Def(number),
-    Def(string),
-    Def(stringEscape),
-    Def(stringEscBad),
-    Def(staticFunc),
-    Def(namedArg),
-    Blank,
-    Def(`class`),
-    Def(parameter),
-    Def(functionCall),
-    Def(localVar),
-    Def(operator),
-    Def(parens, "brackets also"),
-    Def(punctuation, "comma, semicolon"),
-    Def(genericTypeParam),
-    Def(annotation),
-    Def(annotationNamedAtt),
-
-    Section("Effects"),
-    Def(error),
-    Def(warningBg),
-    Def(warningStripe),
-    Def(mutableUnderline),
-    Def(typoUnderline),
-    Def(deprecatedStrikethrough),
-
-    Section("Comments"),
-    Def(comment),
-    Def(javadoc),
-    Def(javadocMarkup),
-    Def(javadocTag),
-    Def(javadocTagVal),
-    Def(todo),
-    Def(todoStripe),
-
-    Section("Diff"),
-    Def(diffDelete),
-    Def(diffChange),
-    Def(diffAdd),
-    Def(diffConflict),
-    Def(diffDeleteStripe),
-    Def(diffChangeStripe),
-    Def(diffAddStripe),
-    Def(diffConflictStripe),
-)
-
 // ── Palette Utilities ───────────────────────────────────────────────
 
 tailrec fun oklchOf(e: Expr): Oklch? = when (e) {
@@ -223,7 +140,4 @@ tailrec fun oklchOf(e: Expr): Oklch? = when (e) {
 }
 
 /** Lowercase 6-char hex for a color Var. Errors if the var doesn't resolve to an Oklch. */
-fun hexOf(v: Var): String {
-  val oklch = oklchOf(v) ?: error("'${v.name}' does not resolve to a color")
-  return hexOf(oklch)
-}
+fun hexOf(v: Var) = hexOf(oklchOf(v) ?: error("'${v.name}' does not resolve to a color"))
