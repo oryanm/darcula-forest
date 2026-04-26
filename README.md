@@ -28,6 +28,8 @@ Writes `darcula/palette.css`, `darcula/Darcula_Forest.icls`, and `darcula/alacri
 
 [vim-colorscheme]: https://vi.stackexchange.com/questions/2782/how-can-i-create-my-own-colorscheme
 [vim-colorscheme-vid]: http://vimcasts.org/episodes/creating-colorschemes-for-vim/
+[omarchy-aether]: https://github.com/bjarneo/aether
+[intellij-theme]: https://plugins.jetbrains.com/docs/intellij/themes-getting-started.html
 
 [zed-builder]: https://zed.dev/theme-builder
 [zed-syntax-highlighting]: https://zed.dev/docs/extensions/languages#syntax-highlighting
