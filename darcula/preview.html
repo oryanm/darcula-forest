@@ -7,7 +7,7 @@
 <style>
   :root {
     --page-width: 1200px;
-    --wheel-size: clamp(140px, 18vw, 500px);
+    --wheel-size: clamp(140px, 18vw, 400px);
     --wheel-handle-size: 20px;
     --wheel-margin: 64px;
     --wheel-max-chroma: 0.2; /* outer rim chroma; center is 0 (gray) */
@@ -256,14 +256,16 @@
     width: var(--wheel-size);
     height: var(--wheel-size);
     z-index: 11;
-    opacity: 0.35;
-    transition: opacity 200ms ease;
+    opacity: 0.25;
+    transition: opacity 500ms ease;
   }
-  .hue-wheel:hover { opacity: 1; }
+  .hue-wheel:hover,
+  .hue-wheel.bright { opacity: 1; }
   .hue-wheel-ring {
     position: absolute;
     inset: 0;
     border-radius: 50%;
+    cursor: pointer;
     /* Stack: gray center fading to transparent on top of full-chroma conic.
        The radial blend desaturates the conic toward center, so chroma
        visually falls off as you approach the middle. */
@@ -322,8 +324,8 @@
   <span id="hue-value">128</span>
   <div class="divider"></div>
   <label>Complementaries</label>
-  <input type="range" min="0" max="180" value="45" oninput="updateCompOffset(this.value)">
-  <span id="comp-offset-value">45</span>
+  <input type="range" min="0" max="180" value="30" oninput="updateCompOffset(this.value)">
+  <span id="comp-offset-value">30</span>
   <div class="divider"></div>
   <label>Chroma</label>
   <input type="range" min="0" max="0.2" step="0.005" value="0.11" oninput="updateBaseChroma(this.value)">
@@ -823,6 +825,12 @@
       refresh();
     });
     document.addEventListener("mouseup", () => { dragging = null; });
+
+    // Click the disc background (not handles) to toggle dim/bright. Handles are
+    // siblings of the ring, so their clicks don't bubble through it.
+    wheel.querySelector(".hue-wheel-ring").addEventListener("click", () => {
+      wheel.classList.toggle("bright");
+    });
 
     refresh();
     new MutationObserver(refresh).observe(document.documentElement, { attributes: true, attributeFilter: ["style"] });
