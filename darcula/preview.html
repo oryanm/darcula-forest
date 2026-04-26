@@ -7,10 +7,10 @@
 <style>
   :root {
     --page-width: 1200px;
-    --wheel-size: clamp(140px, 18vw, 400px);
+    --wheel-size: clamp(140px, 18vw, 500px);
     --wheel-handle-size: 20px;
-    --wheel-margin: 32px;
-    --wheel-thickness: 20%; /* of closest-side (half the wheel) */
+    --wheel-margin: 64px;
+    --wheel-max-chroma: 0.2; /* outer rim chroma; center is 0 (gray) */
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -256,25 +256,34 @@
     width: var(--wheel-size);
     height: var(--wheel-size);
     z-index: 11;
+    opacity: 0.35;
+    transition: opacity 200ms ease;
   }
+  .hue-wheel:hover { opacity: 1; }
   .hue-wheel-ring {
     position: absolute;
     inset: 0;
     border-radius: 50%;
-    background: conic-gradient(from 0deg,
-      oklch(55% 0.11 0), oklch(55% 0.11 60), oklch(55% 0.11 120),
-      oklch(55% 0.11 180), oklch(55% 0.11 240), oklch(55% 0.11 300),
-      oklch(55% 0.11 360));
-    -webkit-mask: radial-gradient(circle closest-side,
-      transparent calc(96% - var(--wheel-thickness) - 1px),
-      #000 calc(96% - var(--wheel-thickness)),
-      #000 96%,
-      transparent calc(96% + 1px));
-            mask: radial-gradient(circle closest-side,
-      transparent calc(96% - var(--wheel-thickness) - 1px),
-      #000 calc(96% - var(--wheel-thickness)),
-      #000 96%,
-      transparent calc(96% + 1px));
+    /* Stack: gray center fading to transparent on top of full-chroma conic.
+       The radial blend desaturates the conic toward center, so chroma
+       visually falls off as you approach the middle. */
+    background:
+      radial-gradient(circle closest-side,
+        oklch(55% 0 0) 0%,
+        oklch(55% 0 0 / 0) 100%),
+      conic-gradient(from 0deg,
+        oklch(55% var(--wheel-max-chroma) 0),
+        oklch(55% var(--wheel-max-chroma) 60),
+        oklch(55% var(--wheel-max-chroma) 120),
+        oklch(55% var(--wheel-max-chroma) 180),
+        oklch(55% var(--wheel-max-chroma) 240),
+        oklch(55% var(--wheel-max-chroma) 300),
+        oklch(55% var(--wheel-max-chroma) 360));
+    /* Lift off the page: hairline inner rim + soft drop shadow. */
+    box-shadow:
+      inset 0 0 0 1px rgba(255, 255, 255, 0.4),
+      0 0 0 1px rgba(0, 0, 0, 0.5),
+      0 8px 24px rgba(0, 0, 0, 0.45);
   }
   .hue-wheel-handle {
     position: absolute;
@@ -727,15 +736,20 @@
     };
     const compSlider = document.querySelectorAll('.controls input[type="range"]')[1];
 
+    const chromaSlider = document.querySelectorAll('.controls input[type="range"]')[2];
+    // Outer rim of the disc is at this fraction of half-size (small inset so handles aren't clipped).
+    const RIM = 0.92;
+
     function readVar(name, fallback) {
       const v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
       return isNaN(v) ? fallback : v;
     }
-    // Ring midpoint as a fraction of full wheel size, derived from --wheel-thickness.
-    // Mask runs 96% (outer) to (96% - thickness) (inner) of closest-side; closest-side
-    // is half the wheel, so midpoint as a fraction of full size = (96 - thickness/2) / 200.
-    function ringRatio() {
-      return (96 - readVar("--wheel-thickness", 34) / 2) / 200;
+    // Handle radius as a fraction of full wheel size, mapping base-chroma to the disc.
+    // Center (chroma 0) → 0; outer rim (chroma >= max) → RIM/2.
+    function chromaRatio() {
+      const max = readVar("--wheel-max-chroma", 0.18);
+      const c = readVar("--base-chroma", 0.11);
+      return Math.min(1, c / max) * (RIM / 2);
     }
     function placeAt(elem, hueDeg, ratio) {
       const size = wheel.offsetWidth;
@@ -749,8 +763,9 @@
     function refresh() {
       const m = readVar("--main-hue", 128);
       const o = readVar("--comp-offset", 30);
-      const r = ringRatio();
-      const lr = r * 0.7;
+      const r = chromaRatio();
+      // Labels sit a bit inboard so they don't collide with handles at the rim.
+      const lr = Math.max(r - 0.07, r * 0.65);
       placeAt(handles.main, m, r);
       placeAt(handles.comp1, m - o, r);
       placeAt(handles.comp2, m + o, r);
@@ -768,6 +783,12 @@
       let a = Math.atan2(dx, -dy) * 180 / Math.PI;
       return (a + 360) % 360;
     }
+    function distFromEvent(e) {
+      const rect = wheel.getBoundingClientRect();
+      const dx = e.clientX - (rect.left + rect.width / 2);
+      const dy = e.clientY - (rect.top  + rect.height / 2);
+      return Math.sqrt(dx * dx + dy * dy);
+    }
     function angDist(a, b) {
       const d = ((a - b + 540) % 360) - 180;
       return Math.abs(d);
@@ -784,6 +805,15 @@
         const newHue = Math.round(angle);
         updateHue(newHue);
         document.querySelector(".hue-slider").value = newHue;
+        // Radial distance → chroma. Outer rim (size * RIM/2) maps to --wheel-max-chroma.
+        const maxR = wheel.offsetWidth * (RIM / 2);
+        const max = readVar("--wheel-max-chroma", 0.18);
+        const sliderMax = chromaSlider ? parseFloat(chromaSlider.max) : 0.2;
+        const step = chromaSlider ? parseFloat(chromaSlider.step) || 0.005 : 0.005;
+        let c = Math.min(1, distFromEvent(e) / maxR) * max;
+        c = Math.min(sliderMax, Math.round(c / step) * step);
+        updateBaseChroma(c.toFixed(3));
+        if (chromaSlider) chromaSlider.value = c;
       } else {
         const m = readVar("--main-hue", 128);
         const newOffset = Math.round(Math.min(180, angDist(angle, m)));
