@@ -5,26 +5,51 @@
 <title>Darcula Forest — IntelliJ Color Scheme Preview</title>
 <link rel="stylesheet" href="palette.css">
 <style>
+  :root {
+    --page-width: 1200px;
+    --wheel-size: clamp(140px, 18vw, 400px);
+    --wheel-handle-size: 20px;
+    --wheel-margin: 32px;
+    --wheel-thickness: 20%; /* of closest-side (half the wheel) */
+  }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     background: var(--page-bg);
     color: var(--fg);
     font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
-    padding: 40px;
-    max-width: var(--page-width, 1200px);
-    margin: 0 auto;
+    display: grid;
+    /* 3 columns: side gutters min wheel-size (so wheel always fits), content
+       capped at --page-width. Side columns flex up via 1fr on wider viewports. */
+    grid-template-columns:
+      minmax(calc(var(--wheel-size) + 2 * var(--wheel-margin)), 1fr)
+      minmax(0, var(--page-width, 1200px))
+      minmax(calc(var(--wheel-size) + 2 * var(--wheel-margin)), 1fr);
+    align-items: start;
+  }
+  main {
+    margin-top: 24px;
+    grid-column: 2;
+  }
+  .wheel-col {
+    grid-column: 3;
+    justify-self: center;
+    padding: var(--wheel-margin);
+    /* match main's height so sticky has room to stick */
+    align-self: stretch;
   }
   .controls {
-    position: fixed;
-    top: 12px;
-    left: 124px;
-    right: 124px;
+    grid-column: 1 / -1;
+    position: sticky;
+    top: 0;
+    background: var(--page-bg);
     display: flex;
     align-items: center;
     gap: 8px;
+    padding: 8px 16px;
     font-size: 11px;
     color: var(--fg-muted);
-    z-index: 10;
+    border-bottom: 1px solid var(--gutter-bg);
+    z-index: 12;
   }
   .controls label { white-space: nowrap; }
   .controls span { min-width: 36px; text-align: right; }
@@ -223,6 +248,61 @@
   }
   .legend-label { color: var(--fg); }
   .legend-label .hex { color: var(--fg-muted); margin-left: 4px; }
+
+  /* Hue wheel: sticks to top of its grid column while content scrolls. */
+  .hue-wheel {
+    position: sticky;
+    top: calc(var(--wheel-margin) + 48px); /* clears sticky controls bar */
+    width: var(--wheel-size);
+    height: var(--wheel-size);
+    z-index: 11;
+  }
+  .hue-wheel-ring {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg,
+      oklch(55% 0.11 0), oklch(55% 0.11 60), oklch(55% 0.11 120),
+      oklch(55% 0.11 180), oklch(55% 0.11 240), oklch(55% 0.11 300),
+      oklch(55% 0.11 360));
+    -webkit-mask: radial-gradient(circle closest-side,
+      transparent calc(96% - var(--wheel-thickness) - 1px),
+      #000 calc(96% - var(--wheel-thickness)),
+      #000 96%,
+      transparent calc(96% + 1px));
+            mask: radial-gradient(circle closest-side,
+      transparent calc(96% - var(--wheel-thickness) - 1px),
+      #000 calc(96% - var(--wheel-thickness)),
+      #000 96%,
+      transparent calc(96% + 1px));
+  }
+  .hue-wheel-handle {
+    position: absolute;
+    width: var(--wheel-handle-size);
+    height: var(--wheel-handle-size);
+    border-radius: 50%;
+    border: 2px solid var(--fg);
+    transform: translate(-50%, -50%);
+    cursor: grab;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.4);
+  }
+  .hue-wheel-handle:active { cursor: grabbing; }
+  .hue-wheel-handle.main {
+    background: var(--keyword);
+    width: calc(var(--wheel-handle-size) + 4px);
+    height: calc(var(--wheel-handle-size) + 4px);
+  }
+  .hue-wheel-handle.comp1 { background: var(--string); }
+  .hue-wheel-handle.comp2 { background: var(--number); }
+  .hue-wheel-label {
+    position: absolute;
+    font-size: 12px;
+    color: var(--fg);
+    white-space: nowrap;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    text-shadow: 0 0 4px var(--page-bg), 0 0 4px var(--page-bg);
+  }
 </style>
 </head>
 <body>
@@ -245,6 +325,7 @@
   <span>1200px</span>
 </div>
 
+<main>
 <h1>Darcula Forest</h1>
 <div class="subtitle">Forest green color scheme based on JetBrains' Darcula.</div>
 
@@ -578,6 +659,19 @@
 
   </div>
 </div>
+</main>
+
+<aside class="wheel-col">
+  <div class="hue-wheel" id="hue-wheel">
+    <div class="hue-wheel-ring"></div>
+    <div class="hue-wheel-handle comp1" id="hue-handle-comp1"></div>
+    <div class="hue-wheel-handle comp2" id="hue-handle-comp2"></div>
+    <div class="hue-wheel-handle main" id="hue-handle-main"></div>
+    <div class="hue-wheel-label" id="hue-label-comp1"></div>
+    <div class="hue-wheel-label" id="hue-label-comp2"></div>
+    <div class="hue-wheel-label" id="hue-label-main"></div>
+  </div>
+</aside>
 
 <script>
   const probe = document.createElement("div");
@@ -618,6 +712,92 @@
     document.getElementById("base-chroma-value").textContent = value;
     updateColorCatalog();
   }
+
+  (function setupHueWheel() {
+    const wheel = document.getElementById("hue-wheel");
+    const handles = {
+      main:  document.getElementById("hue-handle-main"),
+      comp1: document.getElementById("hue-handle-comp1"),
+      comp2: document.getElementById("hue-handle-comp2"),
+    };
+    const labels = {
+      main:  document.getElementById("hue-label-main"),
+      comp1: document.getElementById("hue-label-comp1"),
+      comp2: document.getElementById("hue-label-comp2"),
+    };
+    const compSlider = document.querySelectorAll('.controls input[type="range"]')[1];
+
+    function readVar(name, fallback) {
+      const v = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+      return isNaN(v) ? fallback : v;
+    }
+    // Ring midpoint as a fraction of full wheel size, derived from --wheel-thickness.
+    // Mask runs 96% (outer) to (96% - thickness) (inner) of closest-side; closest-side
+    // is half the wheel, so midpoint as a fraction of full size = (96 - thickness/2) / 200.
+    function ringRatio() {
+      return (96 - readVar("--wheel-thickness", 34) / 2) / 200;
+    }
+    function placeAt(elem, hueDeg, ratio) {
+      const size = wheel.offsetWidth;
+      const center = size / 2;
+      const radius = size * ratio;
+      const rad = hueDeg * Math.PI / 180;
+      elem.style.left = (center + radius * Math.sin(rad)) + "px";
+      elem.style.top  = (center - radius * Math.cos(rad)) + "px";
+    }
+    function normHue(h) { return ((Math.round(h) % 360) + 360) % 360; }
+    function refresh() {
+      const m = readVar("--main-hue", 128);
+      const o = readVar("--comp-offset", 30);
+      const r = ringRatio();
+      const lr = r * 0.7;
+      placeAt(handles.main, m, r);
+      placeAt(handles.comp1, m - o, r);
+      placeAt(handles.comp2, m + o, r);
+      placeAt(labels.main, m, lr);
+      placeAt(labels.comp1, m - o, lr);
+      placeAt(labels.comp2, m + o, lr);
+      labels.main.textContent  = normHue(m);
+      labels.comp1.textContent = "\u2212" + Math.round(o);
+      labels.comp2.textContent = "+" + Math.round(o);
+    }
+    function angleFromEvent(e) {
+      const rect = wheel.getBoundingClientRect();
+      const dx = e.clientX - (rect.left + rect.width / 2);
+      const dy = e.clientY - (rect.top  + rect.height / 2);
+      let a = Math.atan2(dx, -dy) * 180 / Math.PI;
+      return (a + 360) % 360;
+    }
+    function angDist(a, b) {
+      const d = ((a - b + 540) % 360) - 180;
+      return Math.abs(d);
+    }
+
+    let dragging = null;
+    for (const [key, h] of Object.entries(handles)) {
+      h.addEventListener("mousedown", e => { dragging = key; e.preventDefault(); });
+    }
+    document.addEventListener("mousemove", e => {
+      if (!dragging) return;
+      const angle = angleFromEvent(e);
+      if (dragging === "main") {
+        const newHue = Math.round(angle);
+        updateHue(newHue);
+        document.querySelector(".hue-slider").value = newHue;
+      } else {
+        const m = readVar("--main-hue", 128);
+        const newOffset = Math.round(Math.min(180, angDist(angle, m)));
+        updateCompOffset(newOffset);
+        if (compSlider) compSlider.value = newOffset;
+      }
+      refresh();
+    });
+    document.addEventListener("mouseup", () => { dragging = null; });
+
+    refresh();
+    new MutationObserver(refresh).observe(document.documentElement, { attributes: true, attributeFilter: ["style"] });
+    new ResizeObserver(refresh).observe(wheel);
+  })();
 
   updateColorCatalog();
 </script>
