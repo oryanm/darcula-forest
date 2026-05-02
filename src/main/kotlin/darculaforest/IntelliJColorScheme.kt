@@ -41,22 +41,24 @@ enum class EffectType(val value: Int) {
 
 val iclsColors = listOf(
     IclsColor("CARET_ROW_COLOR",          caretRow),
+    IclsColor("CONSOLE_BACKGROUND_KEY",   editorBg),
     IclsColor("DOCUMENTATION_COLOR",      docBg), // code documentation tooltip background
     IclsColor("FOLDED_TEXT_BORDER_COLOR", foldedTextBg),
     IclsColor("SELECTION_BACKGROUND",     selectionBg),
     IclsColor("TEARLINE_COLOR",           tearline),
-    IclsColor("CONSOLE_BACKGROUND_KEY",   editorBg),
 )
 
 val iclsAttributes = listOf(
     IclsAttr("ANNOTATION_ATTRIBUTE_NAME_ATTRIBUTES", fg = annotationNamedAtt),
     IclsAttr("ANNOTATION_NAME_ATTRIBUTES", fg = annotation, effectType = LINE_UNDERSCORE),
+    IclsAttr("CSS.COLOR", baseAttributes = "CSS.IDENT"),
     IclsAttr("DEFAULT_COMMA", fg = punctuation),
     IclsAttr("DEFAULT_CONSTANT", fg = constantField, fontType = ITALIC),
     IclsAttr("DEFAULT_DOC_COMMENT", fg = javadoc, fontType = ITALIC),
     IclsAttr("DEFAULT_DOC_COMMENT_TAG", fg = javadocTag, fontType = BOLD_ITALIC, effectColor = javadocTag, effectType = LINE_UNDERSCORE),
     IclsAttr("DEFAULT_DOC_COMMENT_TAG_VALUE", fg = javadocTagVal),
     IclsAttr("DEFAULT_DOC_MARKUP", fg = javadocMarkup),
+    IclsAttr("DEFAULT_ENTITY", fg = number),
     IclsAttr("DEFAULT_FUNCTION_DECLARATION", fg = functionDecl),
     IclsAttr("DEFAULT_IDENTIFIER", fg = fg, effectType = BOLD_DOTTED_LINE),
     IclsAttr("DEFAULT_INSTANCE_FIELD", fg = constantField),
@@ -76,6 +78,11 @@ val iclsAttributes = listOf(
     IclsAttr("DIFF_DELETED", bg = diffDelete, errorStripeColor = diffDeleteStripe),
     IclsAttr("DIFF_INSERTED", bg = diffAdd, errorStripeColor = diffAddStripe),
     IclsAttr("DIFF_MODIFIED", bg = diffChange, errorStripeColor = diffChangeStripe),
+    IclsAttr("HTML_ATTRIBUTE_NAME", baseAttributes = "DEFAULT_ATTRIBUTE"),
+    IclsAttr("HTML_ATTRIBUTE_VALUE", baseAttributes = "DEFAULT_STRING"),
+    IclsAttr("HTML_ENTITY_REFERENCE", baseAttributes = "DEFAULT_ENTITY"),
+    IclsAttr("HTML_TAG", baseAttributes = "DEFAULT_TAG"),
+    IclsAttr("HTML_TAG_NAME", baseAttributes = "DEFAULT_KEYWORD"),
     IclsAttr("IMPLICIT_ANONYMOUS_CLASS_PARAMETER_ATTRIBUTES", fg = implicitParam, effectColor = functionDecl, effectType = LINE_UNDERSCORE),
     IclsAttr("INJECTED_LANGUAGE_FRAGMENT", bg = injectedLangBg),
     IclsAttr("KOTLIN_LABEL", fg = number),
