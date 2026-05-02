@@ -212,15 +212,60 @@
   .doc { color: var(--javadoc); font-style: italic; }    /* DOC_COMMENT */
   .doc-tag { color: var(--javadoc); font-weight: bold; font-style: italic; }
 
-  /* Two-column layout for code samples */
+  /* Horizontal-scroll strip: editors flow side-by-side; multiple visible at a
+     time. Free scroll (no snapping). */
   .code-samples {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    overflow-x: auto;
     gap: 20px;
+    /* breathing room for the editor's drop shadow, which would otherwise be
+       clipped by the horizontal-scroll container's implicit vertical clipping */
+    padding-bottom: 24px;
+    /* Soft fade at the left/right edges to hint at scrollable overflow.
+       The mask is horizontal-only, so it fades both ends regardless of
+       scroll position (i.e. the left edge fades even at scrollLeft 0). */
+    --fade: 80px;
+    -webkit-mask-image: linear-gradient(to right,
+      transparent 0, black var(--fade),
+      black calc(100% - var(--fade)), transparent 100%);
+            mask-image: linear-gradient(to right,
+      transparent 0, black var(--fade),
+      black calc(100% - var(--fade)), transparent 100%);
+    /* Scrollbar always reserves 8px (no layout shift), but the thumb fades
+       between alpha 0 and full on hover/focus. The hidden state uses the
+       gutter-bg color with alpha 0 (rather than `transparent`, which is rgba
+       black-zero) so the transition doesn't flash through black mid-fade. */
+    scrollbar-width: thin;             /* Firefox */
+    scrollbar-color: oklch(from var(--gutter-bg) l c h / 0) transparent;
+    transition: scrollbar-color 200ms ease;
   }
-  @media (max-width: 1100px) {
-    .code-samples { grid-template-columns: 1fr; }
+  .code-samples:hover,
+  .code-samples:focus-within {
+    scrollbar-color: var(--gutter-bg) transparent;
   }
+  .code-samples::-webkit-scrollbar {   /* Chrome / Safari / Edge */
+    height: 8px;
+  }
+  .code-samples::-webkit-scrollbar-thumb {
+    background: oklch(from var(--gutter-bg) l c h / 0);
+    border-radius: 4px;
+    transition: background 200ms ease;
+  }
+  .code-samples:hover::-webkit-scrollbar-thumb,
+  .code-samples:focus-within::-webkit-scrollbar-thumb {
+    background: var(--gutter-bg);
+  }
+  .code-samples::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .code-samples > .editor {
+    flex: 0 0 clamp(320px, 55%, 640px);
+  }
+  /* Grab/grabbing cursor on the scrollbar thumb, matching the hue-wheel
+     handle pattern. Webkit-only — Firefox doesn't expose scrollbar parts to
+     CSS, so the cursor stays default there. */
+  .code-samples::-webkit-scrollbar-thumb { cursor: grab; }
+  .code-samples::-webkit-scrollbar-thumb:active { cursor: grabbing; }
 
   /* Hue wheel: sticks to top of its grid column while content scrolls. */
   .hue-wheel {
