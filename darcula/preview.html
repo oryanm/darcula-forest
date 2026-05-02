@@ -6,8 +6,8 @@
 <link rel="stylesheet" href="palette.css">
 <style>
   :root {
-    --page-width: 1200px;
-    --wheel-size: clamp(140px, 18vw, 400px);
+    --center-pct: 54%;
+    --wheel-max-size: 300px;
     --wheel-handle-size: 20px;
     --wheel-margin: 64px;
     --wheel-max-chroma: 0.2; /* outer rim chroma; center is 0 (gray) */
@@ -18,12 +18,13 @@
     color: var(--fg);
     font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
     display: grid;
-    /* 3 columns: side gutters min wheel-size (so wheel always fits), content
-       capped at --page-width. Side columns flex up via 1fr on wider viewports. */
+    /* 3 columns: center takes --center-pct of the viewport; side gutters
+       split the remainder via 1fr each. Mins on each track kick in at narrow
+       viewports where the percentage split would go below them. */
     grid-template-columns:
-      minmax(calc(var(--wheel-size) + 2 * var(--wheel-margin)), 1fr)
-      minmax(0, var(--page-width, 1200px))
-      minmax(calc(var(--wheel-size) + 2 * var(--wheel-margin)), 1fr);
+      minmax(calc(2 * var(--wheel-margin)), 1fr)
+      minmax(100px, var(--center-pct))
+      minmax(calc(2 * var(--wheel-margin)), 1fr);
     align-items: start;
   }
   main {
@@ -32,7 +33,6 @@
   }
   .wheel-col {
     grid-column: 3;
-    justify-self: center;
     padding: var(--wheel-margin);
     /* match main's height so sticky has room to stick */
     align-self: stretch;
@@ -218,8 +218,10 @@
   .hue-wheel {
     position: sticky;
     top: calc(var(--wheel-margin) + 48px); /* clears sticky controls bar */
-    width: var(--wheel-size);
-    height: var(--wheel-size);
+    width: 100%;
+    max-width: var(--wheel-max-size);
+    aspect-ratio: 1;
+    margin: 0 auto;
     z-index: 11;
     opacity: 0.25;
     transition: opacity 500ms ease;
@@ -297,8 +299,8 @@
   <span id="base-chroma-value">0.11</span>
   <div class="divider"></div>
   <label>Width</label>
-  <input type="range" min="600" max="1800" value="1200" oninput="document.body.style.setProperty('--page-width', this.value + 'px'); this.nextElementSibling.textContent = this.value + 'px'">
-  <span>1200px</span>
+  <input type="range" min="40" max="90" value="54" oninput="document.body.style.setProperty('--center-pct', this.value + '%'); this.nextElementSibling.textContent = this.value + '%'">
+  <span>54%</span>
 </div>
 
 <main>
