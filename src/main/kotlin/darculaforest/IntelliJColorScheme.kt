@@ -68,6 +68,7 @@ val iclsAttributes = listOf(
     IclsAttr("DEFAULT_STATIC_FIELD", fg = constantField, fontType = ITALIC),
     IclsAttr("DEFAULT_STATIC_METHOD", fg = staticFunc, fontType = ITALIC),
     IclsAttr("DEFAULT_STRING", fg = string),
+    IclsAttr("DEFAULT_TAG", fg = keyword),
     IclsAttr("DEFAULT_TEMPLATE_LANGUAGE_COLOR", bg = templateLang),
     IclsAttr("DEFAULT_VALID_STRING_ESCAPE", fg = stringEscape),
     IclsAttr("DEPRECATED_ATTRIBUTES", effectColor = fg, effectType = STRIKEOUT),
@@ -88,6 +89,10 @@ val iclsAttributes = listOf(
     IclsAttr("TYPO", effectColor = typoUnderline, effectType = WAVE_UNDERSCORE),
     IclsAttr("WARNING_ATTRIBUTES", bg = warningBg, errorStripeColor = warningStripe, effectType = WAVE_UNDERSCORE),
     IclsAttr("WRONG_REFERENCES_ATTRIBUTES", fg = error),
+    IclsAttr("XML_ATTRIBUTE_NAME", baseAttributes = "DEFAULT_ATTRIBUTE"),
+    IclsAttr("XML_PROLOGUE", fg = keyword),
+    IclsAttr("XML_TAG", baseAttributes = "DEFAULT_TAG"),
+    IclsAttr("XML_TAG_NAME", baseAttributes = "DEFAULT_KEYWORD"),
 )
 
 fun generateIcls(): String = buildString {

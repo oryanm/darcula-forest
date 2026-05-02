@@ -119,6 +119,11 @@
         <option name="FOREGROUND" value="7E7238" />
       </value>
     </option>
+    <option name="DEFAULT_TAG">
+      <value>
+        <option name="FOREGROUND" value="5F7D31" />
+      </value>
+    </option>
     <option name="DEFAULT_TEMPLATE_LANGUAGE_COLOR">
       <value>
         <option name="BACKGROUND" value="393C36" />
@@ -231,5 +236,13 @@
         <option name="FOREGROUND" value="BD4238" />
       </value>
     </option>
+    <option name="XML_ATTRIBUTE_NAME" baseAttributes="DEFAULT_ATTRIBUTE" />
+    <option name="XML_PROLOGUE">
+      <value>
+        <option name="FOREGROUND" value="5F7D31" />
+      </value>
+    </option>
+    <option name="XML_TAG" baseAttributes="DEFAULT_TAG" />
+    <option name="XML_TAG_NAME" baseAttributes="DEFAULT_KEYWORD" />
   </attributes>
 </scheme>
