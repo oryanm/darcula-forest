@@ -205,6 +205,7 @@
   .impl { color: var(--implicit-param); } /* IMPLICIT_ANONYMOUS_CLASS_PARAMETER */
   .ident { color: var(--fg); }            /* DEFAULT_IDENTIFIER */
   .punct { color: var(--keyword); }      /* DEFAULT_COMMA / DEFAULT_SEMICOLON */
+  .op { color: var(--fg); }              /* DEFAULT_PARENTHS / DEFAULT_BRACES / DEFAULT_DOT / DEFAULT_OPERATION_SIGN */
 
   /* Syntax classes — comments */
   .comment { color: var(--comment); }                        /* LINE_COMMENT / BLOCK_COMMENT */
@@ -313,6 +314,102 @@
 <main>
 <h1>Darcula Forest</h1>
 <div class="subtitle">Forest green color scheme based on JetBrains' Darcula.</div>
+
+<!-- CODE SAMPLES -->
+<div class="section">
+  <div class="section-title">Code Preview</div>
+  <div class="code-samples">
+
+    <!-- Kotlin sample -->
+    <div class="editor">
+      <div class="editor-tab-bar">
+        <div class="editor-tab active">UserService.kt</div>
+      </div>
+      <div class="editor-body">
+        <div class="gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17</div>
+        <div class="code">
+          <div class="line"><span class="ann">@Service</span></div>
+          <div class="line"><span class="kw">class</span> <span class="ident">UserService</span><span class="op">(</span></div>
+          <div class="line">    <span class="kw">private val</span> <span class="field">users</span><span class="op">:</span> <span class="ident">UserRepository</span><span class="punct">,</span></div>
+          <div class="line">    <span class="kw">private val</span> <span class="field">emailService</span><span class="op">:</span> <span class="ident">EmailService</span></div>
+          <div class="line"><span class="op">)</span> <span class="op">{</span></div>
+          <div class="line"></div>
+          <div class="line">    <span class="kw">companion object</span> <span class="op">{</span></div>
+          <div class="line">        <span class="kw">private val</span> <span class="sfield">MAX_RETRIES</span> <span class="op">=</span> <span class="num">3</span></div>
+          <div class="line">    <span class="op">}</span></div>
+          <div class="line"></div>
+          <div class="line active-line">    <span class="kw">fun</span> <span class="fn">findByEmail</span><span class="op">(</span><span class="ident">email</span><span class="op">:</span> <span class="ident">String</span><span class="op">):</span> <span class="ident">User</span><span class="op">?</span> <span class="op">{</span></div>
+          <div class="line">        <span class="comment">// look up user by their email address</span></div>
+          <div class="line">        <span class="kw">val</span> <span class="ident">result</span> <span class="op">=</span> <span class="field">users</span><span class="op">.</span><span class="ident">getByEmail</span><span class="op">(</span><span class="ident">email</span><span class="op">)</span></div>
+          <div class="line">        <span class="ident">result</span><span class="op">?.</span><span class="kw">let</span> <span class="op">{</span> <span class="impl">it</span> <span class="op">-></span></div>
+          <div class="line">            <span class="static-m">logger</span><span class="op">.</span><span class="static-m">info</span><span class="op">(</span><span class="str">"Found user: </span><span class="str-esc">${</span><span class="impl">it</span><span class="op">.</span><span class="field">name</span><span class="str-esc">}</span><span class="str">"</span><span class="op">)</span></div>
+          <div class="line">        <span class="op">}</span></div>
+          <div class="line">        <span class="kw">return</span> <span class="ident">result</span></div>
+          <div class="line">    <span class="op">}</span></div>
+          <div class="line"><span class="op">}</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Java sample -->
+    <div class="editor">
+      <div class="editor-tab-bar">
+        <div class="editor-tab active">Math.java</div>
+      </div>
+      <div class="editor-body">
+        <div class="gutter">820<br>821<br>822<br>823<br>824<br>825<br>826<br>827<br>828<br>829<br>830<br>831<br>832<br>833<br>834<br>835<br>836<br>837<br>838</div>
+        <div class="code">
+          <div class="line"><span class="doc">/**</span></div>
+          <div class="line"><span class="doc"> * Returns the sum of its arguments,</span></div>
+          <div class="line"><span class="doc"> * throwing an exception if the result overflows an </span><span class="doc">{</span><span class="doc-tag">@code</span><span class="doc"> int}.</span></div>
+          <div class="line"><span class="doc"> *</span></div>
+          <div class="line"><span class="doc"> * </span><span class="doc-tag">@param</span><span class="doc"> x the first value</span></div>
+          <div class="line"><span class="doc"> * </span><span class="doc-tag">@param</span><span class="doc"> y the second value</span></div>
+          <div class="line"><span class="doc"> * </span><span class="doc-tag">@return</span><span class="doc"> the result</span></div>
+          <div class="line"><span class="doc"> * </span><span class="doc-tag">@throws</span><span class="doc"> ArithmeticException if the result overflows an int</span></div>
+          <div class="line"><span class="doc"> * </span><span class="doc-tag">@since</span><span class="doc"> 1.8</span></div>
+          <div class="line"><span class="doc"> */</span></div>
+          <div class="line"><span class="ann">@IntrinsicCandidate</span></div>
+          <div class="line"><span class="kw">public static int</span> <span class="fn">addExact</span><span class="op">(</span><span class="kw">int</span> <span class="ident">x</span><span class="punct">,</span> <span class="kw">int</span> <span class="ident">y</span><span class="op">)</span> <span class="op">{</span></div>
+          <div class="line active-line">    <span class="kw">int</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">x</span> <span class="op">+</span> <span class="ident">y</span><span class="punct">;</span></div>
+          <div class="line">    <span class="comment">// Overflow if both arguments have the opposite sign of the result</span></div>
+          <div class="line">    <span class="kw">if</span> <span class="op">((</span><span class="ident">x</span> <span class="op">^</span> <span class="ident">r</span><span class="op">)</span> <span class="op">&</span> <span class="op">(</span><span class="ident">y</span> <span class="op">^</span> <span class="ident">r</span><span class="op">))</span> <span class="op"><</span> <span class="num">0</span><span class="op">)</span> <span class="op">{</span></div>
+          <div class="line">        <span class="kw">throw new</span> <span class="ident">ArithmeticException</span><span class="op">(</span><span class="str">"integer overflow"</span><span class="op">)</span><span class="punct">;</span></div>
+          <div class="line">    <span class="op">}</span></div>
+          <div class="line">    <span class="kw">return</span> <span class="ident">r</span><span class="punct">;</span></div>
+          <div class="line"><span class="op">}</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SQL sample -->
+    <div class="editor" style="grid-column: 1 / -1;">
+      <div class="editor-tab-bar">
+        <div class="editor-tab active">top_customers.sql</div>
+      </div>
+      <div class="editor-body">
+        <div class="gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14</div>
+        <div class="code">
+          <div class="line"><span class="comment">-- Top customers by revenue in the last 30 days</span></div>
+          <div class="line"><span class="kw">SELECT</span></div>
+          <div class="line">  <span class="ident">c</span><span class="op">.</span><span class="ident">email</span><span class="punct">,</span></div>
+          <div class="line">  <span class="ident">r</span><span class="op">.</span><span class="ident">revenue</span><span class="punct">,</span></div>
+          <div class="line">  <span class="static-m">RANK</span><span class="op">()</span> <span class="kw">OVER</span> <span class="op">(</span><span class="kw">ORDER BY</span> <span class="ident">r</span><span class="op">.</span><span class="ident">revenue</span> <span class="kw">DESC</span><span class="op">)</span> <span class="kw">AS</span> <span class="ident">rank</span><span class="punct">,</span></div>
+          <div class="line">  <span class="kw">CASE</span></div>
+          <div class="line">    <span class="kw">WHEN</span> <span class="ident">r</span><span class="op">.</span><span class="ident">revenue</span> <span class="op">></span> <span class="num">1000</span> <span class="kw">THEN</span> <span class="str">'whale'</span></div>
+          <div class="line">    <span class="kw">WHEN</span> <span class="ident">r</span><span class="op">.</span><span class="ident">revenue</span> <span class="op">></span> <span class="num">100</span>  <span class="kw">THEN</span> <span class="str">'regular'</span></div>
+          <div class="line">    <span class="kw">ELSE</span> <span class="str">'small'</span></div>
+          <div class="line">  <span class="kw">END</span> <span class="kw">AS</span> <span class="ident">tier</span></div>
+          <div class="line"><span class="kw">FROM</span> <span class="ident">recent_orders</span> <span class="ident">r</span></div>
+          <div class="line"><span class="kw">JOIN</span> <span class="ident">customers</span> <span class="ident">c</span> <span class="kw">ON</span> <span class="ident">c</span><span class="op">.</span><span class="ident">id</span> <span class="op">=</span> <span class="ident">r</span><span class="op">.</span><span class="ident">customer_id</span></div>
+          <div class="line"><span class="kw">ORDER BY</span> <span class="ident">r</span><span class="op">.</span><span class="ident">revenue</span> <span class="kw">DESC</span></div>
+          <div class="line"><span class="kw">LIMIT</span> <span class="num">25</span><span class="punct">;</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <!-- COLOR CATALOG -->
 <div class="section">
@@ -575,75 +672,6 @@
   </div>
 </div>
 
-<!-- CODE SAMPLES -->
-<div class="section">
-  <div class="section-title">Code Preview</div>
-  <div class="code-samples">
-
-    <!-- Kotlin sample -->
-    <div class="editor">
-      <div class="editor-tab-bar">
-        <div class="editor-tab active">UserService.kt</div>
-      </div>
-      <div class="editor-body">
-        <div class="gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17</div>
-        <div class="code">
-          <div class="line"><span class="ann">@Service</span></div>
-          <div class="line"><span class="kw">class</span> <span class="ident">UserService</span><span class="punct">(</span></div>
-          <div class="line">    <span class="kw">private val</span> <span class="field">users</span><span class="punct">:</span> <span class="ident">UserRepository</span><span class="punct">,</span></div>
-          <div class="line">    <span class="kw">private val</span> <span class="field">emailService</span><span class="punct">:</span> <span class="ident">EmailService</span></div>
-          <div class="line"><span class="punct">)</span> <span class="punct">{</span></div>
-          <div class="line"></div>
-          <div class="line">    <span class="kw">companion object</span> <span class="punct">{</span></div>
-          <div class="line">        <span class="kw">private val</span> <span class="sfield">MAX_RETRIES</span> <span class="punct">=</span> <span class="num">3</span></div>
-          <div class="line">    <span class="punct">}</span></div>
-          <div class="line"></div>
-          <div class="line active-line">    <span class="kw">fun</span> <span class="fn">findByEmail</span><span class="punct">(</span><span class="ident">email</span><span class="punct">:</span> <span class="ident">String</span><span class="punct">):</span> <span class="ident">User</span><span class="punct">?</span> <span class="punct">{</span></div>
-          <div class="line">        <span class="comment">// look up user by their email address</span></div>
-          <div class="line">        <span class="kw">val</span> <span class="ident">result</span> <span class="punct">=</span> <span class="field">users</span><span class="punct">.</span><span class="ident">getByEmail</span><span class="punct">(</span><span class="ident">email</span><span class="punct">)</span></div>
-          <div class="line">        <span class="ident">result</span><span class="punct">?.</span><span class="kw">let</span> <span class="punct">{</span> <span class="impl">it</span> <span class="punct">-></span></div>
-          <div class="line">            <span class="static-m">logger</span><span class="punct">.</span><span class="static-m">info</span><span class="punct">(</span><span class="str">"Found user: </span><span class="str-esc">${</span><span class="impl">it</span><span class="punct">.</span><span class="field">name</span><span class="str-esc">}</span><span class="str">"</span><span class="punct">)</span></div>
-          <div class="line">        <span class="punct">}</span></div>
-          <div class="line">        <span class="kw">return</span> <span class="ident">result</span></div>
-          <div class="line">    <span class="punct">}</span></div>
-          <div class="line"><span class="punct">}</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Java sample -->
-    <div class="editor">
-      <div class="editor-tab-bar">
-        <div class="editor-tab active">Math.java</div>
-      </div>
-      <div class="editor-body">
-        <div class="gutter">820<br>821<br>822<br>823<br>824<br>825<br>826<br>827<br>828<br>829<br>830<br>831<br>832<br>833<br>834<br>835<br>836<br>837<br>838<br>839</div>
-        <div class="code">
-          <div class="line"><span class="doc">/**</span></div>
-          <div class="line"><span class="doc"> * Returns the sum of its arguments,</span></div>
-          <div class="line"><span class="doc"> * throwing an exception if the result overflows an </span><span class="doc">{</span><span class="doc-tag">@code</span><span class="doc"> int}.</span></div>
-          <div class="line"><span class="doc"> *</span></div>
-          <div class="line"><span class="doc"> * </span><span class="doc-tag">@param</span><span class="doc"> x the first value</span></div>
-          <div class="line"><span class="doc"> * </span><span class="doc-tag">@param</span><span class="doc"> y the second value</span></div>
-          <div class="line"><span class="doc"> * </span><span class="doc-tag">@return</span><span class="doc"> the result</span></div>
-          <div class="line"><span class="doc"> * </span><span class="doc-tag">@throws</span><span class="doc"> ArithmeticException if the result overflows an int</span></div>
-          <div class="line"><span class="doc"> * </span><span class="doc-tag">@since</span><span class="doc"> 1.8</span></div>
-          <div class="line"><span class="doc"> */</span></div>
-          <div class="line"><span class="ann">@IntrinsicCandidate</span></div>
-          <div class="line"><span class="kw">public static int</span> <span class="fn">addExact</span><span class="punct">(</span><span class="kw">int</span> <span class="ident">x</span><span class="punct">,</span> <span class="kw">int</span> <span class="ident">y</span><span class="punct">)</span> <span class="punct">{</span></div>
-          <div class="line active-line">    <span class="kw">int</span> <span class="ident">r</span> <span class="punct">=</span> <span class="ident">x</span> <span class="punct">+</span> <span class="ident">y</span><span class="punct">;</span></div>
-          <div class="line">    <span class="comment">// HD 2-12 Overflow iff both arguments have the opposite sign of the result</span></div>
-          <div class="line">    <span class="kw">if</span> <span class="punct">((</span><span class="ident">x</span> <span class="punct">^</span> <span class="ident">r</span><span class="punct">)</span> <span class="punct">&</span> <span class="punct">(</span><span class="ident">y</span> <span class="punct">^</span> <span class="ident">r</span><span class="punct">))</span> <span class="punct"><</span> <span class="num">0</span><span class="punct">)</span> <span class="punct">{</span></div>
-          <div class="line">        <span class="kw">throw new</span> <span class="ident">ArithmeticException</span><span class="punct">(</span><span class="str">"integer overflow"</span><span class="punct">);</span></div>
-          <div class="line">    <span class="punct">}</span></div>
-          <div class="line">    <span class="kw">return</span> <span class="ident">r</span><span class="punct">;</span></div>
-          <div class="line"><span class="punct">}</span></div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</div>
 </main>
 
 <aside class="wheel-col">
