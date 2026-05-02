@@ -338,7 +338,7 @@
           <div class="line">        <span class="kw">private val</span> <span class="sfield">MAX_RETRIES</span> <span class="op">=</span> <span class="num">3</span></div>
           <div class="line">    <span class="op">}</span></div>
           <div class="line"></div>
-          <div class="line active-line">    <span class="kw">fun</span> <span class="fn">findByEmail</span><span class="op">(</span><span class="ident">email</span><span class="op">:</span> <span class="ident">String</span><span class="op">):</span> <span class="ident">User</span><span class="op">?</span> <span class="op">{</span></div>
+          <div class="line">    <span class="kw">fun</span> <span class="fn">findByEmail</span><span class="op">(</span><span class="ident">email</span><span class="op">:</span> <span class="ident">String</span><span class="op">):</span> <span class="ident">User</span><span class="op">?</span> <span class="op">{</span></div>
           <div class="line">        <span class="comment">// look up user by their email address</span></div>
           <div class="line">        <span class="kw">val</span> <span class="ident">result</span> <span class="op">=</span> <span class="field">users</span><span class="op">.</span><span class="ident">getByEmail</span><span class="op">(</span><span class="ident">email</span><span class="op">)</span></div>
           <div class="line">        <span class="ident">result</span><span class="op">?.</span><span class="kw">let</span> <span class="op">{</span> <span class="impl">it</span> <span class="op">-></span></div>
@@ -371,7 +371,7 @@
           <div class="line"><span class="doc"> */</span></div>
           <div class="line"><span class="ann">@IntrinsicCandidate</span></div>
           <div class="line"><span class="kw">public static int</span> <span class="fn">addExact</span><span class="op">(</span><span class="kw">int</span> <span class="ident">x</span><span class="punct">,</span> <span class="kw">int</span> <span class="ident">y</span><span class="op">)</span> <span class="op">{</span></div>
-          <div class="line active-line">    <span class="kw">int</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">x</span> <span class="op">+</span> <span class="ident">y</span><span class="punct">;</span></div>
+          <div class="line">    <span class="kw">int</span> <span class="ident">r</span> <span class="op">=</span> <span class="ident">x</span> <span class="op">+</span> <span class="ident">y</span><span class="punct">;</span></div>
           <div class="line">    <span class="comment">// Overflow if both arguments have the opposite sign of the result</span></div>
           <div class="line">    <span class="kw">if</span> <span class="op">((</span><span class="ident">x</span> <span class="op">^</span> <span class="ident">r</span><span class="op">)</span> <span class="op">&</span> <span class="op">(</span><span class="ident">y</span> <span class="op">^</span> <span class="ident">r</span><span class="op">))</span> <span class="op"><</span> <span class="num">0</span><span class="op">)</span> <span class="op">{</span></div>
           <div class="line">        <span class="kw">throw new</span> <span class="ident">ArithmeticException</span><span class="op">(</span><span class="str">"integer overflow"</span><span class="op">)</span><span class="punct">;</span></div>
@@ -383,7 +383,7 @@
     </div>
 
     <!-- SQL sample -->
-    <div class="editor" style="grid-column: 1 / -1;">
+    <div class="editor">
       <div class="editor-tab-bar">
         <div class="editor-tab active">top_customers.sql</div>
       </div>
@@ -404,6 +404,32 @@
           <div class="line"><span class="kw">JOIN</span> <span class="ident">customers</span> <span class="ident">c</span> <span class="kw">ON</span> <span class="ident">c</span><span class="op">.</span><span class="ident">id</span> <span class="op">=</span> <span class="ident">r</span><span class="op">.</span><span class="ident">customer_id</span></div>
           <div class="line"><span class="kw">ORDER BY</span> <span class="ident">r</span><span class="op">.</span><span class="ident">revenue</span> <span class="kw">DESC</span></div>
           <div class="line"><span class="kw">LIMIT</span> <span class="num">25</span><span class="punct">;</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TypeScript sample -->
+    <div class="editor">
+      <div class="editor-tab-bar">
+        <div class="editor-tab active">dice.ts</div>
+      </div>
+      <div class="editor-body">
+        <div class="gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14</div>
+        <div class="code">
+          <div class="line"><span class="kw">const</span> <span class="fn">rollDie</span> <span class="op">=</span> <span class="op">():</span> <span class="fn">Promise</span><span class="op"><</span><span class="kw">number</span><span class="op">></span> <span class="op">=></span> <span class="op">{</span></div>
+          <div class="line">  <span class="kw">return</span> <span class="kw">new</span> <span class="fn">Promise</span><span class="op">((</span><span class="ident">resolve</span><span class="punct">,</span> <span class="ident">reject</span><span class="op">)</span> <span class="op">=></span> <span class="op">{</span></div>
+          <div class="line">    <span class="kw">const</span> <span class="ident">fair</span> <span class="op">=</span> <span class="ident">Math</span><span class="op">.</span><span class="fn">random</span><span class="op">()</span> <span class="op">></span> <span class="num">0.01</span><span class="punct">;</span></div>
+          <div class="line">    <span class="kw">if</span> <span class="op">(</span><span class="ident">fair</span><span class="op">)</span> <span class="op">{</span></div>
+          <div class="line active-line">      <span class="fn">resolve</span><span class="op">(</span><span class="ident">Math</span><span class="op">.</span><span class="fn">floor</span><span class="op">(</span><span class="ident">Math</span><span class="op">.</span><span class="fn">random</span><span class="op">()</span> <span class="op">*</span> <span class="num">6</span><span class="op">)</span> <span class="op">+</span> <span class="num">1</span><span class="op">)</span><span class="punct">;</span></div>
+          <div class="line">    <span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></div>
+          <div class="line">      <span class="fn">reject</span><span class="op">(</span><span class="str">"die fell off the table"</span><span class="op">)</span><span class="punct">;</span></div>
+          <div class="line">    <span class="op">}</span></div>
+          <div class="line">  <span class="op">})</span><span class="punct">;</span></div>
+          <div class="line"><span class="op">}</span><span class="punct">;</span></div>
+          <div class="line"><br/></div>
+          <div class="line"><span class="fn">rollDie</span><span class="op">()</span></div>
+          <div class="line">  <span class="op">.</span><span class="fn">then</span><span class="op">(</span><span class="ident">value</span> <span class="op">=></span> <span class="ident">console</span><span class="op">.</span><span class="fn">log</span><span class="op">(</span><span class="str">`Rolled </span><span class="str-esc">${</span><span class="ident">value</span><span class="str-esc">}</span><span class="str">`</span><span class="op">))</span></div>
+          <div class="line">  <span class="op">.</span><span class="fn">catch</span><span class="op">(</span><span class="ident">err</span> <span class="op">=></span> <span class="ident">console</span><span class="op">.</span><span class="fn">error</span><span class="op">(</span><span class="ident">err</span><span class="op">))</span><span class="punct">;</span></div>
         </div>
       </div>
     </div>
