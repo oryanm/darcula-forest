@@ -41,9 +41,11 @@ enum class EffectType(val value: Int) {
 
 val iclsColors = listOf(
     IclsColor("CARET_ROW_COLOR",          caretRow),
+    IclsColor("DOCUMENTATION_COLOR",      docBg), // code documentation tooltip background
     IclsColor("FOLDED_TEXT_BORDER_COLOR", foldedTextBg),
     IclsColor("SELECTION_BACKGROUND",     selectionBg),
     IclsColor("TEARLINE_COLOR",           tearline),
+    IclsColor("CONSOLE_BACKGROUND_KEY",   editorBg),
 )
 
 val iclsAttributes = listOf(

@@ -22,6 +22,7 @@ val blueHue                  = Var("blue-hue",      248.0)
 
 val editorBg       = Var("editor-bg",        oklch(0.25, 0.010, mainHue))
 val caretRow       = Var("caret-row",        oklch(editorBg, l + 0.02, c, h))
+val docBg          = Var("doc-bg",           caretRow)
 val searchResultBg = Var("search-result-bg", oklch(editorBg, l + 0.1, c, h))
 val selectionBg    = Var("selection-bg",     oklch(searchResultBg, l, c + 0.01, h))
 val lineNumber     = Var("line-number",      oklch(editorBg, l + 0.2, c, h))
