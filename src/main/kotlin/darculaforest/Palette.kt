@@ -64,6 +64,8 @@ val warningBg        = Var("warning-bg",        oklch(editorBg, l + 0.2, c + 0.0
 val mutableUnderline = Var("mutable-underline", oklch(keyword, l - 0.15, c, h))
 val typoUnderline    = Var("typo-underline",    oklch(mutableUnderline, l, c, secondaryHue))
 val deprecatedStrikethrough = Var("deprecated-strikethrough", fg)
+val matchingBraceFg =   Var("matching-brace", oklch(implicitParam, l, c, secondaryHue))
+val matchingBraceBg =   Var("matching-brace", oklch(selectionBg, l, c, secondaryHue))
 
 // ── Comments ────────────────────────────────────────────────────────
 

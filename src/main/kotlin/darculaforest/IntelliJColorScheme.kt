@@ -4,6 +4,7 @@ import darculaforest.EffectType.BOLD_DOTTED_LINE
 import darculaforest.EffectType.LINE_UNDERSCORE
 import darculaforest.EffectType.STRIKEOUT
 import darculaforest.EffectType.WAVE_UNDERSCORE
+import darculaforest.FontType.BOLD
 import darculaforest.FontType.BOLD_ITALIC
 import darculaforest.FontType.ITALIC
 
@@ -51,6 +52,7 @@ val iclsColors = listOf(
 val iclsAttributes = listOf(
     IclsAttr("ANNOTATION_ATTRIBUTE_NAME_ATTRIBUTES", fg = annotationNamedAtt),
     IclsAttr("ANNOTATION_NAME_ATTRIBUTES", fg = annotation, effectType = LINE_UNDERSCORE),
+    IclsAttr("BASH.EXTERNAL_COMMAND", fg = constantField),
     IclsAttr("CSS.COLOR", baseAttributes = "CSS.IDENT"),
     IclsAttr("DEFAULT_COMMA", fg = punctuation),
     IclsAttr("DEFAULT_CONSTANT", fg = constantField, fontType = ITALIC),
@@ -83,13 +85,27 @@ val iclsAttributes = listOf(
     IclsAttr("HTML_ENTITY_REFERENCE", baseAttributes = "DEFAULT_ENTITY"),
     IclsAttr("HTML_TAG", baseAttributes = "DEFAULT_TAG"),
     IclsAttr("HTML_TAG_NAME", baseAttributes = "DEFAULT_KEYWORD"),
+    IclsAttr("HYPERLINK_ATTRIBUTES", fg = constantField, effectColor = constantField, effectType = LINE_UNDERSCORE),
     IclsAttr("IMPLICIT_ANONYMOUS_CLASS_PARAMETER_ATTRIBUTES", fg = implicitParam, effectColor = functionDecl, effectType = LINE_UNDERSCORE),
     IclsAttr("INJECTED_LANGUAGE_FRAGMENT", bg = injectedLangBg),
+    IclsAttr("JS.GLOBAL_FUNCTION", baseAttributes = "DEFAULT_FUNCTION_DECLARATION"),
+    IclsAttr("JS.GLOBAL_VARIABLE", baseAttributes = "DEFAULT_GLOBAL_VARIABLE"),
+    IclsAttr("JS.INSTANCE_MEMBER_FUNCTION", baseAttributes = "DEFAULT_INSTANCE_METHOD"),
+    IclsAttr("JS.LOCAL_VARIABLE", baseAttributes = "DEFAULT_LOCAL_VARIABLE"),
+    IclsAttr("JS.REGEXP", baseAttributes = "DEFAULT_STRING"),
+    IclsAttr("JSP_DIRECTIVE_NAME", baseAttributes = "DEFAULT_KEYWORD"),
     IclsAttr("KOTLIN_LABEL", fg = number),
     IclsAttr("KOTLIN_MUTABLE_VARIABLE", effectColor = mutableUnderline, effectType = LINE_UNDERSCORE),
     IclsAttr("KOTLIN_NAMED_ARGUMENT", fg = namedArg),
     IclsAttr("KOTLIN_TYPE_PARAMETER", baseAttributes = "TYPE_PARAMETER_NAME_ATTRIBUTES"),
+    IclsAttr("MATCHED_BRACE_ATTRIBUTES", fg = matchingBraceFg, bg = matchingBraceBg, fontType = BOLD),
+    IclsAttr("PROPERTIES.INVALID_STRING_ESCAPE", baseAttributes = "DEFAULT_INVALID_STRING_ESCAPE"),
+    IclsAttr("PROPERTIES.KEY", baseAttributes = "DEFAULT_KEYWORD"),
+    IclsAttr("PROPERTIES.KEY_VALUE_SEPARATOR", baseAttributes = "DEFAULT_OPERATION_SIGN"),
+    IclsAttr("PROPERTIES.VALID_STRING_ESCAPE", baseAttributes = "DEFAULT_VALID_STRING_ESCAPE"),
     IclsAttr("SEARCH_RESULT_ATTRIBUTES", bg = searchResultBg, errorStripeColor = searchResultStripe),
+    IclsAttr("SQL_OUTER_QUERY_COLUMN", fg = implicitParam, bg = functionDecl, effectType = LINE_UNDERSCORE),
+    IclsAttr("SQL_SYNTHETIC_ENTITY", baseAttributes = "DEFAULT_PREDEFINED_SYMBOL"),
     IclsAttr("TEXT", fg = fg, bg = editorBg, effectType = BOLD_DOTTED_LINE),
     IclsAttr("TODO_DEFAULT_ATTRIBUTES", fg = todo, fontType = ITALIC, errorStripeColor = todoStripe),
     IclsAttr("TYPE_PARAMETER_NAME_ATTRIBUTES", fg = genericTypeParam),
@@ -97,6 +113,7 @@ val iclsAttributes = listOf(
     IclsAttr("WARNING_ATTRIBUTES", bg = warningBg, errorStripeColor = warningStripe, effectType = WAVE_UNDERSCORE),
     IclsAttr("WRONG_REFERENCES_ATTRIBUTES", fg = error),
     IclsAttr("XML_ATTRIBUTE_NAME", baseAttributes = "DEFAULT_ATTRIBUTE"),
+    IclsAttr("XML_CUSTOM_TAG_NAME", fg = number),
     IclsAttr("XML_PROLOGUE", fg = keyword),
     IclsAttr("XML_TAG", baseAttributes = "DEFAULT_TAG"),
     IclsAttr("XML_TAG_NAME", baseAttributes = "DEFAULT_KEYWORD"),
