@@ -36,6 +36,13 @@
     padding: var(--wheel-margin);
     /* match main's height so sticky has room to stick */
     align-self: stretch;
+    container-type: inline-size;
+  }
+  /* Hide the wheel once column 3 gets too narrow to render it usefully.
+     Threshold: column inline-size includes the 2*64px padding, so 220px
+     here ≈ a wheel of ~92px — below which the handles overlap. */
+  @container (max-width: 50px) {
+    .hue-wheel { display: none; }
   }
   .controls {
     grid-column: 1 / -1;
