@@ -190,31 +190,19 @@
   .fn { color: var(--function-decl); }    /* DEFAULT_FUNCTION_DECLARATION */
   .str { color: var(--string); }          /* DEFAULT_STRING */
   .str-esc { color: var(--string-escape); }     /* DEFAULT_VALID_STRING_ESCAPE */
-  .str-esc-bad { color: var(--string-escape-bad); } /* DEFAULT_INVALID_STRING_ESCAPE */
   .num { color: var(--number); }          /* DEFAULT_NUMBER */
-  .const { color: var(--constant-field); font-style: italic; } /* DEFAULT_CONSTANT */
   .field { color: var(--constant-field); }       /* DEFAULT_INSTANCE_FIELD */
   .sfield { color: var(--constant-field); font-style: italic; } /* DEFAULT_STATIC_FIELD */
   .static-m { color: var(--static-function); font-style: italic; } /* DEFAULT_STATIC_METHOD */
   .ann { color: var(--string); }          /* ANNOTATION_NAME_ATTRIBUTES */
-  .named-arg { color: var(--named-arg); } /* KOTLIN_NAMED_ARGUMENT */
   .impl { color: var(--implicit-param); } /* IMPLICIT_ANONYMOUS_CLASS_PARAMETER */
   .ident { color: var(--fg); }            /* DEFAULT_IDENTIFIER */
   .punct { color: var(--keyword); }      /* DEFAULT_COMMA / DEFAULT_SEMICOLON */
-  .mut { text-decoration: underline; text-decoration-color: var(--mutable-underline); } /* KOTLIN_MUTABLE_VARIABLE */
-  .text { color: var(--fg); }             /* TEXT */
 
-  /* Syntax classes — comments & effects */
+  /* Syntax classes — comments */
   .comment { color: var(--comment); }                        /* LINE_COMMENT / BLOCK_COMMENT */
   .doc { color: var(--javadoc); font-style: italic; }    /* DOC_COMMENT */
   .doc-tag { color: var(--javadoc); font-weight: bold; font-style: italic; }
-  .type { color: var(--fg); }             /* DEFAULT_CLASS_NAME (Darcula uses #a9b7c6) */
-  .param { color: var(--fg); }            /* PARAMETER */
-  .local { color: var(--fg); }            /* LOCAL_VARIABLE */
-  .err { color: var(--error); }           /* ERRORS (Darcula) */
-  .warn-underline { text-decoration: wavy underline; text-decoration-color: var(--warning-bg); }
-  .err-underline { text-decoration: wavy underline; text-decoration-color: var(--error); }
-  .typo-underline { text-decoration: underline; text-decoration-style: wavy; text-decoration-color: var(--typo-underline); }
 
   /* Two-column layout for code samples */
   .code-samples {
@@ -225,29 +213,6 @@
   @media (max-width: 1100px) {
     .code-samples { grid-template-columns: 1fr; }
   }
-
-  /* Legend */
-  .legend {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 4px 16px;
-    font-size: 12px;
-  }
-  .legend-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 3px 0;
-  }
-  .legend-swatch {
-    width: 14px;
-    height: 14px;
-    border-radius: 3px;
-    flex-shrink: 0;
-    border: 1px solid rgba(255,255,255,0.06);
-  }
-  .legend-label { color: var(--fg); }
-  .legend-label .hex { color: var(--fg-muted); margin-left: 4px; }
 
   /* Hue wheel: sticks to top of its grid column while content scrolls. */
   .hue-wheel {
