@@ -87,6 +87,11 @@
         <option name="FOREGROUND" value="5F7D31" />
       </value>
     </option>
+    <option name="DEFAULT_METADATA">
+      <value>
+        <option name="FOREGROUND" value="7E7238" />
+      </value>
+    </option>
     <option name="DEFAULT_NUMBER">
       <value>
         <option name="FOREGROUND" value="2A8558" />

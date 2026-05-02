@@ -62,6 +62,7 @@ val iclsAttributes = listOf(
     IclsAttr("DEFAULT_INSTANCE_FIELD", fg = constantField),
     IclsAttr("DEFAULT_INVALID_STRING_ESCAPE", fg = stringEscBad, effectColor = error, effectType = WAVE_UNDERSCORE),
     IclsAttr("DEFAULT_KEYWORD", fg = keyword),
+    IclsAttr("DEFAULT_METADATA", fg = annotation),
     IclsAttr("DEFAULT_NUMBER", fg = number),
     IclsAttr("DEFAULT_SEMICOLON", fg = punctuation),
     IclsAttr("DEFAULT_STATIC_FIELD", fg = constantField, fontType = ITALIC),
