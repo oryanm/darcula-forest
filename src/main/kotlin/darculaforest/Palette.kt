@@ -66,6 +66,7 @@ val typoUnderline    = Var("typo-underline",    oklch(mutableUnderline, l, c, se
 val deprecatedStrikethrough = Var("deprecated-strikethrough", fg)
 val matchingBraceFg =   Var("matching-brace", oklch(implicitParam, l, c, secondaryHue))
 val matchingBraceBg =   Var("matching-brace", oklch(selectionBg, l, c, secondaryHue))
+val unusedElement =     Var("unused-element", oklch(keyword, l, c - 0.1, h))
 
 // ── Comments ────────────────────────────────────────────────────────
 
@@ -92,6 +93,7 @@ val diffDeleteStripe   = Var("diff-delete-stripe",   oklch(diffDelete, l + 0.3, 
 val diffChangeStripe   = Var("diff-change-stripe",   oklch(diffChange, l + 0.3, c + 0.1, h))
 val diffAddStripe      = Var("diff-add-stripe",      oklch(diffAdd, l + 0.3, c + 0.1, h))
 val diffConflictStripe = Var("diff-conflict-stripe", oklch(diffConflict, l + 0.3, c + 0.1, h))
+val unusedElementStripe = Var("unused-element-stripe", todoStripe)
 
 // preview.html backgrounds — also re-used as Zed UI surfaces.
 val pageBg   = Var("page-bg",    oklch(editorBg, l - 0.05, c, h))
