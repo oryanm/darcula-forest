@@ -13,7 +13,7 @@ import kotlin.math.sin
 //   Ident   — channel passthrough marker (l, c, h inside relative oklch)
 //   Var     — var(--name); the bound value is itself an Expr
 //   Calc    — calc(lhs op rhs)
-//   Oklch   — oklch(l c h) or oklch(from var(--x) l c h)
+//   Oklch   — oklch(l c h [/ a]) or oklch(from var(--x) l c h [/ a])
 
 sealed class Expr {
     data class Lit(val value: Double) : Expr()
@@ -41,7 +41,7 @@ sealed class Expr {
         }
     }
 
-    data class Oklch(val from: Var?, val l: Expr, val c: Expr, val h: Expr) : Expr()
+    data class Oklch(val from: Var?, val l: Expr, val c: Expr, val h: Expr, val alpha: Expr? = null) : Expr()
 
     enum class Op(val sym: String) { Plus("+"), Minus("-") }
 
@@ -81,20 +81,20 @@ val h: Expr = Expr.Ident
 
 // ── oklch() factories ─────────────────────────────────────────────
 
-fun oklch(l: Double, c: Double, h: Double): Expr.Oklch =
-    Expr.Oklch(null, Expr.Lit(l), Expr.Lit(c), Expr.Lit(h))
+fun oklch(l: Double, c: Double, h: Double, alpha: Double? = null): Expr.Oklch =
+    Expr.Oklch(null, Expr.Lit(l), Expr.Lit(c), Expr.Lit(h), alpha?.let(Expr::Lit))
 
-fun oklch(l: Double, c: Double, h: Expr): Expr.Oklch =
-    Expr.Oklch(null, Expr.Lit(l), Expr.Lit(c), h)
+fun oklch(l: Double, c: Double, h: Expr, alpha: Double? = null): Expr.Oklch =
+    Expr.Oklch(null, Expr.Lit(l), Expr.Lit(c), h, alpha?.let(Expr::Lit))
 
-fun oklch(l: Double, c: Expr, h: Double): Expr.Oklch =
-    Expr.Oklch(null, Expr.Lit(l), c, Expr.Lit(h))
+fun oklch(l: Double, c: Expr, h: Double, alpha: Double? = null): Expr.Oklch =
+    Expr.Oklch(null, Expr.Lit(l), c, Expr.Lit(h), alpha?.let(Expr::Lit))
 
-fun oklch(l: Double, c: Expr, h: Expr): Expr.Oklch =
-    Expr.Oklch(null, Expr.Lit(l), c, h)
+fun oklch(l: Double, c: Expr, h: Expr, alpha: Double? = null): Expr.Oklch =
+    Expr.Oklch(null, Expr.Lit(l), c, h, alpha?.let(Expr::Lit))
 
-fun oklch(from: Expr.Var, l: Expr, c: Expr, h: Expr): Expr.Oklch =
-    Expr.Oklch(from, l, c, h)
+fun oklch(from: Expr.Var, l: Expr, c: Expr, h: Expr, alpha: Double? = null): Expr.Oklch =
+    Expr.Oklch(from, l, c, h, alpha?.let(Expr::Lit))
 
 // ── Number formatting ─────────────────────────────────────────────
 
@@ -139,6 +139,14 @@ fun fmtL(expr: Expr): String = fmtChannel(expr, 'l')
 fun fmtC(expr: Expr): String = fmtChannel(expr, 'c')
 fun fmtH(expr: Expr): String = fmtChannel(expr, 'h')
 
+private fun fmtAlpha(expr: Expr): String = when (expr) {
+    is Expr.Lit   -> fmtNum(expr.value, 3)
+    is Expr.Var   -> "var(--${expr.name})"
+    is Expr.Calc  -> "calc(${cssOf(expr)})"
+    is Expr.Ident -> error("Ident not allowed in alpha")
+    is Expr.Oklch -> error("Oklch not allowed in alpha")
+}
+
 // ── CSS output for top-level var declarations ─────────────────────
 
 /** Formats the value side of `--name: <value>;`. Dispatches on Expr type. */
@@ -147,9 +155,10 @@ fun cssOf(expr: Expr): String = when (expr) {
     is Expr.Var   -> "var(--${expr.name})"
     is Expr.Calc  -> "calc(${cssOf(expr.lhs)} ${expr.op.sym} ${cssOf(expr.rhs)})"
     is Expr.Oklch -> {
+        val head = expr.from?.let { "from var(--${expr.from.name}) " } ?: ""
         val body = "${fmtL(expr.l)} ${fmtC(expr.c)} ${fmtH(expr.h)}"
-        if (expr.from == null) "oklch($body)"
-        else "oklch(from var(--${expr.from.name}) $body)"
+        val tail = expr.alpha?.let { " / ${fmtAlpha(it)}" } ?: ""
+        "oklch($head$body$tail)"
     }
     is Expr.Ident -> error("Ident not allowed at top level")
 }
@@ -157,14 +166,14 @@ fun cssOf(expr: Expr): String = when (expr) {
 // ── Hex computation (oklch → sRGB) ────────────────────────────────
 
 fun hexOf(oklch: Expr.Oklch): String {
-    val (lVal, cVal, hVal) = resolveLch(oklch)
-    val hRad = hVal * PI / 180.0
-    val a = cVal * cos(hRad)
-    val b = cVal * sin(hRad)
+    val resolved = resolveOklch(oklch)
+    val hRad = resolved.h * PI / 180.0
+    val a = resolved.c * cos(hRad)
+    val b = resolved.c * sin(hRad)
 
-    val lLin = lVal + 0.3963377774 * a + 0.2158037573 * b
-    val mLin = lVal - 0.1055613458 * a - 0.0638541728 * b
-    val sLin = lVal - 0.0894841775 * a - 1.291485548 * b
+    val lLin = resolved.l + 0.3963377774 * a + 0.2158037573 * b
+    val mLin = resolved.l - 0.1055613458 * a - 0.0638541728 * b
+    val sLin = resolved.l - 0.0894841775 * a - 1.291485548 * b
 
     val lmsL = lLin * lLin * lLin
     val lmsM = mLin * mLin * mLin
@@ -174,15 +183,23 @@ fun hexOf(oklch: Expr.Oklch): String {
     val lg = -1.2684380046 * lmsL + 2.6097574011 * lmsM - 0.3413193965 * lmsS
     val lb = -0.0041960863 * lmsL - 0.7034186147 * lmsM + 1.7076147010 * lmsS
 
-    return "%02x%02x%02x".format(srgb(lr), srgb(lg), srgb(lb))
+    val rgb = "%02x%02x%02x".format(srgb(lr), srgb(lg), srgb(lb))
+    val alpha = resolved.alpha?.let { "%02x".format((it.coerceIn(0.0, 1.0) * 255).roundToInt()) } ?: ""
+
+    return "$rgb$alpha"
 }
 
-private fun resolveLch(o: Expr.Oklch): Triple<Double, Double, Double> {
-    val parent = o.from?.let { resolveLch(unwrapOklch(it)) }
-    return Triple(
-        resolveChannel(o.l, parent?.first),
-        resolveChannel(o.c, parent?.second),
-        resolveChannel(o.h, parent?.third),
+private data class ResolvedOklch(val l: Double, val c: Double, val h: Double, val alpha: Double?)
+
+private fun resolveOklch(color: Expr.Oklch): ResolvedOklch {
+    val parent = color.from?.let { resolveOklch(unwrapOklch(it)) }
+    val alpha = color.alpha?.let { resolveChannel(it, parent?.alpha) } ?: parent?.alpha
+
+    return ResolvedOklch(
+        resolveChannel(color.l, parent?.l),
+        resolveChannel(color.c, parent?.c),
+        resolveChannel(color.h, parent?.h),
+        alpha,
     )
 }
 

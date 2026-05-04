@@ -114,6 +114,7 @@ val termCyan        = Var("term-cyan",         constantField)
 // ── Zed UI ───────────────────────────────────────────────────
 // colors for Zed's UI surface. Each is derived from editorBg/fg so the tone stays consistent with the code pane
 
+val transparent     = Var("transparent",      oklch(0.0, 0.0, 0.0, 0.0))
 val panelBg         = Var("panel-bg",         caretRow)
 val textMuted       = Var("text-muted",       oklch(fg, l - 0.05, c, h))
 val borderColor     = Var("border",           oklch(editorBg, l + 0.08, c, h))

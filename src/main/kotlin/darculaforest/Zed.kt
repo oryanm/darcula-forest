@@ -249,9 +249,14 @@ data class ZedSyntax(
 
 // ── Theme construction ─────────────────────────────────────────────
 
-private fun hex(v: Expr.Var, alpha: String = "ff") = "#${hexOf(v)}$alpha"
+private fun hex(v: Expr.Var, alpha: Double? = null) =
+  hexOf(alpha?.let { oklch(from = v, l = l, c = c, h = h, alpha = it) }
+    ?: (oklchOf(v) ?: error("'${v.name}' does not resolve to a color")))
+    .let { "#${it}" }
+
 private fun token(v: Expr.Var, fontStyle: String? = null, fontWeight: Int? = null) = ZedToken(hex(v), fontStyle, fontWeight)
-private fun player(v: Expr.Var) = ZedPlayer(hex(v), hex(v), hex(v, alpha = "3d"))
+
+private fun player(v: Expr.Var) = ZedPlayer(hex(v), hex(v), hex(v, alpha = 0.24))
 
 val zedTheme: ZedTheme = ZedTheme(
     schema = "https://zed.dev/schema/themes/v0.2.0.json",
@@ -267,7 +272,7 @@ val zedTheme: ZedTheme = ZedTheme(
                 borderVariant      = hex(borderVariant),
                 borderFocused      = hex(borderFocused),
                 borderSelected     = hex(selectionBg),
-                borderTransparent  = hex(editorBg, alpha = "00"),
+                borderTransparent  = hex(transparent),
                 borderDisabled     = hex(borderVariant),
 
                 // Surfaces
@@ -279,8 +284,8 @@ val zedTheme: ZedTheme = ZedTheme(
                 elementActive             = hex(elementActive),
                 elementSelected           = hex(selectionBg),
                 elementDisabled           = hex(panelBg),
-                dropTargetBackground      = hex(selectionBg, alpha = "80"),
-                ghostElementBackground    = hex(editorBg, alpha = "00"),
+                dropTargetBackground      = hex(selectionBg, alpha = 0.5),
+                ghostElementBackground    = hex(transparent),
                 ghostElementHover         = hex(elementHover),
                 ghostElementActive        = hex(elementActive),
                 ghostElementSelected      = hex(selectionBg),

@@ -106,7 +106,7 @@ val iclsAttributes = listOf(
     IclsAttr("PROPERTIES.KEY_VALUE_SEPARATOR", baseAttributes = "DEFAULT_OPERATION_SIGN"),
     IclsAttr("PROPERTIES.VALID_STRING_ESCAPE", baseAttributes = "DEFAULT_VALID_STRING_ESCAPE"),
     IclsAttr("SEARCH_RESULT_ATTRIBUTES", bg = searchResultBg, errorStripeColor = searchResultStripe),
-    IclsAttr("SQL_OUTER_QUERY_COLUMN", fg = implicitParam, bg = functionDecl, effectType = LINE_UNDERSCORE),
+    IclsAttr("SQL_OUTER_QUERY_COLUMN", fg = implicitParam, effectColor = functionDecl, effectType = LINE_UNDERSCORE),
     IclsAttr("SQL_SYNTHETIC_ENTITY", baseAttributes = "DEFAULT_PREDEFINED_SYMBOL"),
     IclsAttr("TEXT", fg = fg, bg = editorBg, effectType = BOLD_DOTTED_LINE),
     IclsAttr("TODO_DEFAULT_ATTRIBUTES", fg = todo, fontType = ITALIC, errorStripeColor = todoStripe),
