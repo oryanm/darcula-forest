@@ -1,4 +1,4 @@
-# Darcula Forest
+# 🌲 Darcula Forest 🌲
 
 A dark green [color scheme][preview-html] inspired in part by Solarized and JetBrains' original Darcula themes. Individual colors are selected
 using the [Oklch color space][oklab-wiki]. 
@@ -15,17 +15,17 @@ Usage of Oklch means the color scheme remains balanced while most of the relatio
 3. IntelliJ Color Scheme (ICLS) and theme (soon)
 4. Zed
 
+## Screenshots
+
+<img width="1000" alt="IntelliJ Theme" src="https://github.com/user-attachments/assets/2094e336-3f6c-4d1d-b778-9ebe23cee876" />
+
+<img width="1000" alt="HTML Preview" src="https://github.com/user-attachments/assets/88c904ad-8f5e-4b44-9d4f-0d1c8c95a658" />
+
 ## Regenerating
 
 ```sh
 ./gradlew run
 ```
-## Screenshots
-
-<img width="800" alt="image" src="https://github.com/user-attachments/assets/e59c36bd-dbed-484e-b9f0-3bcbe32e8cf3" />
-
-<img width="800" alt="image" src="https://github.com/user-attachments/assets/3e35fee4-a84e-4088-bbbc-5d0457eac3e9" />
-
 
 [preview-html]: https://htmlpreview.github.io/?https://github.com/oryanm/darcula-forest/blob/main/darcula/css/preview.html
 [darcula-src]: https://github.com/JetBrains/intellij-community/blob/master/platform/platform-resources/src/DefaultColorSchemesManager.xml
