@@ -102,14 +102,25 @@ val gutterBg = Var("gutter-bg",  oklch(editorBg, l + 0.05, c, h))
 val fgMuted = Var("fg-muted", namedArg)
 
 // ── Terminal ────────────────────────────────────────────────────────
+// 16 ANSI slots. Bright variants alias the normal slot unless they need a different value.
 
-val termRed         = Var("term-red",          oklch(string, l, c, h))
-val termYellow      = Var("term-yellow",       oklch(termRed, l, c - 0.03, h))
-val termBrightWhite = Var("term-bright-white", oklch(fg, l, c + 0.05, h))
-val termGreen       = Var("term-green",        stringEscape)
-val termBlue        = Var("term-blue",         keyword)
-val termMagenta     = Var("term-magenta",      functionDecl)
-val termCyan        = Var("term-cyan",         constantField)
+val termBlack         = Var("term-black",          editorBg)
+val termRed           = Var("term-red",            string)
+val termGreen         = Var("term-green",          stringEscape)
+val termYellow        = Var("term-yellow",         oklch(termRed, l, c - 0.03, h))
+val termBlue          = Var("term-blue",           keyword)
+val termMagenta       = Var("term-magenta",        functionDecl)
+val termCyan          = Var("term-cyan",           constantField)
+val termWhite         = Var("term-white",          fg)
+
+val termBrightBlack   = Var("term-bright-black",   selectionBg)
+val termBrightRed     = Var("term-bright-red",     termRed)
+val termBrightGreen   = Var("term-bright-green",   termGreen)
+val termBrightYellow  = Var("term-bright-yellow",  termYellow)
+val termBrightBlue    = Var("term-bright-blue",    termBlue)
+val termBrightMagenta = Var("term-bright-magenta", termMagenta)
+val termBrightCyan    = Var("term-bright-cyan",    termCyan)
+val termBrightWhite   = Var("term-bright-white",   oklch(fg, l, c + 0.05, h))
 
 // ── Zed UI ───────────────────────────────────────────────────
 // colors for Zed's UI surface. Each is derived from editorBg/fg so the tone stays consistent with the code pane
