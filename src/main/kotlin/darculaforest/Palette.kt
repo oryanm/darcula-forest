@@ -101,6 +101,9 @@ val tabBarBg = Var("tab-bar-bg", oklch(pageBg,   l + 0.01, c, h))
 val gutterBg = Var("gutter-bg",  oklch(editorBg, l + 0.05, c, h))
 val fgMuted = Var("fg-muted", namedArg)
 
+// IntelliJ tab underline — translucent green wash painted over the active tab.
+val underlinedTabBg = Var("underlined-tab-bg", oklch(selectionBg, l - 0.02, c + 0.03, h, alpha = 0.67))
+
 // ── Terminal ────────────────────────────────────────────────────────
 // 16 ANSI slots. Bright variants alias the normal slot unless they need a different value.
 

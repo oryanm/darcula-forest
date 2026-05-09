@@ -12,12 +12,14 @@ fun main() {
 
     File(css, "palette.css").writeText(generateCss())
     File(jetbrains, "Darcula_Forest.icls").writeText(generateIcls() + "\n")
+    File(jetbrains, "Darcula_Forest.theme.json").writeText(generateIntellijTheme() + "\n")
     File(alacritty, "alacritty.toml").writeText(generateAlacritty() + "\n")
     File(zed, "darcula-forest.json").writeText(generateZed() + "\n")
 
     println("Generated:")
     println("  darcula/css/palette.css")
     println("  darcula/jetbrains/Darcula_Forest.icls")
+    println("  darcula/jetbrains/Darcula_Forest.theme.json")
     println("  darcula/alacritty/alacritty.toml")
     println("  darcula/zed/darcula-forest.json")
 }
