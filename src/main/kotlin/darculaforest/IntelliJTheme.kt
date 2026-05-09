@@ -212,7 +212,7 @@ private fun hex(v: Expr.Var) = "#${hexOf(v)}"
 
 private fun ref(v: Expr.Var) = v.name
 
-val intellijTheme: IntelliJTheme = IntelliJTheme(
+val Palette.intellijTheme: IntelliJTheme get() = IntelliJTheme(
     name = "Darcula Forest",
     author = "Oryan",
     dark = true,
@@ -369,4 +369,4 @@ private val intellijJson = Json {
     prettyPrintIndent = "  "
 }
 
-fun generateIntellijTheme() = intellijJson.encodeToString(IntelliJTheme.serializer(), intellijTheme)
+fun Palette.generateIntellijTheme() = intellijJson.encodeToString(IntelliJTheme.serializer(), intellijTheme)

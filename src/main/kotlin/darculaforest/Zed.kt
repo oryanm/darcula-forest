@@ -258,7 +258,7 @@ private fun token(v: Expr.Var, fontStyle: String? = null, fontWeight: Int? = nul
 
 private fun player(v: Expr.Var) = ZedPlayer(hex(v), hex(v), hex(v, alpha = 0.24))
 
-val zedTheme: ZedTheme = ZedTheme(
+val Palette.zedTheme: ZedTheme get() = ZedTheme(
     schema = "https://zed.dev/schema/themes/v0.2.0.json",
     name = "Darcula Forest",
     author = "Oryan",
@@ -491,4 +491,4 @@ private val zedJson = Json {
     prettyPrintIndent = "  "
 }
 
-fun generateZed(): String = zedJson.encodeToString(ZedTheme.serializer(), zedTheme)
+fun Palette.generateZed(): String = zedJson.encodeToString(ZedTheme.serializer(), zedTheme)

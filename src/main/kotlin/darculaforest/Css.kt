@@ -1,6 +1,6 @@
 package darculaforest
 
-fun generateCss(): String = buildString {
+fun Palette.generateCss(): String = buildString {
     appendLine(":root {")
     for (entry in paletteEntries) {
         when (entry) {
@@ -22,7 +22,7 @@ fun generateCss(): String = buildString {
 // ── Palette ─────────────────────────────────────────────────────────
 // Ordered list of CSS palette entries.
 
-val paletteEntries: List<PaletteEntry> = listOf(
+private val Palette.paletteEntries: List<PaletteEntry> get() = listOf(
     Section("Hues"),
     Def(mainHue),
     Def(complementaryColorOffset),
