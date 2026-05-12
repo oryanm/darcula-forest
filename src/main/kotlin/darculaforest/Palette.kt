@@ -8,7 +8,7 @@ data class Def(val variable: Var, val comment: String? = null) : PaletteEntry
 data class Section(val title: String) : PaletteEntry
 data object Blank : PaletteEntry
 
-class Palette(val params: ThemeParams = ThemeParams()) {
+class Palette(params: ThemeParams = ThemeParams()) {
 
     // ── Hues ────────────────────────────────────────────────────────────
 
@@ -17,8 +17,8 @@ class Palette(val params: ThemeParams = ThemeParams()) {
     val secondaryHue             = Var("secondary-hue", mainHue - complementaryColorOffset)
     val tertiaryHue              = Var("tertiary-hue",  mainHue + complementaryColorOffset)
     val baseChroma               = Var("base-chroma",   params.baseChroma)
-    val redHue                   = Var("red-hue",       params.redHue)
-    val blueHue                  = Var("blue-hue",      params.blueHue)
+    val redHue                   = Var("red-hue",       28.0)
+    val blueHue                  = Var("blue-hue",      248.0)
 
     // ── Editor ──────────────────────────────────────────────────────────
 

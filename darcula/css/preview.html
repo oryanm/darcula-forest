@@ -354,6 +354,8 @@
   <label>Width</label>
   <input type="range" min="40" max="90" value="54" oninput="document.body.style.setProperty('--center-pct', this.value + '%'); this.nextElementSibling.textContent = this.value + '%'">
   <span>54%</span>
+  <div class="divider"></div>
+  <button type="button" id="download-btn" onclick="downloadTheme()">Download</button>
 </div>
 
 <main>
@@ -911,6 +913,38 @@
   })();
 
   updateColorCatalog();
+
+  async function downloadTheme() {
+    const btn = document.getElementById("download-btn");
+    const original = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = "Generating…";
+    try {
+      const params = {
+        mainHue: parseFloat(document.getElementById("hue-value").textContent),
+        complementaryColorOffset: parseFloat(document.getElementById("comp-offset-value").textContent),
+        baseChroma: parseFloat(document.getElementById("base-chroma-value").textContent),
+      };
+      const res = await fetch("/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(params),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = Object.assign(document.createElement("a"), { href: url, download: "darcula-forest.zip" });
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      alert(`Download failed: ${err.message}`);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = original;
+    }
+  }
 </script>
 </body>
 </html>
