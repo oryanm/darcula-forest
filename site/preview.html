@@ -79,22 +79,43 @@
   #hue-value::after, #comp-offset-value::after { content: "\00b0"; }
   #comp-offset-value::before { content: "\00b1"; }
   .controls .divider { width: 1px; height: 16px; background: var(--gutter-bg); margin: 0 4px; }
+  /* All three sliders share one look: 6px track, 14px keyword-colored thumb, 24px hit area */
   .controls input[type="range"] {
     width: 100px;
-    accent-color: var(--keyword);
+    height: 24px; /* hit target; the visible track stays thin */
+    -webkit-appearance: none;
+    appearance: none;
+    background: none;
+    cursor: pointer;
   }
   .controls input.hue-slider {
     flex: 1;
     min-width: 100px;
-    -webkit-appearance: none;
-    appearance: none;
+  }
+  /* Filled-to-thumb track; --pct is kept in sync by paintRange() */
+  .controls input[type="range"]::-webkit-slider-runnable-track {
     height: 6px;
     border-radius: 3px;
-    /* Full hue circle interpolated in OKLCH at the live base chroma, so the
-       track matches the wheel and reacts to the Chroma knob. */
+    background: linear-gradient(to right, var(--keyword) var(--pct, 0%), oklch(from var(--fg) l c h / 0.25) var(--pct, 0%));
+  }
+  .controls input[type="range"]::-moz-range-track {
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(to right, var(--keyword) var(--pct, 0%), oklch(from var(--fg) l c h / 0.25) var(--pct, 0%));
+  }
+  /* Full hue circle interpolated in OKLCH at the live base chroma, so the
+     track matches the wheel and reacts to the Chroma knob. */
+  .controls input[type="range"].hue-slider::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 3px;
     background: linear-gradient(to right in oklch longer hue,
       oklch(55% var(--base-chroma) 0), oklch(55% var(--base-chroma) 360));
-    cursor: pointer;
+  }
+  .controls input[type="range"].hue-slider::-moz-range-track { /* same as above; a shared selector list would be invalid in Chrome */
+    height: 6px;
+    border-radius: 3px;
+    background: linear-gradient(to right in oklch longer hue,
+      oklch(55% var(--base-chroma) 0), oklch(55% var(--base-chroma) 360));
   }
   /* Keyboard focus only (never on mouse click): one theme-colored ring for every control */
   :focus { outline: none; }
@@ -109,8 +130,9 @@
     *, ::before, ::after { transition: none !important; }
     /* the download spinner stays: it's status, not decoration */
   }
-  .controls .hue-slider::-webkit-slider-thumb {
+  .controls input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
+    margin-top: -4px; /* center the 14px thumb on the 6px track */
     width: 14px;
     height: 14px;
     border-radius: 50%;
@@ -118,7 +140,7 @@
     border: 2px solid var(--fg);
     cursor: pointer;
   }
-  .controls .hue-slider::-moz-range-thumb {
+  .controls input[type="range"]::-moz-range-thumb {
     width: 14px;
     height: 14px;
     border-radius: 50%;
@@ -1389,12 +1411,12 @@
         let c = Math.min(1, distFromEvent(e) / maxR) * max;
         c = Math.min(sliderMax, Math.round(c / step) * step);
         updateBaseChroma(c.toFixed(3));
-        if (chromaSlider) chromaSlider.value = c;
+        if (chromaSlider) { chromaSlider.value = c; paintRange(chromaSlider); }
       } else {
         const m = readVar("--main-hue", 128);
         const newOffset = Math.round(Math.min(180, angDist(angle, m)));
         updateCompOffset(newOffset);
-        if (compSlider) compSlider.value = newOffset;
+        if (compSlider) { compSlider.value = newOffset; paintRange(compSlider); }
       }
       refresh();
     }
@@ -1418,6 +1440,13 @@
   // reloads / bfcache, so we always re-apply explicitly on load and pageshow.
   const SLIDERS = { h: "hue-slider", o: "comp-slider", c: "chroma-slider" };
   const DEFAULTS = Object.fromEntries(Object.entries(SLIDERS).map(([k, id]) => [k, document.getElementById(id).getAttribute("value")]));
+
+  // Fill fraction for the custom track (appearance:none has no native accent fill)
+  function paintRange(input) {
+    const pct = (input.value - input.min) / (input.max - input.min) * 100;
+    input.style.setProperty("--pct", pct.toFixed(2) + "%");
+  }
+  document.querySelector(".controls").addEventListener("input", e => { if (e.target.type === "range") paintRange(e.target); });
 
   function applyParams(params) {
     for (const [k, id] of Object.entries(SLIDERS)) {
