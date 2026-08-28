@@ -1,5 +1,6 @@
 package darculaforest.server
 
+import darculaforest.Dirs
 import darculaforest.ThemeParams
 import darculaforest.generateAll
 import io.ktor.http.ContentDisposition
@@ -19,7 +20,6 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.post
 import io.ktor.server.routing.routing
 import io.ktor.utils.io.jvm.javaio.toOutputStream
-import java.io.File
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
 
@@ -29,10 +29,11 @@ fun main() {
 
         routing {
             get("/") {
-                call.respondRedirect("/css/preview.html")
+                call.respondRedirect("/preview.html")
             }
 
-            staticFiles("/", File("darcula"))
+            staticFiles("/", Dirs.site)
+            staticFiles("/darcula", Dirs.out)
 
             post("/generate") {
                 val params = call.receive<ThemeParams>()

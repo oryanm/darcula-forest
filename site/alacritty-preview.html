@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Darcula Forest Color Scheme Preview</title>
+<style>
+  body { margin: 0; padding: 40px; background: #1a1a1a; display: flex; justify-content: center; }
+  .terminal {
+    background: #20231e;
+    border-radius: 10px;
+    width: 780px;
+    font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+  }
+  .titlebar {
+    background: #1a1a1a;
+    padding: 10px 16px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .dot.r { background: #ff5f56; }
+  .dot.y { background: #ffbd2e; }
+  .dot.g { background: #27c93f; }
+  .titlebar span { color: #666; font-size: 13px; margin-left: 12px; }
+  .content { padding: 16px 20px; }
+  .line { white-space: pre; }
+  .prompt { color: #647b47; }
+  .path { color: #749f2b; }
+  .cmd { color: #acafa9; }
+  .comment { color: #52584c; }
+  .swatches { display: flex; flex-wrap: wrap; gap: 0; margin: 12px 0; }
+  .swatch {
+    width: 90px; height: 56px;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 4px 6px;
+    font-size: 11px;
+    box-sizing: border-box;
+  }
+  .swatch .hex { font-size: 10px; opacity: 0.7; }
+  .swatch span { opacity: 0.8; }
+  .fg { color: #acafa9; }
+  h3 { margin: 16px 0 4px; }
+</style>
+</head>
+<body>
+<div class="terminal">
+  <div class="titlebar">
+    <div class="dot r"></div>
+    <div class="dot y"></div>
+    <div class="dot g"></div>
+    <span>darcula-forest — Alacritty Preview</span>
+  </div>
+  <div class="content">
+    <div class="line"><span class="prompt">~</span> <span class="path">~/projects</span> <span class="cmd">ls -la</span></div>
+    <div class="line"><span style="color:#acafa9">drwxr-xr-x  5 user staff  160 Mar 21 10:00 </span><span style="color:#5f7d31">src/</span></div>
+    <div class="line"><span style="color:#acafa9">-rw-r--r--  1 user staff 2048 Mar 21 09:30 </span><span style="color:#acafa9">README.md</span></div>
+    <div class="line"><span style="color:#acafa9">-rwxr-xr-x  1 user staff  512 Mar 21 08:15 </span><span style="color:#647b47">build.sh</span></div>
+    <div class="line"><span style="color:#acafa9">-rw-r--r--  1 user staff 1024 Mar 20 14:22 </span><span style="color:#8c694e">config.yaml</span></div>
+    <div class="line"></div>
+    <div class="line"><span class="prompt">~</span> <span class="path">~/projects</span> <span class="cmd">echo "Hello, Forest!"</span></div>
+    <div class="line"><span style="color:#acafa9">Hello, Forest!</span></div>
+    <div class="line"><span class="comment"># warning: something went wrong</span></div>
+    <div class="line"><span style="color:#946640">error:</span><span style="color:#acafa9"> could not find file</span></div>
+    <div class="line"><span style="color:#8aab5f">note:</span><span style="color:#acafa9"> check your path variable</span></div>
+    <div class="line"></div>
+
+    <div style="color:#52584c; margin: 16px 0 6px; font-size: 13px;">NORMAL COLORS</div>
+    <div class="swatches">
+      <div class="swatch" style="background:#20231e;color:#acafa9"><span>black</span><span class="hex">#20231e</span></div>
+      <div class="swatch" style="background:#946640;color:#20231e"><span>red</span><span class="hex">#946640</span></div>
+      <div class="swatch" style="background:#647b47;color:#20231e"><span>green</span><span class="hex">#647b47</span></div>
+      <div class="swatch" style="background:#8c694e;color:#20231e"><span>yellow</span><span class="hex">#8c694e</span></div>
+      <div class="swatch" style="background:#5f7d31;color:#20231e"><span>blue</span><span class="hex">#5f7d31</span></div>
+      <div class="swatch" style="background:#8aab5f;color:#20231e"><span>magenta</span><span class="hex">#8aab5f</span></div>
+      <div class="swatch" style="background:#749f2b;color:#20231e"><span>cyan</span><span class="hex">#749f2b</span></div>
+      <div class="swatch" style="background:#acafa9;color:#20231e"><span>white</span><span class="hex">#acafa9</span></div>
+    </div>
+
+    <div style="color:#52584c; margin: 16px 0 6px; font-size: 13px;">BRIGHT COLORS</div>
+    <div class="swatches">
+      <div class="swatch" style="background:#52584c;color:#20231e"><span>black</span><span class="hex">#52584c</span></div>
+      <div class="swatch" style="background:#946640;color:#20231e"><span>red</span><span class="hex">#946640</span></div>
+      <div class="swatch" style="background:#647b47;color:#20231e"><span>green</span><span class="hex">#647b47</span></div>
+      <div class="swatch" style="background:#8c694e;color:#20231e"><span>yellow</span><span class="hex">#8c694e</span></div>
+      <div class="swatch" style="background:#5f7d31;color:#20231e"><span>blue</span><span class="hex">#5f7d31</span></div>
+      <div class="swatch" style="background:#8aab5f;color:#20231e"><span>magenta</span><span class="hex">#8aab5f</span></div>
+      <div class="swatch" style="background:#749f2b;color:#20231e"><span>cyan</span><span class="hex">#749f2b</span></div>
+      <div class="swatch" style="background:#a3b68d;color:#20231e"><span>white</span><span class="hex">#a3b68d</span></div>
+    </div>
+
+    <div style="color:#52584c; margin: 16px 0 6px; font-size: 13px;">FOREGROUND ON BACKGROUND</div>
+    <div class="line"><span style="color:#acafa9">The quick brown fox jumps over the lazy dog. 0123456789</span></div>
+    <div class="line"><span style="color:#647b47">def </span><span style="color:#749f2b">hello</span><span style="color:#acafa9">(</span><span style="color:#8aab5f">name</span><span style="color:#acafa9">):</span></div>
+    <div class="line"><span style="color:#acafa9">    </span><span style="color:#5f7d31">printf</span><span style="color:#acafa9">(</span><span style="color:#8c694e">"Hello, </span><span style="color:#acafa9">{name}</span><span style="color:#8c694e">!"</span><span style="color:#acafa9">)</span></div>
+    <div class="line"><span style="color:#52584c">    # TODO: add greeting logic</span></div>
+    <div class="line"></div>
+    <div class="line"><span class="prompt">~</span> <span class="path">~/projects</span> <span style="color:#acafa9; text-decoration: underline;">█</span></div>
+  </div>
+</div>
+</body>
+</html>

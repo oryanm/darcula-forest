@@ -221,6 +221,35 @@ private fun resolveChannel(expr: Expr, parent: Double?): Double = when (expr) {
     is Expr.Oklch -> error("Oklch not allowed in channel expression")
 }
 
+// ── Inverse: sRGB hex → oklch (for picking constants from reference hexes) ──
+
+data class OklchValue(val l: Double, val c: Double, val h: Double) {
+    override fun toString() = "oklch(%.1f%% %.3f %.1f)".format(l * 100, c, h)
+}
+
+fun oklchOfHex(hex: String): OklchValue {
+    val s = hex.removePrefix("#")
+    require(s.length == 6) { "expected 6-digit hex, got '$hex'" }
+    val lr = linear(s.substring(0, 2).toInt(16) / 255.0)
+    val lg = linear(s.substring(2, 4).toInt(16) / 255.0)
+    val lb = linear(s.substring(4, 6).toInt(16) / 255.0)
+
+    val lmsL = Math.cbrt(0.4122214708 * lr + 0.5363325363 * lg + 0.0514459929 * lb)
+    val lmsM = Math.cbrt(0.2119034982 * lr + 0.6806995451 * lg + 0.1073969566 * lb)
+    val lmsS = Math.cbrt(0.0883024619 * lr + 0.2817188376 * lg + 0.6299787005 * lb)
+
+    val okL = 0.2104542553 * lmsL + 0.7936177850 * lmsM - 0.0040720468 * lmsS
+    val okA = 1.9779984951 * lmsL - 2.4285922050 * lmsM + 0.4505937099 * lmsS
+    val okB = 0.0259040371 * lmsL + 0.7827717662 * lmsM - 0.8086757660 * lmsS
+
+    val c = kotlin.math.sqrt(okA * okA + okB * okB)
+    val h = (kotlin.math.atan2(okB, okA) * 180.0 / PI).let { if (it < 0) it + 360.0 else it }
+    return OklchValue(okL, c, h)
+}
+
+private fun linear(c: Double): Double =
+    if (c <= 0.04045) c / 12.92 else ((c + 0.055) / 1.055).pow(2.4)
+
 private fun srgb(channel: Double): Int {
     val v = channel.coerceIn(0.0, 1.0)
     val s = if (v <= 0.0031308) 12.92 * v else 1.055 * v.pow(1.0 / 2.4) - 0.055

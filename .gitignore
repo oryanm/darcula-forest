@@ -12,3 +12,6 @@
 
 # Zed kotlin-language-server output
 bin/
+
+# macOS
+.DS_Store

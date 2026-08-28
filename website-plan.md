@@ -44,7 +44,7 @@ No visibility into what's hitting the server.
 - Pipe to stdout; let the deployment layer collect it.
 
 ### Configuration
-Hardcoded port 8080 and `File("darcula")` working dir.
+Hardcoded port 8080 (dirs now configurable via `darcula.out` / `darcula.site`).
 
 - Move both to `application.conf` (HOCON) or env vars: `PORT`, `STATIC_DIR`.
 - Resolve `STATIC_DIR` to an absolute path at startup so the JVM isn't tied to a specific working directory.
@@ -53,7 +53,7 @@ Hardcoded port 8080 and `File("darcula")` working dir.
 `./gradlew serve` is a dev-only `JavaExec` task — no artifact ships.
 
 - Add the `application` plugin's `installDist`/`distZip` for a runnable distribution, or a Shadow jar (`com.gradleup.shadow`).
-- Write a `Dockerfile` (multi-stage: build with JDK, run with `eclipse-temurin:21-jre`). Copy `darcula/` into the image alongside the jar.
+- Write a `Dockerfile` (multi-stage: build with JDK, run with `eclipse-temurin:21-jre`). Copy `darcula/` and `site/` into the image alongside the jar.
 
 ### Graceful shutdown
 SIGTERM should drain in-flight requests before exiting.
@@ -68,7 +68,7 @@ Don't terminate TLS in Ktor.
 - Front with Caddy, nginx, or a managed load balancer. Document the expected `X-Forwarded-*` headers and trust them via Ktor's `ForwardedHeaders`/`XForwardedHeaders` plugins.
 
 ### Tests
-Today the refactor was verified by byte-diff against `darcula/`. No automated guard against regressions.
+`GoldenTest` byte-diffs `generateAll()` against `darcula/`.
 
 - **Unit:** snapshot tests on `generateAll(ThemeParams())` — expected output checked in under `src/test/resources/snapshots/`. Fail on any byte diff.
 - **Property:** for any `ThemeParams` with hues in `[0, 360)` and chroma in `[0, 0.4]`, every generated file parses (CSS parses, JSON parses, TOML parses, ICLS is well-formed XML) and every Var resolves to a 6-char hex.
@@ -84,7 +84,7 @@ Current zip is built in-memory inside the response writer. Fine for ~35 KB outpu
 - The current code already writes via `ZipOutputStream(toOutputStream())` — verify it actually streams (not buffered) by watching the response with a slow client. If buffered, switch to `respondOutputStream`.
 
 ### Cache-busting for previews
-`darcula/css/preview.html` is served with no cache headers; users get stale HTML after deploys.
+`site/preview.html` is served with no cache headers; users get stale HTML after deploys.
 
 - Add ETags via Ktor's `ConditionalHeaders` or set explicit `Cache-Control` on `/`.
 
