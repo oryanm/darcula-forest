@@ -188,6 +188,16 @@
   .color-info { display: flex; flex-direction: column; }
   .color-name { font-size: 12px; color: var(--fg); }
   .color-hex { font-size: 11px; color: var(--fg-muted); }
+  .copy {
+    all: unset;
+    cursor: copy;
+    border-radius: 3px;
+  }
+  .copy:hover, .copy:focus-visible { color: var(--fg); }
+  .copy:focus-visible { outline: 1px solid var(--fg-muted); outline-offset: 1px; }
+  .copy { transition: opacity 150ms ease; }
+  .copy.fading { opacity: 0; }
+  .copy.copied { color: var(--keyword); }
   .color-source { font-size: 10px; color: var(--static-function); margin-top: 1px; }
   /* oklch() value falls outside sRGB; the swatch and theme files show it clamped. */
   .color-entry.clipped { position: relative; }
@@ -868,12 +878,29 @@
       const resolved = getComputedStyle(probe).color;
       const hex = toHex(resolved);
       el.style.setProperty("--c", "var(--" + varName + ")");
-      el.querySelector(".color-hex").textContent = resolved + " \u00b7 " + hex;
+      const hexEl = el.querySelector(".color-hex");
+      if (!hexEl.firstElementChild) hexEl.innerHTML = '<button class="copy" title="Copy"></button> \u00b7 <button class="copy" title="Copy"></button>';
+      const [oklchBtn, hexBtn] = hexEl.children;
+      oklchBtn.textContent = oklchBtn.dataset.text = resolved;
+      hexBtn.textContent = hexBtn.dataset.text = hex;
       const clipped = outOfGamut(varName);
       el.classList.toggle("clipped", clipped);
       el.dataset.tip = clipped ? "Outside the sRGB gamut \u2014 rendered clamped to " + hex : "";
     }
   }
+
+  document.addEventListener("click", e => {
+    const btn = e.target.closest(".copy");
+    if (!btn || !navigator.clipboard) return;
+    navigator.clipboard.writeText(btn.dataset.text).then(() => {
+      const swap = (text, copied) => {
+        btn.classList.add("fading");
+        setTimeout(() => { btn.textContent = text; btn.classList.toggle("copied", copied); btn.classList.remove("fading"); }, 150);
+      };
+      swap("copied", true);
+      setTimeout(() => swap(btn.dataset.text, false), 1150);
+    });
+  });
 
   function updateHue(value) {
     document.documentElement.style.setProperty("--main-hue", value);
