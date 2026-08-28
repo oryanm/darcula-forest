@@ -6,7 +6,6 @@
 <link rel="stylesheet" href="../darcula/css/palette.css">
 <style>
   :root {
-    --center-pct: 54%;
     --wheel-max-size: 300px;
     --wheel-handle-size: 20px;
     --wheel-margin: 32px;
@@ -21,13 +20,13 @@
     color: var(--fg);
     font-family: 'JetBrains Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
     display: grid;
-    /* 3 columns: center takes --center-pct of the viewport; side gutters
-       split the remainder via 1fr each. Mins on each track kick in at narrow
-       viewports where the percentage split would go below them. */
+    /* 3 columns: main is capped at 1100px and centered; the side gutters share
+       the rest but never drop below 280px so the wheel column stays usable.
+       Below 1100px viewport the wheel column is dropped (see @media). */
     grid-template-columns:
-      minmax(calc(2 * var(--wheel-margin)), 1fr)
-      minmax(100px, var(--center-pct))
-      minmax(calc(2 * var(--wheel-margin)), 1fr);
+      minmax(280px, 1fr)
+      minmax(0, 1200px)
+      minmax(280px, 1fr);
     align-items: start;
   }
   main {
@@ -46,6 +45,10 @@
      here ≈ a wheel of ~92px — below which the handles overlap. */
   @container (max-width: 50px) {
     .hue-wheel { display: none; }
+  }
+  @media (max-width: 1100px) {
+    body { grid-template-columns: 24px minmax(0, 1fr) 24px; }
+    .wheel-col { display: none; }
   }
   .controls {
     grid-column: 1 / -1;
@@ -155,7 +158,7 @@
   /* Color catalog */
   .color-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(360px, 100%), 1fr));
     gap: 8px;
   }
   .color-entry {
@@ -300,6 +303,22 @@
 
   /* Horizontal-scroll strip: editors flow side-by-side; multiple visible at a
      time. Free scroll (no snapping). */
+  /* Sample tab row: one tab per editor in the strip; click scrolls to it */
+  .sample-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+  .sample-tab {
+    all: unset;
+    cursor: pointer;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    color: var(--ui-text-muted);
+  }
+  .sample-tab:hover, .sample-tab:focus-visible { color: var(--fg); background: var(--caret-row); }
+  .sample-tab.active { color: var(--fg); box-shadow: inset 0 -2px 0 var(--keyword); border-radius: 4px 4px 0 0; }
   .code-samples {
     display: flex;
     overflow-x: auto;
@@ -321,6 +340,8 @@
        between alpha 0 and full on hover/focus. The hidden state uses the
        gutter-bg color with alpha 0 (rather than `transparent`, which is rgba
        black-zero) so the transition doesn't flash through black mid-fade. */
+    scroll-snap-type: x proximity;
+    scroll-padding-inline: var(--fade); /* snapped editor clears the edge fade */
     scrollbar-width: thin;             /* Firefox */
     scrollbar-color: oklch(from var(--gutter-bg) l c h / 0) transparent;
     transition: scrollbar-color 200ms ease;
@@ -346,6 +367,7 @@
   }
   .code-samples > .editor {
     flex: 0 0 clamp(420px, 55%, 640px);
+    scroll-snap-align: start;
   }
   /* Grab/grabbing cursor on the scrollbar thumb, matching the hue-wheel
      handle pattern. Webkit-only — Firefox doesn't expose scrollbar parts to
@@ -437,10 +459,6 @@
   <input type="range" min="0" max="0.2" step="0.005" value="0.11" oninput="updateBaseChroma(this.value)">
   <span id="base-chroma-value">0.11</span>
   <div class="divider"></div>
-  <label>Width</label>
-  <input type="range" min="40" max="90" value="54" oninput="document.body.style.setProperty('--center-pct', this.value + '%'); this.nextElementSibling.textContent = this.value + '%'">
-  <span>54%</span>
-  <div class="divider"></div>
   <button type="button" id="download-btn" class="icon-btn" title="Download theme" aria-label="Download theme" onclick="downloadTheme()">
     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M8 2v8"/>
@@ -457,6 +475,7 @@
 <!-- CODE SAMPLES -->
 <div class="section">
   <div class="section-title">Code Preview</div>
+  <div class="sample-tabs" id="sample-tabs"></div>
   <div class="code-samples">
 
     <!-- Kotlin sample -->
@@ -853,6 +872,28 @@
 
 <script src="darcula-forest.js"></script>
 <script>
+  // Sample tabs: built from the editors in the strip
+  {
+    const strip = document.querySelector(".code-samples");
+    const tabs = document.getElementById("sample-tabs");
+    const editors = [...strip.querySelectorAll(":scope > .editor")];
+    for (const editor of editors) {
+      const tab = document.createElement("button");
+      tab.className = "sample-tab";
+      tab.textContent = editor.querySelector(".editor-tab").textContent;
+      tab.onclick = () => strip.scrollTo({ left: editor.offsetLeft - strip.offsetLeft, behavior: "smooth" });
+      tabs.append(tab);
+    }
+    const syncTabs = () => {
+      const x = strip.scrollLeft + strip.offsetLeft + 81; // 80px = --fade (snap padding)
+      let active = 0;
+      editors.forEach((e, i) => { if (e.offsetLeft <= x) active = i; });
+      [...tabs.children].forEach((t, i) => t.classList.toggle("active", i === active));
+    };
+    strip.addEventListener("scroll", syncTabs, { passive: true });
+    syncTabs();
+  }
+
   const probe = document.createElement("div");
   document.body.appendChild(probe);
   const ctx = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
