@@ -10,6 +10,13 @@
     --wheel-handle-size: 20px;
     --wheel-margin: 32px;
     --wheel-max-chroma: 0.2; /* outer rim chroma; center is 0 (gray) */
+    /* spacing scale for page layout (editor mock internals keep IDE-proportioned literals) */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 24px;
+    --space-6: 32px;
     /* page chrome: greys pinned to the theme's lightness so labels don't recolor with the sliders */
     --ui-text-muted: oklch(from var(--fg-muted) l 0 h);
     --ui-text-faint: oklch(from var(--fg-muted) calc(l - 0.07) 0 h);
@@ -30,7 +37,7 @@
     align-items: start;
   }
   main {
-    margin-top: 24px;
+    margin-top: var(--space-5);
     grid-column: 2;
   }
   .wheel-col {
@@ -57,8 +64,8 @@
     background: var(--page-bg);
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
     font-size: 11px;
     color: var(--ui-text-muted);
     border-bottom: 1px solid var(--gutter-bg);
@@ -135,22 +142,22 @@
     font-size: 18px;
     font-weight: 600;
     color: var(--fg);
-    margin-bottom: 8px;
+    margin-bottom: var(--space-2);
   }
   .subtitle {
     font-size: 13px;
     color: var(--ui-text-muted);
-    margin-bottom: 32px;
+    margin-bottom: var(--space-6);
   }
   .section {
-    margin-bottom: 32px;
+    margin-bottom: var(--space-6);
   }
   .section-title {
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     color: var(--ui-text-muted);
-    margin-bottom: 12px;
+    margin-bottom: var(--space-3);
     border-bottom: 1px solid var(--gutter-bg);
     padding-bottom: 6px;
   }
@@ -159,13 +166,13 @@
   .color-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(360px, 100%), 1fr));
-    gap: 8px;
+    gap: var(--space-2);
   }
   .color-entry {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 8px 12px;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--space-3);
     border-radius: 6px;
     background: var(--caret-row);
   }
@@ -306,8 +313,8 @@
   /* Sample tab row: one tab per editor in the strip; click scrolls to it */
   .sample-tabs {
     display: flex;
-    gap: 4px;
-    margin-bottom: 12px;
+    gap: var(--space-1);
+    margin-bottom: var(--space-3);
   }
   .sample-tab {
     all: unset;
@@ -325,7 +332,8 @@
     gap: 20px;
     /* breathing room for the editor's drop shadow, which would otherwise be
        clipped by the horizontal-scroll container's implicit vertical clipping */
-    padding-bottom: 24px;
+    padding-bottom: var(--space-5);
+    margin-bottom: calc(-1 * var(--space-5)); /* shadow room shouldn't add to the section gap */
     /* Soft fade at the left/right edges to hint at scrollable overflow.
        The mask is horizontal-only, so it fades both ends regardless of
        scroll position (i.e. the left edge fades even at scrollLeft 0). */
