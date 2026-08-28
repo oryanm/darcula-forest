@@ -164,13 +164,27 @@
     background: var(--caret-row);
   }
   .color-entry:hover { background: var(--gutter-bg); }
+  /* Chip: the color shown the way the editor uses it (--c is set per entry by JS) */
   .color-dot {
-    width: 32px;
+    width: 56px;
     height: 32px;
     border-radius: 6px;
     flex-shrink: 0;
-    border: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--editor-bg);
+    border: 1px solid oklch(from var(--fg) l c h / 0.15);
+    color: var(--fg);
+    font-size: 13px;
+    line-height: 1;
   }
+  .color-dot::before { content: "ab"; }
+  [data-role="fg"] .color-dot { color: var(--c); }
+  [data-role="bg"] .color-dot { background: var(--c); }
+  [data-role="wavy"] .color-dot::before,
+  [data-role="solid"] .color-dot::before { text-decoration-line: underline; text-decoration-color: var(--c); text-underline-offset: 3px; }
+  [data-role="wavy"] .color-dot::before { text-decoration-style: wavy; }
   .color-info { display: flex; flex-direction: column; }
   .color-name { font-size: 12px; color: var(--fg); }
   .color-hex { font-size: 11px; color: var(--fg-muted); }
@@ -553,7 +567,7 @@
 <div class="section">
   <div class="section-title">Editor Colors</div>
   <div class="color-grid">
-    <div class="color-entry" data-var="editor-bg">
+    <div class="color-entry" data-var="editor-bg" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Background</span>
@@ -561,7 +575,7 @@
         <span class="color-source">TEXT</span>
       </div>
     </div>
-    <div class="color-entry" data-var="fg">
+    <div class="color-entry" data-var="fg" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Foreground</span>
@@ -569,7 +583,7 @@
         <span class="color-source">TEXT / DEFAULT_IDENTIFIER</span>
       </div>
     </div>
-    <div class="color-entry" data-var="caret-row">
+    <div class="color-entry" data-var="caret-row" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Caret Row</span>
@@ -577,7 +591,7 @@
         <span class="color-source">CARET_ROW_COLOR</span>
       </div>
     </div>
-    <div class="color-entry" data-var="selection-bg">
+    <div class="color-entry" data-var="selection-bg" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Selection</span>
@@ -585,7 +599,7 @@
         <span class="color-source">SELECTION_BACKGROUND</span>
       </div>
     </div>
-    <div class="color-entry" data-var="search-result-bg">
+    <div class="color-entry" data-var="search-result-bg" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Search Result</span>
@@ -593,7 +607,7 @@
         <span class="color-source">SEARCH_RESULT_ATTRIBUTES</span>
       </div>
     </div>
-    <div class="color-entry" data-var="line-number">
+    <div class="color-entry" data-var="line-number" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Line Number</span>
@@ -607,7 +621,7 @@
 <div class="section">
   <div class="section-title">Syntax Colors</div>
   <div class="color-grid">
-    <div class="color-entry" data-var="keyword">
+    <div class="color-entry" data-var="keyword" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Keyword / Punctuation</span>
@@ -615,7 +629,7 @@
         <span class="color-source">DEFAULT_KEYWORD / DEFAULT_COMMA / SEMICOLON</span>
       </div>
     </div>
-    <div class="color-entry" data-var="static-function">
+    <div class="color-entry" data-var="static-function" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Static Method (Kotlin)</span>
@@ -623,7 +637,7 @@
         <span class="color-source">DEFAULT_STATIC_METHOD</span>
       </div>
     </div>
-    <div class="color-entry" data-var="constant-field">
+    <div class="color-entry" data-var="constant-field" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Constant / Field</span>
@@ -631,7 +645,7 @@
         <span class="color-source">DEFAULT_CONSTANT / INSTANCE_FIELD / STATIC_FIELD</span>
       </div>
     </div>
-    <div class="color-entry" data-var="named-arg">
+    <div class="color-entry" data-var="named-arg" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Named Argument</span>
@@ -639,7 +653,7 @@
         <span class="color-source">KOTLIN_NAMED_ARGUMENT</span>
       </div>
     </div>
-    <div class="color-entry" data-var="implicit-param">
+    <div class="color-entry" data-var="implicit-param" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Implicit Parameter</span>
@@ -647,7 +661,7 @@
         <span class="color-source">IMPLICIT_ANONYMOUS_CLASS_PARAMETER</span>
       </div>
     </div>
-    <div class="color-entry" data-var="function-decl">
+    <div class="color-entry" data-var="function-decl" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Function Declaration</span>
@@ -655,7 +669,7 @@
         <span class="color-source">DEFAULT_FUNCTION_DECLARATION</span>
       </div>
     </div>
-    <div class="color-entry" data-var="number">
+    <div class="color-entry" data-var="number" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Number / Label</span>
@@ -669,7 +683,7 @@
 <div class="section">
   <div class="section-title">Strings</div>
   <div class="color-grid">
-    <div class="color-entry" data-var="string">
+    <div class="color-entry" data-var="string" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">String / Annotation</span>
@@ -677,7 +691,7 @@
         <span class="color-source">DEFAULT_STRING / ANNOTATION</span>
       </div>
     </div>
-    <div class="color-entry" data-var="string-escape">
+    <div class="color-entry" data-var="string-escape" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">String Escape (valid)</span>
@@ -685,7 +699,7 @@
         <span class="color-source">DEFAULT_VALID_STRING_ESCAPE</span>
       </div>
     </div>
-    <div class="color-entry" data-var="string-escape-bad">
+    <div class="color-entry" data-var="string-escape-bad" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">String Escape (invalid)</span>
@@ -699,7 +713,7 @@
 <div class="section">
   <div class="section-title">Effects</div>
   <div class="color-grid">
-    <div class="color-entry" data-var="error">
+    <div class="color-entry" data-var="error" data-role="wavy">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Error</span>
@@ -707,15 +721,15 @@
         <span class="color-source">ERRORS_ATTRIBUTES</span>
       </div>
     </div>
-    <div class="color-entry" data-var="warning-bg">
+    <div class="color-entry" data-var="warning-bg" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
-        <span class="color-name">Warning</span>
+        <span class="color-name">Warning Background</span>
         <span class="color-hex"></span>
         <span class="color-source">WARNING_ATTRIBUTES</span>
       </div>
     </div>
-    <div class="color-entry" data-var="mutable-underline">
+    <div class="color-entry" data-var="mutable-underline" data-role="solid">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Mutable Variable Underline</span>
@@ -723,7 +737,7 @@
         <span class="color-source">KOTLIN_MUTABLE_VARIABLE</span>
       </div>
     </div>
-    <div class="color-entry" data-var="typo-underline">
+    <div class="color-entry" data-var="typo-underline" data-role="wavy">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Typo Underline</span>
@@ -737,7 +751,7 @@
 <div class="section">
   <div class="section-title">Comments</div>
   <div class="color-grid">
-    <div class="color-entry" data-var="comment">
+    <div class="color-entry" data-var="comment" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Comment</span>
@@ -745,7 +759,7 @@
         <span class="color-source">DEFAULT_LINE_COMMENT / BLOCK_COMMENT</span>
       </div>
     </div>
-    <div class="color-entry" data-var="javadoc">
+    <div class="color-entry" data-var="javadoc" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">JavaDoc</span>
@@ -753,7 +767,7 @@
         <span class="color-source">DEFAULT_DOC_COMMENT / DEFAULT_DOC_COMMENT_TAG</span>
       </div>
     </div>
-    <div class="color-entry" data-var="javadoc-tag-val">
+    <div class="color-entry" data-var="javadoc-tag-val" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">JavaDoc Tag Value</span>
@@ -761,7 +775,7 @@
         <span class="color-source">DEFAULT_DOC_COMMENT_TAG_VALUE</span>
       </div>
     </div>
-    <div class="color-entry" data-var="todo">
+    <div class="color-entry" data-var="todo" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">TODO</span>
@@ -775,7 +789,7 @@
 <div class="section">
   <div class="section-title">Diff</div>
   <div class="color-grid">
-    <div class="color-entry" data-var="diff-delete">
+    <div class="color-entry" data-var="diff-delete" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Diff Delete</span>
@@ -783,7 +797,7 @@
         <span class="color-source">DIFF_DELETED</span>
       </div>
     </div>
-    <div class="color-entry" data-var="diff-change">
+    <div class="color-entry" data-var="diff-change" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Diff Change</span>
@@ -791,7 +805,7 @@
         <span class="color-source">DIFF_MODIFIED</span>
       </div>
     </div>
-    <div class="color-entry" data-var="diff-add">
+    <div class="color-entry" data-var="diff-add" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Diff Add</span>
@@ -799,7 +813,7 @@
         <span class="color-source">DIFF_INSERTED</span>
       </div>
     </div>
-    <div class="color-entry" data-var="diff-conflict">
+    <div class="color-entry" data-var="diff-conflict" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Diff Conflict</span>
@@ -853,7 +867,7 @@
       probe.style.color = "var(--" + varName + ")";
       const resolved = getComputedStyle(probe).color;
       const hex = toHex(resolved);
-      el.querySelector(".color-dot").style.background = "var(--" + varName + ")";
+      el.style.setProperty("--c", "var(--" + varName + ")");
       el.querySelector(".color-hex").textContent = resolved + " \u00b7 " + hex;
       const clipped = outOfGamut(varName);
       el.classList.toggle("clipped", clipped);
