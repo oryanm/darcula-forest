@@ -6,3 +6,8 @@ package darculaforest
 @JsExport
 fun generateZip(mainHue: Double, complementaryColorOffset: Double, baseChroma: Double): ByteArray =
     zip(generateAll(ThemeParams(mainHue, complementaryColorOffset, baseChroma)))
+
+/** One generated file (e.g. `"css/palette.css"`) as text, or null if the path is unknown. */
+@JsExport
+fun generateFile(path: String, mainHue: Double, complementaryColorOffset: Double, baseChroma: Double): String? =
+    generateAll(ThemeParams(mainHue, complementaryColorOffset, baseChroma)).firstOrNull { it.path == path }?.contents

@@ -2,7 +2,8 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Darcula Forest — IntelliJ Color Scheme Preview</title>
+<title>Darcula Forest — a dark green color scheme derived in OKLCH</title>
+<meta name="description" content="Darcula Forest: a dark green editor theme for IntelliJ, Zed, Alacritty and CSS. Every color is derived in OKLCH from three knobs and two fixed hues — drag them and the palette re-derives live.">
 <link rel="stylesheet" href="../darcula/css/palette.css">
 <style>
   :root {
@@ -149,6 +150,41 @@
     font-size: 13px;
     color: var(--ui-text-muted);
     margin-bottom: calc(var(--space-6) + var(--space-4));
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+  a, .link { color: var(--keyword); text-decoration: none; }
+  .link { all: unset; color: var(--keyword); cursor: pointer; }
+  a:hover, .link:hover, .link:focus-visible { text-decoration: underline; }
+  /* Get the theme */
+  .targets-note { font-size: 11px; color: var(--ui-text-muted); margin: calc(-1 * var(--space-2)) 0 var(--space-3); }
+  .targets {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+    gap: var(--space-2);
+  }
+  .target {
+    padding: var(--space-2) var(--space-3);
+    border-radius: 6px;
+    background: var(--caret-row);
+    font-size: 11px;
+    color: var(--ui-text-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .target-name { font-size: 12px; color: var(--fg); }
+  .target-files { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .target code { color: var(--ui-text-faint); }
+  footer {
+    margin: var(--space-6) 0 var(--space-6);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--gutter-bg);
+    font-size: 11px;
+    color: var(--ui-text-muted);
+    display: flex;
+    gap: var(--space-3);
   }
   .section {
     margin-bottom: var(--space-6);
@@ -533,7 +569,14 @@
 
 <main>
 <h1>Darcula Forest</h1>
-<div class="subtitle">Forest green color scheme based on JetBrains' Darcula.</div>
+<div class="subtitle">
+  <div>A dark green editor theme, derived in OKLCH from three knobs and two fixed hues.</div>
+  <div>Main hue for 60%, two analogous complementaries (±offset) for 30%, fixed red and blue for 10%.</div>
+  <div>Drag the knobs — every color re-derives live. &nbsp;·&nbsp; IntelliJ / Zed / Alacritty / T3 Code / CSS &nbsp;</div>
+</div>
+
+  </div>
+</div>
 
 <!-- CODE SAMPLES -->
 <div class="section">
@@ -986,6 +1029,51 @@
   </div>
 </div>
 
+<!-- GET THE THEME -->
+<div class="section">
+  <div class="section-title">Get the theme</div>
+  <div class="targets">
+    <div class="target">
+      <div class="target-name">IntelliJ</div>
+      <div class="target-files"><button class="link" data-file="jetbrains/Darcula_Forest.icls" onclick="downloadFile(this)">Darcula_Forest.icls</button> <button class="link" data-file="jetbrains/Darcula_Forest.theme.json" onclick="downloadFile(this)">Darcula_Forest.theme.json</button></div>
+      <div>Settings → Editor → Color Scheme → ⚙ → Import Scheme (<code>.icls</code>). The <code>.theme.json</code> UI theme ships as a plugin.</div>
+    </div>
+    <div class="target">
+      <div class="target-name">Zed</div>
+      <div class="target-files"><button class="link" data-file="zed/darcula-forest.json" onclick="downloadFile(this)">darcula-forest.json</button></div>
+      <div>Copy to <code>~/.config/zed/themes/</code>, then pick it in the theme selector.</div>
+    </div>
+    <div class="target">
+      <div class="target-name">Alacritty</div>
+      <div class="target-files"><button class="link" data-file="alacritty/alacritty.toml" onclick="downloadFile(this)">alacritty.toml</button></div>
+      <div>Import from <code>~/.config/alacritty/alacritty.toml</code>: <code>[general] import = ["darcula-forest.toml"]</code></div>
+    </div>
+    <div class="target">
+      <div class="target-name">T3 Code</div>
+      <div class="target-files"><button class="link" data-file="t3code/darcula-forest.json" onclick="downloadFile(this)">darcula-forest.json</button></div>
+      <div>Import in T3 Code's theme settings.</div>
+    </div>
+    <div class="target">
+      <div class="target-name">CSS</div>
+      <div class="target-files"><button class="link" data-file="css/palette.css" onclick="downloadFile(this)">palette.css</button></div>
+      <div><code>oklch()</code> custom properties; this page is styled with it.</div>
+    </div>
+    <div class="target">
+      <div class="target-name">Everything</div>
+      <div class="target-files"><button class="link" onclick="downloadTheme()">darcula-forest.zip</button></div>
+      <div>All of the above in one zip.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a href="https://github.com/oryanm/darcula-forest">GitHub</a>
+  <span>·</span>
+  <a href="https://github.com/oryanm/darcula-forest/blob/master/LICENSE">MIT</a>
+  <span>·</span>
+  <span>colors generated from <code>Palette.kt</code>, not hand-picked</span>
+</footer>
+
 </main>
 
 <aside class="wheel-col">
@@ -1223,27 +1311,45 @@
   resetSliders();
   window.addEventListener("pageshow", resetSliders);
 
+  function currentParams() {
+    return {
+      mainHue: parseFloat(document.getElementById("hue-value").textContent),
+      complementaryColorOffset: parseFloat(document.getElementById("comp-offset-value").textContent),
+      baseChroma: parseFloat(document.getElementById("base-chroma-value").textContent),
+    };
+  }
+
+  function saveBlob(blob, name) {
+    const url = URL.createObjectURL(blob);
+    const a = Object.assign(document.createElement("a"), { href: url, download: name });
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  // Single generated file for the current knobs.
+  function downloadFile(link) {
+    const api = window["darcula-forest"]?.darculaforest;
+    if (!api) { alert("darcula-forest.js not loaded (run ./gradlew copyJsBundle)"); return; }
+    if (!api.generateFile) { alert("Stale darcula-forest.js (no generateFile) — hard-reload the page"); return; }
+    const p = currentParams();
+    const text = api.generateFile(link.dataset.file, p.mainHue, p.complementaryColorOffset, p.baseChroma);
+    if (text == null) { alert("Unknown file: " + link.dataset.file); return; }
+    saveBlob(new Blob([text], { type: "text/plain" }), link.dataset.file.split("/").pop());
+  }
+
   async function downloadTheme() {
     const btn = document.getElementById("download-btn");
     const original = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner" aria-hidden="true"></span>';
     try {
-      const params = {
-        mainHue: parseFloat(document.getElementById("hue-value").textContent),
-        complementaryColorOffset: parseFloat(document.getElementById("comp-offset-value").textContent),
-        baseChroma: parseFloat(document.getElementById("base-chroma-value").textContent),
-      };
+      const params = currentParams();
       const api = window["darcula-forest"]?.darculaforest;
       if (!api) throw new Error("darcula-forest.js not loaded (run ./gradlew copyJsBundle)");
       const bytes = api.generateZip(params.mainHue, params.complementaryColorOffset, params.baseChroma);
-      const blob = new Blob([bytes], { type: "application/zip" });
-      const url = URL.createObjectURL(blob);
-      const a = Object.assign(document.createElement("a"), { href: url, download: "darcula-forest.zip" });
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
+      saveBlob(new Blob([bytes], { type: "application/zip" }), "darcula-forest.zip");
     } catch (err) {
       alert(`Download failed: ${err.message}`);
     } finally {
