@@ -9,3 +9,6 @@
 /.gradle/
 /.kotlin/
 /build/
+
+# Zed kotlin-language-server output
+bin/
