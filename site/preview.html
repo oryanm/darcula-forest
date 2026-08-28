@@ -1327,19 +1327,24 @@
       elem.style.left = (center + radius * Math.sin(rad)) + "px";
       elem.style.top  = (center - radius * Math.cos(rad)) + "px";
     }
+    // Label goes a fixed px gap above (top half) or below (bottom half) its handle, so it
+    // never covers the handle and never pokes past the column's horizontal padding.
+    function placeLabel(elem, hueDeg, ratio) {
+      placeAt(elem, hueDeg, ratio);
+      const up = Math.cos(hueDeg * Math.PI / 180) >= 0;
+      elem.style.top = (parseFloat(elem.style.top) + (up ? -22 : 22)) + "px";
+    }
     function normHue(h) { return ((Math.round(h) % 360) + 360) % 360; }
     function refresh() {
       const m = readVar("--main-hue", 128);
       const o = readVar("--comp-offset", 30);
       const r = chromaRatio();
-      // Labels sit a bit inboard so they don't collide with handles at the rim.
-      const lr = Math.max(r - 0.07, r * 0.65);
       placeAt(handles.main, m, r);
       placeAt(handles.comp1, m - o, r);
       placeAt(handles.comp2, m + o, r);
-      placeAt(labels.main, m, lr);
-      placeAt(labels.comp1, m - o, lr);
-      placeAt(labels.comp2, m + o, lr);
+      placeLabel(labels.main, m, r);
+      placeLabel(labels.comp1, m - o, r);
+      placeLabel(labels.comp2, m + o, r);
       labels.main.textContent  = normHue(m);
       labels.comp1.textContent = normHue(m - o) + " (\u2212" + Math.round(o) + ")";
       labels.comp2.textContent = normHue(m + o) + " (+" + Math.round(o) + ")";
