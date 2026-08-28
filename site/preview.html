@@ -74,7 +74,7 @@
     z-index: 12;
   }
   .controls label { white-space: nowrap; }
-  .controls span { min-width: 36px; text-align: right; }
+  .controls output { min-width: 36px; text-align: right; }
   .controls .divider { width: 1px; height: 16px; background: var(--gutter-bg); margin: 0 4px; }
   .controls input[type="range"] {
     width: 100px;
@@ -89,8 +89,20 @@
     border-radius: 3px;
     background: linear-gradient(to right,
       oklch(55% 0.11 0), oklch(55% 0.11 90), oklch(55% 0.11 180), oklch(55% 0.11 270),oklch(55% 0.11 360));
-    outline: none;
     cursor: pointer;
+  }
+  /* Keyboard focus only (never on mouse click): one theme-colored ring for every control */
+  :focus { outline: none; }
+  .controls input[type="range"]:focus-visible,
+  .icon-btn:focus-visible,
+  .link:focus-visible,
+  .copy:focus-visible {
+    outline: 2px solid var(--fg);
+    outline-offset: 3px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, ::before, ::after { transition: none !important; }
+    /* the download spinner stays: it's status, not decoration */
   }
   .controls .hue-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
@@ -190,6 +202,7 @@
     margin-bottom: var(--space-6);
   }
   .section-title {
+    font-weight: normal;
     font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 1.5px;
@@ -208,6 +221,7 @@
 
   /* Color catalog */
   .color-grid {
+    list-style: none;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(360px, 100%), 1fr));
     gap: var(--space-2);
@@ -251,7 +265,6 @@
     border-radius: 3px;
   }
   .copy:hover, .copy:focus-visible { color: var(--fg); }
-  .copy:focus-visible { outline: 1px solid var(--ui-text-muted); outline-offset: 1px; }
   .copy { transition: opacity 150ms ease; }
   .copy.fading { opacity: 0; }
   .copy.copied { color: var(--keyword); }
@@ -545,18 +558,18 @@
 </head>
 <body>
 
-<div class="controls">
-  <label>Hue</label>
-  <input class="hue-slider" type="range" min="0" max="360" value="128" oninput="updateHue(this.value)">
-  <span id="hue-value">128</span>
+<div class="controls" role="toolbar" aria-label="Theme knobs">
+  <label for="hue-slider">Hue</label>
+  <input id="hue-slider" class="hue-slider" type="range" min="0" max="360" value="128" aria-valuetext="128°" oninput="updateHue(this.value)">
+  <output id="hue-value" for="hue-slider">128</output>
   <div class="divider"></div>
-  <label>Complementaries</label>
-  <input type="range" min="0" max="180" value="30" oninput="updateCompOffset(this.value)">
-  <span id="comp-offset-value">30</span>
+  <label for="comp-slider">Complementaries</label>
+  <input id="comp-slider" type="range" min="0" max="180" value="30" aria-valuetext="±30°" oninput="updateCompOffset(this.value)">
+  <output id="comp-offset-value" for="comp-slider">30</output>
   <div class="divider"></div>
-  <label>Chroma</label>
-  <input type="range" min="0" max="0.2" step="0.005" value="0.11" oninput="updateBaseChroma(this.value)">
-  <span id="base-chroma-value">0.11</span>
+  <label for="chroma-slider">Chroma</label>
+  <input id="chroma-slider" type="range" min="0" max="0.2" step="0.005" value="0.11" oninput="updateBaseChroma(this.value)">
+  <output id="base-chroma-value" for="chroma-slider">0.11</output>
   <div class="divider"></div>
   <button type="button" id="download-btn" class="icon-btn" title="Download theme" aria-label="Download theme" onclick="downloadTheme()">
     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -579,8 +592,8 @@
 </div>
 
 <!-- CODE SAMPLES -->
-<div class="section">
-  <div class="section-title">Code Preview</div>
+<section class="section" aria-labelledby="code-preview">
+  <h2 class="section-title" id="code-preview">Code Preview</h2>
   <div class="sample-tabs" id="sample-tabs"></div>
   <div class="code-samples">
 
@@ -765,273 +778,273 @@
     </div>
 
   </div>
-</div>
+</section>
 
 <!-- COLOR CATALOG -->
-<div class="section-title">Palette</div>
-<div class="section">
-  <div class="section-title sub">Editor Colors</div>
-  <div class="color-grid">
-    <div class="color-entry" data-var="editor-bg" data-role="bg">
+<h2 class="section-title">Palette</h2>
+<section class="section" aria-labelledby="editor-colors">
+  <h3 class="section-title sub" id="editor-colors">Editor Colors</h3>
+  <ul class="color-grid">
+    <li class="color-entry" data-var="editor-bg" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Background</span>
         <span class="color-hex"></span>
         <span class="color-source">TEXT</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="fg" data-role="fg">
+    </li>
+    <li class="color-entry" data-var="fg" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Foreground</span>
         <span class="color-hex"></span>
         <span class="color-source">TEXT / DEFAULT_IDENTIFIER</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="caret-row" data-role="bg">
+    </li>
+    <li class="color-entry" data-var="caret-row" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Caret Row</span>
         <span class="color-hex"></span>
         <span class="color-source">CARET_ROW_COLOR</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="selection-bg" data-role="bg">
+    </li>
+    <li class="color-entry" data-var="selection-bg" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Selection</span>
         <span class="color-hex"></span>
         <span class="color-source">SELECTION_BACKGROUND</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="search-result-bg" data-role="bg">
+    </li>
+    <li class="color-entry" data-var="search-result-bg" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Search Result</span>
         <span class="color-hex"></span>
         <span class="color-source">SEARCH_RESULT_ATTRIBUTES</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="line-number" data-role="fg">
+    </li>
+    <li class="color-entry" data-var="line-number" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Line Number</span>
         <span class="color-hex"></span>
         <span class="color-source">LINE_NUMBERS_COLOR</span>
       </div>
-    </div>
-  </div>
-</div>
+    </li>
+  </ul>
+</section>
 
-<div class="section">
-  <div class="section-title sub">Syntax Colors</div>
-  <div class="color-grid">
-    <div class="color-entry" data-var="keyword" data-role="fg">
+<section class="section" aria-labelledby="syntax-colors">
+  <h3 class="section-title sub" id="syntax-colors">Syntax Colors</h3>
+  <ul class="color-grid">
+    <li class="color-entry" data-var="keyword" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Keyword / Punctuation</span>
         <span class="color-hex"></span>
         <span class="color-source">DEFAULT_KEYWORD / DEFAULT_COMMA / SEMICOLON</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="static-function" data-role="fg">
+    </li>
+    <li class="color-entry" data-var="static-function" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Static Method (Kotlin)</span>
         <span class="color-hex"></span>
         <span class="color-source">DEFAULT_STATIC_METHOD</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="constant-field" data-role="fg">
+    </li>
+    <li class="color-entry" data-var="constant-field" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Constant / Field</span>
         <span class="color-hex"></span>
         <span class="color-source">DEFAULT_CONSTANT / INSTANCE_FIELD / STATIC_FIELD</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="named-arg" data-role="fg">
+    </li>
+    <li class="color-entry" data-var="named-arg" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Named Argument</span>
         <span class="color-hex"></span>
         <span class="color-source">KOTLIN_NAMED_ARGUMENT</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="implicit-param" data-role="fg">
+    </li>
+    <li class="color-entry" data-var="implicit-param" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Implicit Parameter</span>
         <span class="color-hex"></span>
         <span class="color-source">IMPLICIT_ANONYMOUS_CLASS_PARAMETER</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="function-decl" data-role="fg">
+    </li>
+    <li class="color-entry" data-var="function-decl" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Function Declaration</span>
         <span class="color-hex"></span>
         <span class="color-source">DEFAULT_FUNCTION_DECLARATION</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="number" data-role="fg">
+    </li>
+    <li class="color-entry" data-var="number" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Number / Label</span>
         <span class="color-hex"></span>
         <span class="color-source">DEFAULT_NUMBER / KOTLIN_LABEL</span>
       </div>
-    </div>
-  </div>
-</div>
+    </li>
+  </ul>
+</section>
 
-<div class="section">
-  <div class="section-title sub">Strings</div>
-  <div class="color-grid">
-    <div class="color-entry" data-var="string" data-role="fg">
+<section class="section" aria-labelledby="strings">
+  <h3 class="section-title sub" id="strings">Strings</h3>
+  <ul class="color-grid">
+    <li class="color-entry" data-var="string" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">String / Annotation</span>
         <span class="color-hex"></span>
         <span class="color-source">DEFAULT_STRING / ANNOTATION</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="string-escape" data-role="fg">
+    </li>
+    <li class="color-entry" data-var="string-escape" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">String Escape (valid)</span>
         <span class="color-hex"></span>
         <span class="color-source">DEFAULT_VALID_STRING_ESCAPE</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="string-escape-bad" data-role="fg">
+    </li>
+    <li class="color-entry" data-var="string-escape-bad" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">String Escape (invalid)</span>
         <span class="color-hex"></span>
         <span class="color-source">DEFAULT_INVALID_STRING_ESCAPE</span>
       </div>
-    </div>
-  </div>
-</div>
+    </li>
+  </ul>
+</section>
 
-<div class="section">
-  <div class="section-title sub">Effects</div>
-  <div class="color-grid">
-    <div class="color-entry" data-var="error" data-role="wavy">
+<section class="section" aria-labelledby="effects">
+  <h3 class="section-title sub" id="effects">Effects</h3>
+  <ul class="color-grid">
+    <li class="color-entry" data-var="error" data-role="wavy">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Error</span>
         <span class="color-hex"></span>
         <span class="color-source">ERRORS_ATTRIBUTES</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="warning-bg" data-role="bg">
+    </li>
+    <li class="color-entry" data-var="warning-bg" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Warning Background</span>
         <span class="color-hex"></span>
         <span class="color-source">WARNING_ATTRIBUTES</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="mutable-underline" data-role="solid">
+    </li>
+    <li class="color-entry" data-var="mutable-underline" data-role="solid">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Mutable Variable Underline</span>
         <span class="color-hex"></span>
         <span class="color-source">KOTLIN_MUTABLE_VARIABLE</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="typo-underline" data-role="wavy">
+    </li>
+    <li class="color-entry" data-var="typo-underline" data-role="wavy">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Typo Underline</span>
         <span class="color-hex"></span>
         <span class="color-source">TYPO</span>
       </div>
-    </div>
-  </div>
-</div>
+    </li>
+  </ul>
+</section>
 
-<div class="section">
-  <div class="section-title sub">Comments</div>
-  <div class="color-grid">
-    <div class="color-entry" data-var="comment" data-role="fg">
+<section class="section" aria-labelledby="comments">
+  <h3 class="section-title sub" id="comments">Comments</h3>
+  <ul class="color-grid">
+    <li class="color-entry" data-var="comment" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Comment</span>
         <span class="color-hex"></span>
         <span class="color-source">DEFAULT_LINE_COMMENT / BLOCK_COMMENT</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="javadoc" data-role="fg">
+    </li>
+    <li class="color-entry" data-var="javadoc" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">JavaDoc</span>
         <span class="color-hex"></span>
         <span class="color-source">DEFAULT_DOC_COMMENT / DEFAULT_DOC_COMMENT_TAG</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="javadoc-tag-val" data-role="fg">
+    </li>
+    <li class="color-entry" data-var="javadoc-tag-val" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">JavaDoc Tag Value</span>
         <span class="color-hex"></span>
         <span class="color-source">DEFAULT_DOC_COMMENT_TAG_VALUE</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="todo" data-role="fg">
+    </li>
+    <li class="color-entry" data-var="todo" data-role="fg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">TODO</span>
         <span class="color-hex"></span>
         <span class="color-source">TODO_DEFAULT_ATTRIBUTES</span>
       </div>
-    </div>
-  </div>
-</div>
+    </li>
+  </ul>
+</section>
 
-<div class="section">
-  <div class="section-title sub">Diff</div>
-  <div class="color-grid">
-    <div class="color-entry" data-var="diff-delete" data-role="bg">
+<section class="section" aria-labelledby="diff">
+  <h3 class="section-title sub" id="diff">Diff</h3>
+  <ul class="color-grid">
+    <li class="color-entry" data-var="diff-delete" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Diff Delete</span>
         <span class="color-hex"></span>
         <span class="color-source">DIFF_DELETED</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="diff-change" data-role="bg">
+    </li>
+    <li class="color-entry" data-var="diff-change" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Diff Change</span>
         <span class="color-hex"></span>
         <span class="color-source">DIFF_MODIFIED</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="diff-add" data-role="bg">
+    </li>
+    <li class="color-entry" data-var="diff-add" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Diff Add</span>
         <span class="color-hex"></span>
         <span class="color-source">DIFF_INSERTED</span>
       </div>
-    </div>
-    <div class="color-entry" data-var="diff-conflict" data-role="bg">
+    </li>
+    <li class="color-entry" data-var="diff-conflict" data-role="bg">
       <div class="color-dot"></div>
       <div class="color-info">
         <span class="color-name">Diff Conflict</span>
         <span class="color-hex"></span>
         <span class="color-source">DIFF_CONFLICT</span>
       </div>
-    </div>
-  </div>
-</div>
+    </li>
+  </ul>
+</section>
 
 <!-- GET THE THEME -->
-<div class="section">
-  <div class="section-title">Get the theme</div>
+<section class="section" aria-labelledby="get-the-theme">
+  <h2 class="section-title" id="get-the-theme">Get the theme</h2>
   <div class="targets">
     <div class="target">
       <div class="target-name">IntelliJ</div>
@@ -1064,14 +1077,12 @@
       <div>All of the above in one zip.</div>
     </div>
   </div>
-</div>
+</section>
 
 <footer>
   <a href="https://github.com/oryanm/darcula-forest">GitHub</a>
   <span>·</span>
   <a href="https://github.com/oryanm/darcula-forest/blob/master/LICENSE">MIT</a>
-  <span>·</span>
-  <span>colors generated from <code>Palette.kt</code>, not hand-picked</span>
 </footer>
 
 </main>
@@ -1168,12 +1179,14 @@
   function updateHue(value) {
     document.documentElement.style.setProperty("--main-hue", value);
     document.getElementById("hue-value").textContent = value;
+    document.getElementById("hue-slider").setAttribute("aria-valuetext", value + "\u00b0");
     updateColorCatalog();
   }
 
   function updateCompOffset(value) {
     document.documentElement.style.setProperty("--comp-offset", value);
     document.getElementById("comp-offset-value").textContent = value;
+    document.getElementById("comp-slider").setAttribute("aria-valuetext", "\u00b1" + value + "\u00b0");
     updateColorCatalog();
   }
 
@@ -1195,9 +1208,9 @@
       comp1: document.getElementById("hue-label-comp1"),
       comp2: document.getElementById("hue-label-comp2"),
     };
-    const compSlider = document.querySelectorAll('.controls input[type="range"]')[1];
+    const compSlider = document.getElementById("comp-slider");
 
-    const chromaSlider = document.querySelectorAll('.controls input[type="range"]')[2];
+    const chromaSlider = document.getElementById("chroma-slider");
     // Outer rim of the disc is at this fraction of half-size (small inset so handles aren't clipped).
     const RIM = 0.92;
 
