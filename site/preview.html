@@ -139,7 +139,7 @@
   }
   @keyframes icon-btn-spin { to { transform: rotate(360deg); } }
   h1 {
-    font-size: 18px;
+    font-size: 26px;
     font-weight: 600;
     color: var(--fg);
     margin-bottom: var(--space-2);
@@ -147,19 +147,26 @@
   .subtitle {
     font-size: 13px;
     color: var(--ui-text-muted);
-    margin-bottom: var(--space-6);
+    margin-bottom: calc(var(--space-6) + var(--space-4));
   }
   .section {
     margin-bottom: var(--space-6);
   }
   .section-title {
-    font-size: 11px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    color: var(--ui-text-muted);
+    color: var(--fg);
     margin-bottom: var(--space-3);
     border-bottom: 1px solid var(--gutter-bg);
     padding-bottom: 6px;
+  }
+  /* catalog sub-groups: one level below the section title */
+  .section-title.sub {
+    font-size: 11px;
+    color: var(--ui-text-muted);
+    border-bottom: none;
+    padding-bottom: 0;
   }
 
   /* Color catalog */
@@ -604,8 +611,9 @@
 </div>
 
 <!-- COLOR CATALOG -->
+<div class="section-title">Palette</div>
 <div class="section">
-  <div class="section-title">Editor Colors</div>
+  <div class="section-title sub">Editor Colors</div>
   <div class="color-grid">
     <div class="color-entry" data-var="editor-bg" data-role="bg">
       <div class="color-dot"></div>
@@ -659,7 +667,7 @@
 </div>
 
 <div class="section">
-  <div class="section-title">Syntax Colors</div>
+  <div class="section-title sub">Syntax Colors</div>
   <div class="color-grid">
     <div class="color-entry" data-var="keyword" data-role="fg">
       <div class="color-dot"></div>
@@ -721,7 +729,7 @@
 </div>
 
 <div class="section">
-  <div class="section-title">Strings</div>
+  <div class="section-title sub">Strings</div>
   <div class="color-grid">
     <div class="color-entry" data-var="string" data-role="fg">
       <div class="color-dot"></div>
@@ -751,7 +759,7 @@
 </div>
 
 <div class="section">
-  <div class="section-title">Effects</div>
+  <div class="section-title sub">Effects</div>
   <div class="color-grid">
     <div class="color-entry" data-var="error" data-role="wavy">
       <div class="color-dot"></div>
@@ -789,7 +797,7 @@
 </div>
 
 <div class="section">
-  <div class="section-title">Comments</div>
+  <div class="section-title sub">Comments</div>
   <div class="color-grid">
     <div class="color-entry" data-var="comment" data-role="fg">
       <div class="color-dot"></div>
@@ -827,7 +835,7 @@
 </div>
 
 <div class="section">
-  <div class="section-title">Diff</div>
+  <div class="section-title sub">Diff</div>
   <div class="color-grid">
     <div class="color-entry" data-var="diff-delete" data-role="bg">
       <div class="color-dot"></div>
