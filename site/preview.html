@@ -535,6 +535,7 @@
   }
   .hue-wheel-handle {
     position: absolute;
+    touch-action: none; /* finger drags move the handle, not the page */
     width: var(--wheel-handle-size);
     height: var(--wheel-handle-size);
     border-radius: 50%;
@@ -1316,12 +1317,23 @@
       return Math.abs(d);
     }
 
+    // Pointer Events: mouse, touch and pen. Capturing the pointer on the handle
+    // keeps move/up events coming even when the pointer leaves the wheel or window.
     let dragging = null;
     for (const [key, h] of Object.entries(handles)) {
-      h.addEventListener("mousedown", e => { dragging = key; e.preventDefault(); });
+      h.addEventListener("pointerdown", e => {
+        dragging = key;
+        h.setPointerCapture(e.pointerId);
+        e.preventDefault();
+      });
+      h.addEventListener("pointerup", () => { dragging = null; });
+      h.addEventListener("pointercancel", () => { dragging = null; });
+      h.addEventListener("pointermove", e => {
+        if (dragging !== key) return;
+        onDrag(e);
+      });
     }
-    document.addEventListener("mousemove", e => {
-      if (!dragging) return;
+    function onDrag(e) {
       const angle = angleFromEvent(e);
       if (dragging === "main") {
         const newHue = Math.round(angle);
@@ -1343,8 +1355,7 @@
         if (compSlider) compSlider.value = newOffset;
       }
       refresh();
-    });
-    document.addEventListener("mouseup", () => { dragging = null; });
+    }
 
     // Click the disc background (not handles) to toggle dim/bright. Handles are
     // siblings of the ring, so their clicks don't bubble through it.
