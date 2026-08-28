@@ -74,7 +74,10 @@
     z-index: 12;
   }
   .controls label { white-space: nowrap; }
-  .controls output { min-width: 36px; text-align: right; }
+  .controls output { min-width: 44px; text-align: right; }
+  /* Units live in CSS so the readout text stays a plain number for scripts */
+  #hue-value::after, #comp-offset-value::after { content: "\00b0"; }
+  #comp-offset-value::before { content: "\00b1"; }
   .controls .divider { width: 1px; height: 16px; background: var(--gutter-bg); margin: 0 4px; }
   .controls input[type="range"] {
     width: 100px;
@@ -578,17 +581,17 @@
 <body>
 
 <div class="controls" role="toolbar" aria-label="Theme knobs">
-  <label for="hue-slider">Hue</label>
+  <label for="hue-slider" title="OKLCH hue of the main family (60% of the scheme): keywords, backgrounds, foreground">Hue</label>
   <input id="hue-slider" class="hue-slider" type="range" min="0" max="360" value="128" aria-valuetext="128°" oninput="updateHue(this.value)">
   <output id="hue-value" for="hue-slider">128</output>
   <div class="divider"></div>
-  <label for="comp-slider">Complementaries</label>
+  <label for="comp-slider" title="Angle of the two analogous complementaries on either side of the main hue (30%): strings at −offset, numbers at +offset">Complementaries</label>
   <input id="comp-slider" type="range" min="0" max="180" value="30" aria-valuetext="±30°" oninput="updateCompOffset(this.value)">
   <output id="comp-offset-value" for="comp-slider">30</output>
   <div class="divider"></div>
-  <label for="chroma-slider">Chroma</label>
+  <label for="chroma-slider" title="Base OKLCH chroma every syntax color is derived from; higher values clip sooner (marked * in the palette)">Chroma</label>
   <input id="chroma-slider" type="range" min="0" max="0.2" step="0.005" value="0.11" oninput="updateBaseChroma(this.value)">
-  <output id="base-chroma-value" for="chroma-slider">0.11</output>
+  <output id="base-chroma-value" for="chroma-slider">0.110</output>
   <div class="divider"></div>
   <button type="button" id="reset-btn" class="icon-btn" title="Reset to defaults" aria-label="Reset to defaults" onclick="applyParams(DEFAULTS)">
     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -1258,7 +1261,7 @@
 
   function updateBaseChroma(value) {
     document.documentElement.style.setProperty("--base-chroma", value);
-    document.getElementById("base-chroma-value").textContent = value;
+    document.getElementById("base-chroma-value").textContent = Number(value).toFixed(3);
     updateColorCatalog();
     syncHash();
   }
