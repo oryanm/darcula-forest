@@ -10,6 +10,7 @@
     --wheel-handle-size: 20px;
     --wheel-margin: 32px;
     --wheel-max-chroma: 0.2; /* outer rim chroma; center is 0 (gray) */
+    --code-lh: 1.45; /* editor line height */
     /* spacing scale for page layout (editor mock internals keep IDE-proportioned literals) */
     --space-1: 4px;
     --space-2: 8px;
@@ -281,18 +282,18 @@
     text-align: right;
     color: var(--line-number);
     font-size: 13px;
-    line-height: 1.65;
+    line-height: var(--code-lh);
     user-select: none;
     border-right: 1px solid var(--caret-row);
   }
   .code {
     padding: 16px 20px;
     font-size: 13px;
-    line-height: 1.65;
+    line-height: var(--code-lh);
     overflow-x: auto;
     flex: 1;
   }
-  .code .line { white-space: pre; min-height: 1.65em; } /* blank lines keep a row */
+  .code .line { white-space: pre; min-height: 1lh; } /* blank lines keep a row */
   .code .line.active-line { background: var(--caret-row); margin: 0 -20px; padding: 0 20px; }
   /* Diff line backgrounds (DIFF_DELETED / DIFF_MODIFIED / DIFF_INSERTED / DIFF_CONFLICT) */
   .code .line.diff-del, .code .line.diff-chg, .code .line.diff-add, .code .line.diff-conf { margin: 0 -20px; padding: 0 20px; }
@@ -307,13 +308,13 @@
   .term {
     padding: 16px 20px;
     font-size: 13px;
-    line-height: 1.65;
+    line-height: var(--code-lh);
     flex: 1;
     overflow-x: auto;
     background: var(--term-black);
     color: var(--term-white);
   }
-  .term .line { white-space: pre; min-height: 1.65em; }
+  .term .line { white-space: pre; min-height: 1lh; }
   .t-black { color: var(--term-black); }     .t-bblack { color: var(--term-bright-black); }
   .t-red { color: var(--term-red); }         .t-bred { color: var(--term-bright-red); }
   .t-green { color: var(--term-green); }     .t-bgreen { color: var(--term-bright-green); }
@@ -323,17 +324,17 @@
   .t-cyan { color: var(--term-cyan); }       .t-bcyan { color: var(--term-bright-cyan); }
   .t-white { color: var(--term-white); }     .t-bwhite { color: var(--term-bright-white); }
   .t-bold { font-weight: bold; }
-  .ansi { display: grid; grid-template-columns: repeat(8, 2ch); grid-auto-rows: 1.65em; margin-top: 1.65em; }
+  .ansi { display: grid; grid-template-columns: repeat(8, 2ch); grid-auto-rows: 1lh; margin-top: 1lh; }
   .ansi div { background: var(--t); }
   /* Right-edge error stripe: one row per line, a mark where the line has a stripe color */
   .stripes {
     width: 12px;
     padding: 16px 0;
     font-size: 13px;
-    line-height: 1.65;
+    line-height: var(--code-lh);
     flex-shrink: 0;
   }
-  .stripes .mark { height: 1.65em; display: flex; align-items: center; justify-content: center; }
+  .stripes .mark { height: 1lh; display: flex; align-items: center; justify-content: center; }
   .stripes .mark::before { content: ""; width: 4px; height: 0.55em; border-radius: 1px; background: var(--s); }
   .stripes .diff-del  { --s: var(--diff-delete-stripe); }
   .stripes .diff-chg  { --s: var(--diff-change-stripe); }
