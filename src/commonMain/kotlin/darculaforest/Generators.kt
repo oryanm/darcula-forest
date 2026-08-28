@@ -15,5 +15,6 @@ fun generateAll(params: ThemeParams = ThemeParams()) = Palette(params).let { pal
         GeneratedFile("jetbrains/Darcula_Forest.theme.json", palette.generateIntellijTheme() + "\n"),
         GeneratedFile("alacritty/alacritty.toml",            palette.generateAlacritty() + "\n"),
         GeneratedFile("zed/darcula-forest.json",             palette.generateZed() + "\n"),
+        GeneratedFile("t3code/darcula-forest.json",          palette.generateT3Code() + "\n"),
     )
 }

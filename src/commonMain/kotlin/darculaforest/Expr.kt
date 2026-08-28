@@ -191,6 +191,15 @@ fun hexOf(oklch: Expr.Oklch): String {
     return "$rgb$alpha"
 }
 
+/**
+ * Absolute `oklch(L C H [/ a])` with every channel resolved to a number, e.g. `oklch(0.250000 0.010000 128.000)`.
+ */
+fun absoluteOklchOf(v: Expr.Var): String {
+    val r = resolveOklch(unwrapOklch(v))
+    val tail = r.alpha?.let { " / ${fmtFixed(it, 3)}" } ?: ""
+    return "oklch(${fmtFixed(r.l, 6)} ${fmtFixed(r.c, 6)} ${fmtFixed(r.h, 3)}$tail)"
+}
+
 private data class ResolvedOklch(val l: Double, val c: Double, val h: Double, val alpha: Double?)
 
 private fun resolveOklch(color: Expr.Oklch): ResolvedOklch {
