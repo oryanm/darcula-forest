@@ -175,6 +175,34 @@
   .color-name { font-size: 12px; color: var(--fg); }
   .color-hex { font-size: 11px; color: var(--fg-muted); }
   .color-source { font-size: 10px; color: var(--static-function); margin-top: 1px; }
+  /* oklch() value falls outside sRGB; the swatch and theme files show it clamped. */
+  .color-entry.clipped { position: relative; }
+  .color-entry.clipped .color-hex::after {
+    content: "*";
+    font-size: 0.85em;
+    vertical-align: super;
+    line-height: 0; /* don't grow the row */
+    margin-left: 1px;
+  }
+  /* Balloon tooltip from data-tip (native title tooltips are slow and unstyled). */
+  .color-entry.clipped::after {
+    content: attr(data-tip);
+    position: absolute;
+    left: 12px;
+    bottom: calc(100% + 6px);
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: var(--gutter-bg);
+    color: var(--fg);
+    border: 1px solid var(--error);
+    font-size: 11px;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 120ms ease 80ms;
+    z-index: 1;
+  }
+  .color-entry.clipped:hover::after { opacity: 1; }
 
   /* Code preview */
   .editor {
@@ -811,6 +839,14 @@
     return "#" + [r, g, b].map(v => v.toString(16).padStart(2, "0")).join("");
   }
 
+  // Relative-color syntax serializes sRGB channels unclamped, so anything
+  // outside [0, 1] means the oklch() color is out of gamut and renders clamped.
+  function outOfGamut(varName) {
+    probe.style.color = "color(from var(--" + varName + ") srgb r g b)";
+    const m = getComputedStyle(probe).color.match(/srgb ([-\d.e]+) ([-\d.e]+) ([-\d.e]+)/);
+    return !!m && m.slice(1).some(x => x < -0.002 || x > 1.002);
+  }
+
   function updateColorCatalog() {
     for (const el of document.querySelectorAll("[data-var]")) {
       const varName = el.dataset.var;
@@ -819,6 +855,9 @@
       const hex = toHex(resolved);
       el.querySelector(".color-dot").style.background = "var(--" + varName + ")";
       el.querySelector(".color-hex").textContent = resolved + " \u00b7 " + hex;
+      const clipped = outOfGamut(varName);
+      el.classList.toggle("clipped", clipped);
+      el.dataset.tip = clipped ? "Outside the sRGB gamut \u2014 rendered clamped to " + hex : "";
     }
   }
 
