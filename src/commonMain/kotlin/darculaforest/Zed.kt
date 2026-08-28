@@ -1,5 +1,6 @@
 package darculaforest
 
+import kotlin.js.JsName
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -205,7 +206,7 @@ data class ZedSyntax(
     val comment: ZedToken,
     @SerialName("comment.doc")              val commentDoc: ZedToken,
     val constant: ZedToken,
-    val constructor: ZedToken,
+    @JsName("constructor_") @SerialName("constructor") val constructor: ZedToken,
     val embedded: ZedToken,
     val emphasis: ZedToken,
     @SerialName("emphasis.strong")          val emphasisStrong: ZedToken,

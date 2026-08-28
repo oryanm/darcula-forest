@@ -12,7 +12,7 @@ Usage of Oklch means the color scheme remains balanced while most of the relatio
 ### Support
 1. Alacritty
 2. CSS palette
-3. IntelliJ Color Scheme (ICLS) and theme (soon)
+3. IntelliJ Color Scheme (ICLS) and UI theme
 4. Zed
 
 ## Screenshots
@@ -24,10 +24,25 @@ Usage of Oklch means the color scheme remains balanced while most of the relatio
 ## Regenerating
 
 ```sh
-./gradlew run
+./gradlew run                                   # regenerate darcula/ from Palette.kt
+./gradlew run --args="--hue 200 --out /tmp/x"   # a variant (also --offset, --chroma)
+./gradlew jvmTest                               # golden test: darcula/ must match the generator
 ```
 
-[preview-html]: https://htmlpreview.github.io/?https://github.com/oryanm/darcula-forest/blob/main/darcula/css/preview.html
+## Preview site
+
+The [preview][preview-html] is a static page: colours are derived in CSS (`oklch(from …)`), and the
+download button runs the same Kotlin generator compiled to JavaScript. To use it locally:
+
+```sh
+./gradlew copyJsBundle      # builds site/darcula-forest.js (first run downloads Node, takes a few minutes)
+open site/preview.html
+```
+
+GitHub Actions rebuilds and publishes it to GitHub Pages on every push to `master`
+(`.github/workflows/pages.yml`).
+
+[preview-html]: https://oryanm.github.io/darcula-forest/site/preview.html
 [darcula-src]: https://github.com/JetBrains/intellij-community/blob/master/platform/platform-resources/src/DefaultColorSchemesManager.xml
 [oklab-wiki]: https://en.wikipedia.org/wiki/Oklab_color_space
 [oklch-tool]: https://oklch.com

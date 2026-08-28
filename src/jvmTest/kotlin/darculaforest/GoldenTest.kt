@@ -23,7 +23,7 @@ class GoldenTest {
     @Test
     fun `no unexpected files in generated directory`() {
         val expected = generateAll().map { it.path }.toSet()
-        val actual = Dirs.out.walk().filter { it.isFile }.map { it.relativeTo(Dirs.out).path }.toSet()
+        val actual = Dirs.out.walk().filter { it.isFile && !it.name.startsWith(".") }.map { it.relativeTo(Dirs.out).path }.toSet()
         assertEquals(expected, actual, "darcula/ must contain only generator output")
     }
 

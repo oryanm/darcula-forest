@@ -796,6 +796,7 @@
   </div>
 </aside>
 
+<script src="darcula-forest.js"></script>
 <script>
   const probe = document.createElement("div");
   document.body.appendChild(probe);
@@ -975,13 +976,10 @@
         complementaryColorOffset: parseFloat(document.getElementById("comp-offset-value").textContent),
         baseChroma: parseFloat(document.getElementById("base-chroma-value").textContent),
       };
-      const res = await fetch("/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(params),
-      });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const blob = await res.blob();
+      const api = window["darcula-forest"];
+      if (!api) throw new Error("darcula-forest.js not loaded (run ./gradlew copyJsBundle)");
+      const bytes = api.generateZip(params.mainHue, params.complementaryColorOffset, params.baseChroma);
+      const blob = new Blob([bytes], { type: "application/zip" });
       const url = URL.createObjectURL(blob);
       const a = Object.assign(document.createElement("a"), { href: url, download: "darcula-forest.zip" });
       document.body.appendChild(a);

@@ -1,0 +1,65 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Build JS bundle
+        run: ./gradlew jsBrowserProductionWebpack copyJsBundle --no-daemon
+
+      - name: Assemble _site
+        # Mirror the repo layout (site/ and darcula/ as siblings) so that
+        # site/preview.html's href="../darcula/css/palette.css" resolves the same
+        # way on Pages as it does when the file is opened from a checkout via file://.
+        run: |
+          rm -rf _site
+          mkdir -p _site/darcula
+          cp -R site _site/site
+          cp -R darcula/css _site/darcula/css
+          cp .github/pages/index.html _site/index.html
+          find _site -type f | sort
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v6
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

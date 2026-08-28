@@ -1,7 +1,6 @@
 package darculaforest
 
 import kotlinx.serialization.Serializable
-import java.io.File
 
 data class GeneratedFile(val path: String, val contents: String)
 
@@ -10,7 +9,16 @@ data class ThemeParams(
   val mainHue: Double = 128.0,
   val complementaryColorOffset: Double = 30.0,
   val baseChroma: Double = 0.110,
-)
+) {
+  /**
+   * Keeps user-supplied parameters inside the ranges the palette math is designed for.
+   */
+  fun clamped() = ThemeParams(
+    mainHue = mainHue.finiteOr(128.0).coerceIn(0.0, 360.0),
+    complementaryColorOffset = complementaryColorOffset.finiteOr(30.0).coerceIn(0.0, 180.0),
+    baseChroma = baseChroma.finiteOr(0.110).coerceIn(0.0, 0.4),
+  )
+}
 
 fun generateAll(params: ThemeParams = ThemeParams()) = Palette(params).let { palette ->
     listOf(
@@ -22,17 +30,4 @@ fun generateAll(params: ThemeParams = ThemeParams()) = Palette(params).let { pal
     )
 }
 
-// ── Directories ─────────────────────────────────────────────────────
-// Defaults assume the process runs from the repo root. Override with
-// -Ddarcula.out=… / -Ddarcula.site=… or DARCULA_OUT / DARCULA_SITE.
-
-object Dirs {
-    /** Generated theme files (fully overwritten by the generator). */
-    val out: File get() = dir("darcula.out", "DARCULA_OUT", "darcula")
-
-    /** Hand-maintained static site (preview pages). */
-    val site: File get() = dir("darcula.site", "DARCULA_SITE", "site")
-
-    private fun dir(prop: String, env: String, default: String) =
-        File(System.getProperty(prop) ?: System.getenv(env) ?: default)
-}
+private fun Double.finiteOr(default: Double) = if (isFinite()) this else default
