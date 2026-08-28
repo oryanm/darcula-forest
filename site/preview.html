@@ -577,6 +577,12 @@
   <input id="chroma-slider" type="range" min="0" max="0.2" step="0.005" value="0.11" oninput="updateBaseChroma(this.value)">
   <output id="base-chroma-value" for="chroma-slider">0.11</output>
   <div class="divider"></div>
+  <button type="button" id="reset-btn" class="icon-btn" title="Reset to defaults" aria-label="Reset to defaults" onclick="applyParams(DEFAULTS)">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M3 8a5 5 0 1 0 1.5-3.6"/>
+      <path d="M3 2.5v3h3"/>
+    </svg>
+  </button>
   <button type="button" id="download-btn" class="icon-btn" title="Download theme" aria-label="Download theme" onclick="downloadTheme()">
     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M8 2v8"/>
@@ -592,9 +598,6 @@
   <div>A dark green editor theme, derived in OKLCH from three knobs and two fixed hues.</div>
   <div>Main hue for 60%, two analogous complementaries (±offset) for 30%, fixed red and blue for 10%.</div>
   <div>Drag the knobs — every color re-derives live. &nbsp;·&nbsp; IntelliJ / Zed / Alacritty / T3 Code / CSS &nbsp;</div>
-</div>
-
-  </div>
 </div>
 
 <!-- CODE SAMPLES -->
@@ -1223,6 +1226,7 @@
     document.getElementById("hue-value").textContent = value;
     document.getElementById("hue-slider").setAttribute("aria-valuetext", value + "\u00b0");
     updateColorCatalog();
+    syncHash();
   }
 
   function updateCompOffset(value) {
@@ -1230,12 +1234,14 @@
     document.getElementById("comp-offset-value").textContent = value;
     document.getElementById("comp-slider").setAttribute("aria-valuetext", "\u00b1" + value + "\u00b0");
     updateColorCatalog();
+    syncHash();
   }
 
   function updateBaseChroma(value) {
     document.documentElement.style.setProperty("--base-chroma", value);
     document.getElementById("base-chroma-value").textContent = value;
     updateColorCatalog();
+    syncHash();
   }
 
   (function setupHueWheel() {
@@ -1353,18 +1359,39 @@
 
   updateColorCatalog();
 
-  // Browsers restore <input> values across reloads (form state / bfcache),
-  // so the slider thumb stays where the user last dragged it. Reset each
-  // range input to its HTML `value` attribute and fire the input handler
-  // so labels and CSS vars resync. Runs on initial load and on bfcache restore.
-  function resetSliders() {
-    for (const input of document.querySelectorAll('.controls input[type="range"]')) {
-      input.value = input.getAttribute("value");
+  // Knob state lives in the URL hash (#h=128&o=30&c=0.11) so a palette can be
+  // shared or bookmarked. Defaults come from the sliders' HTML `value` attrs
+  // (which mirror Palette.kt). Browsers also restore <input> values across
+  // reloads / bfcache, so we always re-apply explicitly on load and pageshow.
+  const SLIDERS = { h: "hue-slider", o: "comp-slider", c: "chroma-slider" };
+  const DEFAULTS = Object.fromEntries(Object.entries(SLIDERS).map(([k, id]) => [k, document.getElementById(id).getAttribute("value")]));
+
+  function applyParams(params) {
+    for (const [k, id] of Object.entries(SLIDERS)) {
+      const input = document.getElementById(id);
+      input.value = params[k] ?? DEFAULTS[k];
       input.dispatchEvent(new Event("input", { bubbles: true }));
     }
   }
-  resetSliders();
-  window.addEventListener("pageshow", resetSliders);
+  function paramsFromHash() {
+    const q = new URLSearchParams(location.hash.slice(1));
+    const out = {};
+    for (const k of Object.keys(SLIDERS)) if (q.has(k) && !isNaN(parseFloat(q.get(k)))) out[k] = q.get(k);
+    return out;
+  }
+  let hashTimer;
+  function syncHash() {
+    clearTimeout(hashTimer);
+    hashTimer = setTimeout(() => {
+      const cur = Object.fromEntries(Object.entries(SLIDERS).map(([k, id]) => [k, document.getElementById(id).value]));
+      const isDefault = Object.keys(SLIDERS).every(k => parseFloat(cur[k]) === parseFloat(DEFAULTS[k]));
+      const hash = isDefault ? "" : "#" + new URLSearchParams(cur).toString();
+      if (hash !== location.hash) history.replaceState(null, "", location.pathname + location.search + hash);
+    }, 150);
+  }
+  applyParams(paramsFromHash());
+  window.addEventListener("pageshow", () => applyParams(paramsFromHash()));
+  window.addEventListener("hashchange", () => applyParams(paramsFromHash()));
 
   function currentParams() {
     return {
