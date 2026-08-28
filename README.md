@@ -10,10 +10,18 @@ Accent colors follow the 60/30/10 rule and are derived as analogous complementar
 Usage of Oklch means the color scheme remains balanced while most of the relationships between syntactic tokens and UI elements are simple linear transformations of each other, specific hex values are derived automatically and the entire scheme can be generated from very few initial constants. Check out the [preview here][preview-html].
 
 ### Support
-1. Alacritty
-2. CSS palette
-3. IntelliJ Color Scheme (ICLS) and UI theme
-4. Zed
+
+Editors & IDEs
+- IntelliJ / JetBrains — color scheme (ICLS) and UI theme
+- Zed
+- T3 Code
+
+Terminals & multiplexers
+- Alacritty, kitty, Ghostty, WezTerm, foot, Warp, Windows Terminal, iTerm2
+- tmux, Zellij
+
+Other
+- CSS palette
 
 ## Screenshots
 

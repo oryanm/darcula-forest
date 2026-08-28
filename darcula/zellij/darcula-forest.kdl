@@ -1,0 +1,15 @@
+themes {
+    darcula-forest {
+        fg "#acafa9"
+        bg "#20231e"
+        black "#20231e"
+        red "#7e7238"
+        green "#647b47"
+        yellow "#797250"
+        blue "#5f7d31"
+        magenta "#8aab5f"
+        cyan "#749f2b"
+        white "#acafa9"
+        orange "#cbad00"
+    }
+}

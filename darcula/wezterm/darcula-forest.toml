@@ -1,0 +1,57 @@
+[colors]
+foreground = "#acafa9"
+background = "#20231e"
+cursor_bg = "#5f7d31"
+cursor_fg = "#20231e"
+cursor_border = "#5f7d31"
+selection_bg = "#373d32"
+selection_fg = "#acafa9"
+split = "#343631"
+
+ansi = [
+  "#20231e",
+  "#7e7238",
+  "#647b47",
+  "#797250",
+  "#5f7d31",
+  "#8aab5f",
+  "#749f2b",
+  "#acafa9",
+]
+brights = [
+  "#373d32",
+  "#7e7238",
+  "#647b47",
+  "#797250",
+  "#5f7d31",
+  "#8aab5f",
+  "#749f2b",
+  "#a3b68d",
+]
+
+[colors.tab_bar]
+background = "#171914"
+
+[colors.tab_bar.active_tab]
+bg_color = "#20231e"
+fg_color = "#acafa9"
+
+[colors.tab_bar.inactive_tab]
+bg_color = "#171914"
+fg_color = "#9ca099"
+
+[colors.tab_bar.inactive_tab_hover]
+bg_color = "#2f312c"
+fg_color = "#acafa9"
+
+[colors.tab_bar.new_tab]
+bg_color = "#171914"
+fg_color = "#9ca099"
+
+[colors.tab_bar.new_tab_hover]
+bg_color = "#2f312c"
+fg_color = "#acafa9"
+
+[metadata]
+name = "Darcula Forest"
+author = "Oryan"
