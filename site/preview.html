@@ -11,6 +11,9 @@
     --wheel-handle-size: 20px;
     --wheel-margin: 32px;
     --wheel-max-chroma: 0.2; /* outer rim chroma; center is 0 (gray) */
+    /* page chrome: greys pinned to the theme's lightness so labels don't recolor with the sliders */
+    --ui-text-muted: oklch(from var(--fg-muted) l 0 h);
+    --ui-text-faint: oklch(from var(--fg-muted) calc(l - 0.07) 0 h);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -54,7 +57,7 @@
     gap: 8px;
     padding: 8px 16px;
     font-size: 11px;
-    color: var(--fg-muted);
+    color: var(--ui-text-muted);
     border-bottom: 1px solid var(--gutter-bg);
     z-index: 12;
   }
@@ -133,7 +136,7 @@
   }
   .subtitle {
     font-size: 13px;
-    color: var(--fg-muted);
+    color: var(--ui-text-muted);
     margin-bottom: 32px;
   }
   .section {
@@ -143,7 +146,7 @@
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 1.5px;
-    color: var(--fg-muted);
+    color: var(--ui-text-muted);
     margin-bottom: 12px;
     border-bottom: 1px solid var(--gutter-bg);
     padding-bottom: 6px;
@@ -187,18 +190,18 @@
   [data-role="wavy"] .color-dot::before { text-decoration-style: wavy; }
   .color-info { display: flex; flex-direction: column; }
   .color-name { font-size: 12px; color: var(--fg); }
-  .color-hex { font-size: 11px; color: var(--fg-muted); }
+  .color-hex { font-size: 11px; color: var(--ui-text-muted); }
   .copy {
     all: unset;
     cursor: copy;
     border-radius: 3px;
   }
   .copy:hover, .copy:focus-visible { color: var(--fg); }
-  .copy:focus-visible { outline: 1px solid var(--fg-muted); outline-offset: 1px; }
+  .copy:focus-visible { outline: 1px solid var(--ui-text-muted); outline-offset: 1px; }
   .copy { transition: opacity 150ms ease; }
   .copy.fading { opacity: 0; }
   .copy.copied { color: var(--keyword); }
-  .color-source { font-size: 10px; color: var(--static-function); margin-top: 1px; }
+  .color-source { font-size: 10px; color: var(--ui-text-faint); margin-top: 1px; }
   /* oklch() value falls outside sRGB; the swatch and theme files show it clamped. */
   .color-entry.clipped { position: relative; }
   .color-entry.clipped .color-hex::after {
