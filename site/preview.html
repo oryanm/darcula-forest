@@ -800,12 +800,15 @@
 <script>
   const probe = document.createElement("div");
   document.body.appendChild(probe);
-  const ctx = document.createElement("canvas").getContext("2d");
+  const ctx = document.createElement("canvas").getContext("2d", { willReadFrequently: true });
 
+  // Chrome serializes an oklch() fillStyle back as oklch(), so paint 1px and
+  // read the (gamut-clamped) sRGB bytes back instead.
   function toHex(cssColor) {
-    ctx.fillStyle = "#000";
     ctx.fillStyle = cssColor;
-    return ctx.fillStyle;
+    ctx.fillRect(0, 0, 1, 1);
+    const [r, g, b] = ctx.getImageData(0, 0, 1, 1).data;
+    return "#" + [r, g, b].map(v => v.toString(16).padStart(2, "0")).join("");
   }
 
   function updateColorCatalog() {
