@@ -533,6 +533,18 @@
       0 0 0 1px rgba(0, 0, 0, 0.5),
       0 8px 24px rgba(0, 0, 0, 0.45);
   }
+  /* Symmetry overlay: spokes to each handle + the ±offset arc through main */
+  .hue-wheel-geo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    fill: none;
+    stroke: var(--fg);
+    stroke-linecap: round;
+  }
+  .hue-wheel-geo line, .hue-wheel-geo path { stroke-width: 0.5; stroke-opacity: 0.35; stroke-dasharray: 0.1 1.4; }
   .hue-wheel-handle {
     position: absolute;
     touch-action: none; /* finger drags move the handle, not the page */
@@ -1100,6 +1112,12 @@
 <aside class="wheel-col">
   <div class="hue-wheel" id="hue-wheel">
     <div class="hue-wheel-ring"></div>
+    <svg class="hue-wheel-geo" viewBox="0 0 100 100" aria-hidden="true">
+      <path id="hue-arc"/>
+      <line id="hue-spoke-comp1"/>
+      <line id="hue-spoke-comp2"/>
+      <line id="hue-spoke-main"/>
+    </svg>
     <div class="hue-wheel-handle comp1" id="hue-handle-comp1"></div>
     <div class="hue-wheel-handle comp2" id="hue-handle-comp2"></div>
     <div class="hue-wheel-handle main" id="hue-handle-main"></div>
@@ -1296,8 +1314,27 @@
       placeAt(labels.comp1, m - o, lr);
       placeAt(labels.comp2, m + o, lr);
       labels.main.textContent  = normHue(m);
-      labels.comp1.textContent = "\u2212" + Math.round(o);
-      labels.comp2.textContent = "+" + Math.round(o);
+      labels.comp1.textContent = normHue(m - o) + " (\u2212" + Math.round(o) + ")";
+      labels.comp2.textContent = normHue(m + o) + " (+" + Math.round(o) + ")";
+      drawGeometry(m, o, r);
+    }
+    // Spokes + arc in the 100×100 viewBox; ratios map 1:1 to viewBox units ×100.
+    function drawGeometry(m, o, r) {
+      const R = r * 100;
+      const pt = deg => { const a = deg * Math.PI / 180; return [50 + R * Math.sin(a), 50 - R * Math.cos(a)]; };
+      const spoke = (id, deg) => {
+        const [x, y] = pt(deg);
+        const el = document.getElementById(id);
+        el.setAttribute("x1", 50); el.setAttribute("y1", 50);
+        el.setAttribute("x2", x.toFixed(2)); el.setAttribute("y2", y.toFixed(2));
+      };
+      spoke("hue-spoke-main", m);
+      spoke("hue-spoke-comp1", m - o);
+      spoke("hue-spoke-comp2", m + o);
+      const [x1, y1] = pt(m - o), [x2, y2] = pt(m + o);
+      const large = o > 90 ? 1 : 0;
+      document.getElementById("hue-arc").setAttribute("d",
+        o <= 0 ? "" : `M ${x1.toFixed(2)} ${y1.toFixed(2)} A ${R.toFixed(2)} ${R.toFixed(2)} 0 ${large} 1 ${x2.toFixed(2)} ${y2.toFixed(2)}`);
     }
     function angleFromEvent(e) {
       const rect = wheel.getBoundingClientRect();
