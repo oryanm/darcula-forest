@@ -976,7 +976,7 @@
         complementaryColorOffset: parseFloat(document.getElementById("comp-offset-value").textContent),
         baseChroma: parseFloat(document.getElementById("base-chroma-value").textContent),
       };
-      const api = window["darcula-forest"];
+      const api = window["darcula-forest"]?.darculaforest;
       if (!api) throw new Error("darcula-forest.js not loaded (run ./gradlew copyJsBundle)");
       const bytes = api.generateZip(params.mainHue, params.complementaryColorOffset, params.baseChroma);
       const blob = new Blob([bytes], { type: "application/zip" });

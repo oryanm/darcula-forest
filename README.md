@@ -24,9 +24,8 @@ Usage of Oklch means the color scheme remains balanced while most of the relatio
 ## Regenerating
 
 ```sh
-./gradlew run                                   # regenerate darcula/ from Palette.kt
-./gradlew run --args="--hue 200 --out /tmp/x"   # a variant (also --offset, --chroma)
-./gradlew jvmTest                               # golden test: darcula/ must match the generator
+./gradlew run       # regenerate darcula/ from Palette.kt
+./gradlew jvmTest   # golden test: darcula/ must match the generator
 ```
 
 ## Preview site

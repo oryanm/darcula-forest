@@ -1,6 +1,7 @@
 /shelf/
 /workspace.xml
 /.idea/*
+!/.idea/runConfigurations/
 *.iml
 /.local/*
 /.claude/*
@@ -18,4 +19,3 @@ bin/
 
 # Kotlin/JS bundle copied into site/ by ./gradlew copyJsBundle
 /site/darcula-forest.js
-/site/darcula-forest.js.map

@@ -13,8 +13,6 @@ package darculaforest
 
 /** Builds a .zip archive containing [files], each UTF-8 encoded and stored uncompressed. */
 fun zip(files: List<GeneratedFile>): ByteArray {
-    require(files.size <= 0xFFFF) { "too many entries for a non-Zip64 archive: ${files.size}" }
-
     val names = files.map { it.path.encodeToByteArray() }
     val datas = files.map { it.contents.encodeToByteArray() }
     val crcs = datas.map(::crc32)

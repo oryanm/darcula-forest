@@ -229,7 +229,6 @@ private fun resolveChannel(expr: Expr, parent: Double?): Double = when (expr) {
 
 fun fmtFixed(v: Double, decimals: Int): String {
     require(v.isFinite()) { "cannot format $v" }
-    require(decimals in 0..9) { "decimals must be in 0..9, got $decimals" }
     val scaled = round(v * POW10[decimals]).toLong()
     val digits = abs(scaled).toString().padStart(decimals + 1, '0')
     val intPart = digits.dropLast(decimals)

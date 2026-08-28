@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpack
 
 plugins {
@@ -12,25 +11,11 @@ repositories {
 
 kotlin {
     jvmToolchain(21)
-
-    jvm {
-        // Built-in KMP run support (Kotlin 2.0+): registers `jvmRun`, which IntelliJ uses for gutter runs.
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        mainRun {
-            mainClass.set("darculaforest.MainKt")
-        }
-    }
-
+    jvm()
     js {
-        moduleName = "darcula-forest"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "darcula-forest.js"
-            }
-        }
+        moduleName = "darcula-forest" // also the global the UMD bundle registers: window["darcula-forest"]
+        browser()
         binaries.executable()
-        useEsModules()
-        generateTypeScriptDefinitions()
     }
 
     sourceSets {
@@ -43,21 +28,13 @@ kotlin {
     }
 }
 
-// ── JVM ─────────────────────────────────────────────────────────────
-
-// `jvmRun` is registered lazily by KGP, so match it by name.
-tasks.withType<JavaExec>().configureEach {
-    if (name == "jvmRun") workingDir = rootDir
-}
-
-// `./gradlew run` — same as the old `application` plugin task. Regenerates darcula/.
-val jvmMainCompilation = kotlin.targets.getByName("jvm").compilations.getByName("main")
+val jvmMain = kotlin.targets.getByName("jvm").compilations.getByName("main")
 
 tasks.register<JavaExec>("run") {
     group = "application"
     description = "Regenerate the theme files under darcula/"
     mainClass.set("darculaforest.MainKt")
-    classpath = files(jvmMainCompilation.output.allOutputs, jvmMainCompilation.runtimeDependencyFiles)
+    classpath = files(jvmMain.output.allOutputs, jvmMain.runtimeDependencyFiles)
     workingDir = rootDir
 }
 
@@ -66,15 +43,17 @@ tasks.named<Test>("jvmTest") {
     workingDir = rootDir
 }
 
-// ── JS ──────────────────────────────────────────────────────────────
-
-// Copies the production webpack bundle into site/ so preview.html can load it (works from file://).
 tasks.register<Copy>("copyJsBundle") {
     group = "build"
-    description = "Copy the production JS bundle into site/"
+    description = "Copy the production JS bundle into site/ so preview.html can load it"
     val webpack = tasks.named<KotlinWebpack>("jsBrowserProductionWebpack")
-    from(webpack.map { it.outputDirectory }) {
-        include("darcula-forest.js", "darcula-forest.js.map")
-    }
+    from(webpack.map { it.outputDirectory }) { include("darcula-forest.js") }
     into(layout.projectDirectory.dir("site"))
+}
+
+tasks.register<Exec>("preview") {
+    group = "application"
+    description = "Build the JS bundle and open site/preview.html in the default browser"
+    dependsOn("copyJsBundle")
+    commandLine("open", layout.projectDirectory.file("site/preview.html").asFile.path)
 }

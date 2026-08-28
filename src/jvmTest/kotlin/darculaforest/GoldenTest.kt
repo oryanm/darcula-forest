@@ -12,9 +12,8 @@ import kotlin.test.assertTrue
 class GoldenTest {
     @Test
     fun `generated output matches committed darcula directory`() {
-        val outDir = Dirs.out
         for (f in generateAll()) {
-            val committed = File(outDir, f.path)
+            val committed = File(OUT_DIR, f.path)
             assertTrue(committed.exists(), "missing $committed — run ./gradlew run")
             assertEquals(f.contents, committed.readText(), "$committed is stale — run ./gradlew run")
         }
@@ -23,7 +22,7 @@ class GoldenTest {
     @Test
     fun `no unexpected files in generated directory`() {
         val expected = generateAll().map { it.path }.toSet()
-        val actual = Dirs.out.walk().filter { it.isFile && !it.name.startsWith(".") }.map { it.relativeTo(Dirs.out).path }.toSet()
+        val actual = OUT_DIR.walk().filter { it.isFile && !it.name.startsWith(".") }.map { it.relativeTo(OUT_DIR).path }.toSet()
         assertEquals(expected, actual, "darcula/ must contain only generator output")
     }
 
