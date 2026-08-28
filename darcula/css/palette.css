@@ -77,4 +77,23 @@
     --diff-change-stripe: oklch(from var(--diff-change) calc(l + 0.3) calc(c + 0.1) h);
     --diff-add-stripe: oklch(from var(--diff-add) calc(l + 0.3) calc(c + 0.1) h);
     --diff-conflict-stripe: oklch(from var(--diff-conflict) calc(l + 0.3) calc(c + 0.1) h);
+
+    /* Terminal */
+    --term-black: var(--editor-bg);
+    --term-red: var(--string);
+    --term-green: var(--string-escape);
+    --term-yellow: oklch(from var(--term-red) l calc(c - 0.03) h);
+    --term-blue: var(--keyword);
+    --term-magenta: var(--function-decl);
+    --term-cyan: var(--constant-field);
+    --term-white: var(--fg);
+
+    --term-bright-black: var(--selection-bg);
+    --term-bright-red: var(--term-red);
+    --term-bright-green: var(--term-green);
+    --term-bright-yellow: var(--term-yellow);
+    --term-bright-blue: var(--term-blue);
+    --term-bright-magenta: var(--term-magenta);
+    --term-bright-cyan: var(--term-cyan);
+    --term-bright-white: oklch(from var(--fg) l calc(c + 0.05) h);
 }

@@ -294,26 +294,76 @@
   }
   .code .line { white-space: pre; min-height: 1.65em; } /* blank lines keep a row */
   .code .line.active-line { background: var(--caret-row); margin: 0 -20px; padding: 0 20px; }
+  /* Diff line backgrounds (DIFF_DELETED / DIFF_MODIFIED / DIFF_INSERTED / DIFF_CONFLICT) */
+  .code .line.diff-del, .code .line.diff-chg, .code .line.diff-add, .code .line.diff-conf { margin: 0 -20px; padding: 0 20px; }
+  .code .line.diff-del  { background: var(--diff-delete); }
+  .code .line.diff-chg  { background: var(--diff-change); }
+  .code .line.diff-add  { background: var(--diff-add); }
+  .code .line.diff-conf { background: var(--diff-conflict); }
+  .todo { color: var(--todo); font-style: italic; }               /* TODO_DEFAULT_ATTRIBUTES */
+  .search-hit { background: var(--search-result-bg); }            /* SEARCH_RESULT_ATTRIBUTES */
+  .warn { background: var(--warning-bg); }                        /* WARNING_ATTRIBUTES */
+  /* Terminal pane: 16 ANSI slots via --term-* */
+  .term {
+    padding: 16px 20px;
+    font-size: 13px;
+    line-height: 1.65;
+    flex: 1;
+    overflow-x: auto;
+    background: var(--term-black);
+    color: var(--term-white);
+  }
+  .term .line { white-space: pre; min-height: 1.65em; }
+  .t-black { color: var(--term-black); }     .t-bblack { color: var(--term-bright-black); }
+  .t-red { color: var(--term-red); }         .t-bred { color: var(--term-bright-red); }
+  .t-green { color: var(--term-green); }     .t-bgreen { color: var(--term-bright-green); }
+  .t-yellow { color: var(--term-yellow); }   .t-byellow { color: var(--term-bright-yellow); }
+  .t-blue { color: var(--term-blue); }       .t-bblue { color: var(--term-bright-blue); }
+  .t-magenta { color: var(--term-magenta); } .t-bmagenta { color: var(--term-bright-magenta); }
+  .t-cyan { color: var(--term-cyan); }       .t-bcyan { color: var(--term-bright-cyan); }
+  .t-white { color: var(--term-white); }     .t-bwhite { color: var(--term-bright-white); }
+  .t-bold { font-weight: bold; }
+  .ansi { display: grid; grid-template-columns: repeat(8, 2ch); grid-auto-rows: 1.65em; margin-top: 1.65em; }
+  .ansi div { background: var(--t); }
+  /* Right-edge error stripe: one row per line, a mark where the line has a stripe color */
+  .stripes {
+    width: 12px;
+    padding: 16px 0;
+    font-size: 13px;
+    line-height: 1.65;
+    flex-shrink: 0;
+  }
+  .stripes .mark { height: 1.65em; display: flex; align-items: center; justify-content: center; }
+  .stripes .mark::before { content: ""; width: 4px; height: 0.55em; border-radius: 1px; background: var(--s); }
+  .stripes .diff-del  { --s: var(--diff-delete-stripe); }
+  .stripes .diff-chg  { --s: var(--diff-change-stripe); }
+  .stripes .diff-add  { --s: var(--diff-add-stripe); }
+  .stripes .diff-conf { --s: var(--diff-conflict-stripe); }
+  .stripes .todo      { --s: var(--todo-stripe); }
+  .stripes .search    { --s: var(--search-result-stripe); }
+  .stripes .warn      { --s: var(--warning-stripe); }
 
   /* Syntax classes — overrides */
   .kw { color: var(--keyword); }          /* DEFAULT_KEYWORD */
   .fn { color: var(--function-decl); }    /* DEFAULT_FUNCTION_DECLARATION */
+  .call { color: var(--function-call); }  /* DEFAULT_FUNCTION_CALL */
   .str { color: var(--string); }          /* DEFAULT_STRING */
   .str-esc { color: var(--string-escape); }     /* DEFAULT_VALID_STRING_ESCAPE */
   .num { color: var(--number); }          /* DEFAULT_NUMBER */
   .field { color: var(--constant-field); }       /* DEFAULT_INSTANCE_FIELD */
   .sfield { color: var(--constant-field); font-style: italic; } /* DEFAULT_STATIC_FIELD */
   .static-m { color: var(--static-function); font-style: italic; } /* DEFAULT_STATIC_METHOD */
-  .ann { color: var(--string); }          /* ANNOTATION_NAME_ATTRIBUTES */
+  .ann { color: var(--annotation); }      /* ANNOTATION_NAME_ATTRIBUTES */
   .impl { color: var(--implicit-param); } /* IMPLICIT_ANONYMOUS_CLASS_PARAMETER */
   .ident { color: var(--fg); }            /* DEFAULT_IDENTIFIER */
-  .punct { color: var(--keyword); }      /* DEFAULT_COMMA / DEFAULT_SEMICOLON */
-  .op { color: var(--fg); }              /* DEFAULT_PARENTHS / DEFAULT_BRACES / DEFAULT_DOT / DEFAULT_OPERATION_SIGN */
+  .punct { color: var(--punctuation); }  /* DEFAULT_COMMA / DEFAULT_SEMICOLON */
+  .op { color: var(--operator); }        /* DEFAULT_PARENTHS / DEFAULT_BRACES / DEFAULT_DOT / DEFAULT_OPERATION_SIGN */
 
   /* Syntax classes — comments */
   .comment { color: var(--comment); }                        /* LINE_COMMENT / BLOCK_COMMENT */
   .doc { color: var(--javadoc); font-style: italic; }    /* DOC_COMMENT */
-  .doc-tag { color: var(--javadoc); font-weight: bold; font-style: italic; }
+  .doc-tag { color: var(--javadoc-tag); font-weight: bold; font-style: italic; }
+  .doc-val { color: var(--javadoc-tag-val); font-style: italic; } /* DOC_COMMENT_TAG_VALUE */
 
   /* Horizontal-scroll strip: editors flow side-by-side; multiple visible at a
      time. Free scroll (no snapping). */
@@ -355,8 +405,6 @@
        between alpha 0 and full on hover/focus. The hidden state uses the
        gutter-bg color with alpha 0 (rather than `transparent`, which is rgba
        black-zero) so the transition doesn't flash through black mid-fade. */
-    scroll-snap-type: x proximity;
-    scroll-padding-inline: var(--fade); /* snapped editor clears the edge fade */
     scrollbar-width: thin;             /* Firefox */
     scrollbar-color: oklch(from var(--gutter-bg) l c h / 0) transparent;
     transition: scrollbar-color 200ms ease;
@@ -382,7 +430,6 @@
   }
   .code-samples > .editor {
     flex: 0 0 clamp(420px, 55%, 640px);
-    scroll-snap-align: start;
   }
   /* Grab/grabbing cursor on the scrollbar thumb, matching the hue-wheel
      handle pattern. Webkit-only — Firefox doesn't expose scrollbar parts to
@@ -536,10 +583,10 @@
           <div class="line"><span class="doc"> * Returns the sum of its arguments,</span></div>
           <div class="line"><span class="doc"> * throwing an exception if the result overflows an </span><span class="doc">{</span><span class="doc-tag">@code</span><span class="doc"> int}.</span></div>
           <div class="line"><span class="doc"> *</span></div>
-          <div class="line"><span class="doc"> * </span><span class="doc-tag">@param</span><span class="doc"> x the first value</span></div>
-          <div class="line"><span class="doc"> * </span><span class="doc-tag">@param</span><span class="doc"> y the second value</span></div>
+          <div class="line"><span class="doc"> * </span><span class="doc-tag">@param</span><span class="doc"> </span><span class="doc-val">x</span><span class="doc"> the first value</span></div>
+          <div class="line"><span class="doc"> * </span><span class="doc-tag">@param</span><span class="doc"> </span><span class="doc-val">y</span><span class="doc"> the second value</span></div>
           <div class="line"><span class="doc"> * </span><span class="doc-tag">@return</span><span class="doc"> the result</span></div>
-          <div class="line"><span class="doc"> * </span><span class="doc-tag">@throws</span><span class="doc"> ArithmeticException if the result overflows an int</span></div>
+          <div class="line"><span class="doc"> * </span><span class="doc-tag">@throws</span><span class="doc"> </span><span class="doc-val">ArithmeticException</span><span class="doc"> if the result overflows an int</span></div>
           <div class="line"><span class="doc"> * </span><span class="doc-tag">@since</span><span class="doc"> 1.8</span></div>
           <div class="line"><span class="doc"> */</span></div>
           <div class="line"><span class="ann">@IntrinsicCandidate</span></div>
@@ -603,6 +650,72 @@
           <div class="line"><span class="fn">rollDie</span><span class="op">()</span></div>
           <div class="line">  <span class="op">.</span><span class="fn">then</span><span class="op">(</span><span class="ident">value</span> <span class="op">=></span> <span class="ident">console</span><span class="op">.</span><span class="fn">log</span><span class="op">(</span><span class="str">`Rolled </span><span class="str-esc">${</span><span class="ident">value</span><span class="str-esc">}</span><span class="str">`</span><span class="op">))</span></div>
           <div class="line">  <span class="op">.</span><span class="fn">catch</span><span class="op">(</span><span class="ident">err</span> <span class="op">=></span> <span class="ident">console</span><span class="op">.</span><span class="fn">error</span><span class="op">(</span><span class="ident">err</span><span class="op">))</span><span class="punct">;</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Diff sample -->
+    <div class="editor">
+      <div class="editor-tab-bar">
+        <div class="editor-tab active">RetryPolicy.kt (diff)</div>
+      </div>
+      <div class="editor-body">
+        <div class="gutter">1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12</div>
+        <div class="code">
+          <div class="line"><span class="kw">class</span> <span class="ident">RetryPolicy</span><span class="op">(</span></div>
+          <div class="line diff-del">    <span class="kw">private val</span> <span class="field">maxRetries</span><span class="op">:</span> <span class="ident">Int</span> <span class="op">=</span> <span class="num">3</span><span class="punct">,</span></div>
+          <div class="line diff-add">    <span class="kw">private val</span> <span class="field">maxRetries</span><span class="op">:</span> <span class="ident">Int</span> <span class="op">=</span> <span class="num">5</span><span class="punct">,</span></div>
+          <div class="line">    <span class="kw">private val</span> <span class="field">backoff</span><span class="op">:</span> <span class="ident">Duration</span> <span class="op">=</span> <span class="num">200</span><span class="op">.</span><span class="warn"><span class="ident">milliseconds</span></span><span class="punct">,</span></div>
+          <div class="line"><span class="op">)</span> <span class="op">{</span></div>
+          <div class="line">    <span class="kw">fun</span> <span class="fn">delayFor</span><span class="op">(</span><span class="ident">attempt</span><span class="op">:</span> <span class="ident">Int</span><span class="op">):</span> <span class="ident">Duration</span> <span class="op">=</span></div>
+          <div class="line diff-chg">        <span class="ident">backoff</span> <span class="op">*</span> <span class="op">(</span><span class="num">1</span> <span class="kw">shl</span> <span class="ident">attempt</span><span class="op">)</span></div>
+          <div class="line"><br/></div>
+          <div class="line">    <span class="comment">// </span><span class="todo">TODO: add jitter</span></div>
+          <div class="line diff-conf">    <span class="kw">fun</span> <span class="fn">shouldRetry</span><span class="op">(</span><span class="ident">attempt</span><span class="op">:</span> <span class="ident">Int</span><span class="op">)</span> <span class="op">=</span> <span class="ident">attempt</span> <span class="op">&lt;</span> <span class="search-hit"><span class="field">maxRetries</span></span></div>
+          <div class="line diff-conf">    <span class="kw">fun</span> <span class="fn">shouldRetry</span><span class="op">(</span><span class="ident">attempt</span><span class="op">:</span> <span class="ident">Int</span><span class="op">)</span> <span class="op">=</span> <span class="ident">attempt</span> <span class="op">&lt;=</span> <span class="search-hit"><span class="field">maxRetries</span></span></div>
+          <div class="line"><span class="op">}</span></div>
+        </div>
+        <div class="stripes">
+          <div class="mark"></div>
+          <div class="mark diff-del"></div>
+          <div class="mark diff-add"></div>
+          <div class="mark warn"></div>
+          <div class="mark"></div>
+          <div class="mark"></div>
+          <div class="mark diff-chg"></div>
+          <div class="mark"></div>
+          <div class="mark todo"></div>
+          <div class="mark diff-conf"></div>
+          <div class="mark search"></div>
+          <div class="mark"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Terminal sample -->
+    <div class="editor">
+      <div class="editor-tab-bar">
+        <div class="editor-tab active">Terminal</div>
+      </div>
+      <div class="editor-body">
+        <div class="term">
+          <div class="line"><span class="t-cyan">~/projects/darcula-forest</span> <span class="t-magenta">master</span> <span class="t-green t-bold">❯</span> ls --color</div>
+          <div class="line"><span class="t-blue t-bold">darcula</span>  <span class="t-blue t-bold">site</span>  <span class="t-blue t-bold">src</span>  build.gradle.kts  <span class="t-green">gradlew</span>  <span class="t-cyan">palette.css</span>  README.md</div>
+          <div class="line"><br/></div>
+          <div class="line"><span class="t-cyan">~/projects/darcula-forest</span> <span class="t-magenta">master</span> <span class="t-green t-bold">❯</span> git status --short</div>
+          <div class="line"><span class="t-red">AM</span> TODO.md</div>
+          <div class="line"> <span class="t-red">M</span> site/preview.html</div>
+          <div class="line"><span class="t-red">??</span> preview-ux-plan.md</div>
+          <div class="line"><br/></div>
+          <div class="line"><span class="t-cyan">~/projects/darcula-forest</span> <span class="t-magenta">master</span> <span class="t-green t-bold">❯</span> ./gradlew jvmTest</div>
+          <div class="line"><span class="t-yellow">w:</span> <span class="t-bblack">file:///src/Main.kt:12:9</span> Parameter 'args' is never used</div>
+          <div class="line"><span class="t-green t-bold">BUILD SUCCESSFUL</span> in 4s</div>
+          <div class="line"><br/></div>
+          <div class="line"><span class="t-cyan">~/projects/darcula-forest</span> <span class="t-magenta">master</span> <span class="t-green t-bold">❯</span> <span class="t-bwhite">█</span></div>
+          <div class="ansi">
+            <div style="--t: var(--term-black)"></div><div style="--t: var(--term-red)"></div><div style="--t: var(--term-green)"></div><div style="--t: var(--term-yellow)"></div><div style="--t: var(--term-blue)"></div><div style="--t: var(--term-magenta)"></div><div style="--t: var(--term-cyan)"></div><div style="--t: var(--term-white)"></div>
+            <div style="--t: var(--term-bright-black)"></div><div style="--t: var(--term-bright-red)"></div><div style="--t: var(--term-bright-green)"></div><div style="--t: var(--term-bright-yellow)"></div><div style="--t: var(--term-bright-blue)"></div><div style="--t: var(--term-bright-magenta)"></div><div style="--t: var(--term-bright-cyan)"></div><div style="--t: var(--term-bright-white)"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -901,9 +1014,10 @@
       tabs.append(tab);
     }
     const syncTabs = () => {
-      const x = strip.scrollLeft + strip.offsetLeft + 81; // 80px = --fade (snap padding)
+      const x = strip.scrollLeft + strip.offsetLeft + 1;
       let active = 0;
       editors.forEach((e, i) => { if (e.offsetLeft <= x) active = i; });
+      if (strip.scrollLeft + strip.clientWidth >= strip.scrollWidth - 1) active = editors.length - 1; // at the end: last editor
       [...tabs.children].forEach((t, i) => t.classList.toggle("active", i === active));
     };
     strip.addEventListener("scroll", syncTabs, { passive: true });
