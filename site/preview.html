@@ -375,6 +375,12 @@
   .t-bold { font-weight: bold; }
   .ansi { display: grid; grid-template-columns: repeat(8, 2ch); grid-auto-rows: 1lh; margin-top: 1lh; }
   .ansi div { background: var(--t); }
+  /* Hover linkage: catalog card ↔ every sample span using that color */
+  .code-samples [class] { outline: 1px solid transparent; outline-offset: 1px; border-radius: 2px; transition: outline-color 150ms ease; }
+  .code-samples .linked { outline-color: var(--fg-muted); }
+  .code-samples .line.linked, .code-samples .gutter.linked, .code-samples .editor.linked { outline-offset: -1px; }
+  .color-entry { transition: background 150ms ease; }
+  .color-entry.linked { background: var(--gutter-bg); }
   /* Right-edge error stripe: one row per line, a mark where the line has a stripe color */
   .stripes {
     width: 12px;
@@ -1122,6 +1128,42 @@
     };
     strip.addEventListener("scroll", syncTabs, { passive: true });
     syncTabs();
+  }
+
+  // Hover linkage: sample class → palette var (same bindings as the syntax classes above)
+  {
+    const classVar = {
+      kw: "keyword", fn: "function-decl", str: "string", ann: "string", "str-esc": "string-escape",
+      "str-esc-bad": "string-escape-bad", num: "number", field: "constant-field", sfield: "constant-field",
+      "static-m": "static-function", impl: "implicit-param", ident: "fg", comment: "comment", doc: "javadoc",
+      "doc-val": "javadoc-tag-val", todo: "todo", "search-hit": "search-result-bg", warn: "warning-bg",
+      "diff-del": "diff-delete", "diff-chg": "diff-change", "diff-add": "diff-add", "diff-conf": "diff-conflict",
+      "active-line": "caret-row", gutter: "line-number", editor: "editor-bg",
+    };
+    const byVar = {};
+    const add = (v, el) => (byVar[v] ??= []).push(el);
+    for (const el of document.querySelectorAll(".code-samples [class]")) {
+      const cls = [...el.classList].find(c => c in classVar);
+      if (cls) add(classVar[cls], el);
+    }
+    for (const el of document.querySelectorAll(".color-entry[data-var]")) add(el.dataset.var, el);
+    let current = null;
+    const setLinked = (v) => {
+      if (v === current) return;
+      if (current) for (const el of byVar[current] ?? []) el.classList.remove("linked");
+      current = v;
+      if (current) for (const el of byVar[current] ?? []) el.classList.add("linked");
+    };
+    document.addEventListener("mouseover", e => {
+      const card = e.target.closest(".color-entry[data-var]");
+      if (card) return setLinked(card.dataset.var);
+      const span = e.target.closest(".code-samples [class]");
+      if (span) {
+        const cls = [...span.classList].find(c => c in classVar);
+        return setLinked(cls ? classVar[cls] : null);
+      }
+      setLinked(null);
+    });
   }
 
   const probe = document.createElement("div");
