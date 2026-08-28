@@ -40,7 +40,7 @@ enum class EffectType(val value: Int) {
     SEARCH_MATCH(6),
 }
 
-val iclsColors = listOf(
+private val Palette.iclsColors get() = listOf(
     IclsColor("BLOCK_TERMINAL_DEFAULT_BACKGROUND", editorBg),
     IclsColor("BLOCK_TERMINAL_DEFAULT_FOREGROUND", fg),
     IclsColor("CARET_ROW_COLOR",          caretRow),
@@ -53,7 +53,7 @@ val iclsColors = listOf(
     IclsColor("TERMINAL_FOREGROUND",      fg),
 )
 
-val iclsAttributes = listOf(
+private val Palette.iclsAttributes get() = listOf(
     IclsAttr("ANNOTATION_ATTRIBUTE_NAME_ATTRIBUTES", fg = annotationNamedAtt),
     IclsAttr("ANNOTATION_NAME_ATTRIBUTES", fg = annotation, effectType = LINE_UNDERSCORE),
     IclsAttr("BASH.EXTERNAL_COMMAND", fg = constantField),
@@ -165,7 +165,7 @@ val iclsAttributes = listOf(
     IclsAttr("XML_TAG_NAME", baseAttributes = "DEFAULT_KEYWORD"),
 )
 
-fun generateIcls(): String = buildString {
+fun Palette.generateIcls(): String = buildString {
     fun opt(name: String, value: String, indent: String) = "$indent<option name=\"$name\" value=\"$value\" />"
     fun hex(v: Expr.Var) = hexOf(v).uppercase()
 

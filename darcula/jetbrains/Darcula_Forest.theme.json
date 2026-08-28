@@ -1,0 +1,149 @@
+{
+  "name": "Darcula Forest",
+  "author": "Oryan",
+  "dark": true,
+  "parentTheme": "Islands Darcula",
+  "editorScheme": "/Darcula_Forest.xml",
+  "colors": {
+    "editor-bg": "#20231e",
+    "caret-row": "#252722",
+    "search-result-bg": "#393c36",
+    "selection-bg": "#373d32",
+    "line-number": "#545651",
+    "page-bg": "#151712",
+    "tab-bar-bg": "#171914",
+    "gutter-bg": "#2c2f2a",
+    "fg": "#acafa9",
+    "text-muted": "#9ca099",
+    "text-placeholder": "#70736d",
+    "fg-muted": "#85976f",
+    "border": "#343631",
+    "border-variant": "#2a2c27",
+    "element-hover": "#2f312c",
+    "element-active": "#393c36",
+    "keyword": "#5f7d31",
+    "static-function": "#546d32",
+    "function-decl": "#8aab5f",
+    "constant-field": "#749f2b",
+    "number": "#2a8558",
+    "string": "#7e7238",
+    "string-escape": "#647b47",
+    "string-escape-bad": "#534805",
+    "named-arg": "#85976f",
+    "error": "#bd4238",
+    "warning-bg": "#5a563f",
+    "todo": "#cbad00",
+    "diff-add": "#343f28",
+    "diff-change": "#2a3c4f",
+    "diff-delete": "#393c36",
+    "diff-conflict": "#4d332f",
+    "underlined-tab-bg": "#2e3a1eab"
+  },
+  "ui": {
+    "*": {
+      "background": "caret-row",
+      "foreground": "fg",
+      "selectionBackground": "selection-bg",
+      "selectionForeground": "fg",
+      "selectionInactiveBackground": "element-active",
+      "selectionInactiveForeground": "fg",
+      "infoForeground": "text-muted",
+      "errorForeground": "error",
+      "warningForeground": "todo",
+      "focusColor": "keyword",
+      "inactiveBackground": "editor-bg",
+      "lightSelectionBackground": "element-active",
+      "lightSelectionInactiveBackground": "element-hover"
+    },
+    "Panel.background": "caret-row",
+    "Borders.color": "search-result-bg",
+    "MainToolbar": {
+      "background": "caret-row"
+    },
+    "ToolWindow": {
+      "background": "editor-bg",
+      "Header.background": "editor-bg",
+      "Header.inactiveBackground": "editor-bg"
+    },
+    "MainWindow.background": "caret-row",
+    "EditorTabs": {
+      "underlinedTabBackground": "underlined-tab-bg",
+      "underlinedBorderColor": "named-arg"
+    },
+    "Component": {
+      "borderColor": "line-number",
+      "disabledBorderColor": "line-number",
+      "focusedBorderColor": "keyword",
+      "errorFocusColor": "error",
+      "inactiveErrorFocusColor": "error",
+      "warningFocusColor": "todo",
+      "inactiveWarningFocusColor": "todo"
+    },
+    "Button": {
+      "background": "caret-row",
+      "foreground": "fg",
+      "startBackground": "caret-row",
+      "endBackground": "caret-row",
+      "startBorderColor": "line-number",
+      "endBorderColor": "line-number",
+      "focusedBorderColor": "keyword",
+      "default": {
+        "startBackground": "keyword",
+        "endBackground": "keyword",
+        "startBorderColor": "keyword",
+        "endBorderColor": "keyword",
+        "foreground": "caret-row",
+        "focusColor": "keyword"
+      }
+    },
+    "ComboBox": {
+      "background": "caret-row",
+      "foreground": "fg",
+      "ArrowButton.background": "caret-row",
+      "ArrowButton.nonEditableBackground": "caret-row",
+      "nonEditableBackground": "caret-row",
+      "disabledBackground": "caret-row"
+    },
+    "Link": {
+      "activeForeground": "keyword",
+      "hoverForeground": "constant-field",
+      "pressedForeground": "function-decl",
+      "visitedForeground": "named-arg",
+      "focusedBorderColor": "keyword"
+    }
+  },
+  "icons": {
+    "ColorPalette": {
+      "Green.Solid": "keyword",
+      "Green.Fill": "editor-bg",
+      "Green.Stroke": "keyword",
+      "Red.Solid": "string",
+      "Red.Fill": "editor-bg",
+      "Red.Stroke": "string",
+      "Blue.Solid": "string-escape",
+      "Blue.Fill": "editor-bg",
+      "Blue.Stroke": "string-escape",
+      "Purple.Solid": "function-decl",
+      "Purple.Fill": "editor-bg",
+      "Purple.Stroke": "function-decl",
+      "Checkbox.Background.Default": "search-result-bg",
+      "Checkbox.Background.Disabled": "caret-row",
+      "Checkbox.Background.Selected": "keyword",
+      "Checkbox.Border.Default": "line-number",
+      "Checkbox.Border.Selected": "keyword",
+      "Checkbox.Focus.Thin.Default": "keyword",
+      "Checkbox.Focus.Wide": "keyword",
+      "Checkbox.Foreground.Selected": "search-result-bg",
+      "Checkbox.Foreground.Disabled": "line-number",
+      "Radio.Background.Default": "search-result-bg",
+      "Radio.Background.Disabled": "caret-row",
+      "Radio.Background.Selected": "keyword",
+      "Radio.Border.Default": "line-number",
+      "Radio.Border.Selected": "keyword",
+      "Radio.Focus.Thin.Default": "keyword",
+      "Radio.Focus.Wide": "keyword",
+      "Radio.Foreground.Selected": "search-result-bg",
+      "Radio.Foreground.Disabled": "line-number"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 package darculaforest
 
+import kotlin.js.JsName
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -205,7 +206,7 @@ data class ZedSyntax(
     val comment: ZedToken,
     @SerialName("comment.doc")              val commentDoc: ZedToken,
     val constant: ZedToken,
-    val constructor: ZedToken,
+    @JsName("constructor_") @SerialName("constructor") val constructor: ZedToken,
     val embedded: ZedToken,
     val emphasis: ZedToken,
     @SerialName("emphasis.strong")          val emphasisStrong: ZedToken,
@@ -258,7 +259,7 @@ private fun token(v: Expr.Var, fontStyle: String? = null, fontWeight: Int? = nul
 
 private fun player(v: Expr.Var) = ZedPlayer(hex(v), hex(v), hex(v, alpha = 0.24))
 
-val zedTheme: ZedTheme = ZedTheme(
+val Palette.zedTheme: ZedTheme get() = ZedTheme(
     schema = "https://zed.dev/schema/themes/v0.2.0.json",
     name = "Darcula Forest",
     author = "Oryan",
@@ -491,4 +492,4 @@ private val zedJson = Json {
     prettyPrintIndent = "  "
 }
 
-fun generateZed(): String = zedJson.encodeToString(ZedTheme.serializer(), zedTheme)
+fun Palette.generateZed(): String = zedJson.encodeToString(ZedTheme.serializer(), zedTheme)

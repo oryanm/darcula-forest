@@ -1,6 +1,7 @@
 /shelf/
 /workspace.xml
 /.idea/*
+!/.idea/runConfigurations/
 *.iml
 /.local/*
 /.claude/*
@@ -9,3 +10,12 @@
 /.gradle/
 /.kotlin/
 /build/
+
+# Zed kotlin-language-server output
+bin/
+
+# macOS
+.DS_Store
+
+# Kotlin/JS bundle copied into site/ by ./gradlew copyJsBundle
+/site/darcula-forest.js

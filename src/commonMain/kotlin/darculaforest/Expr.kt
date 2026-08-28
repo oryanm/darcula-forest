@@ -2,8 +2,10 @@ package darculaforest
 
 import kotlin.math.PI
 import kotlin.math.abs
+import kotlin.math.cbrt
 import kotlin.math.cos
 import kotlin.math.pow
+import kotlin.math.round
 import kotlin.math.roundToInt
 import kotlin.math.sin
 
@@ -99,7 +101,7 @@ fun oklch(from: Expr.Var, l: Expr, c: Expr, h: Expr, alpha: Double? = null): Exp
 // ── Number formatting ─────────────────────────────────────────────
 
 private fun fmtNum(value: Double, precision: Int): String {
-    val s = "%.${precision}f".format(value)
+    val s = fmtFixed(value, precision)
     return if ('.' in s) s.trimEnd('0').trimEnd('.') else s
 }
 
@@ -114,7 +116,7 @@ private fun calcPrecision(channel: Char): Int = when (channel) {
 // Top-level literal formatting: lightness as %, hue as int, chroma with 3 decimals.
 private fun fmtTopLit(v: Double, channel: Char): String = when (channel) {
     'l' -> "${(v * 100).roundToInt()}%"
-    'c' -> "%.3f".format(v)
+    'c' -> fmtFixed(v, 3)
     'h' -> v.roundToInt().toString()
     else -> error("unknown channel '$channel'")
 }
@@ -183,8 +185,8 @@ fun hexOf(oklch: Expr.Oklch): String {
     val lg = -1.2684380046 * lmsL + 2.6097574011 * lmsM - 0.3413193965 * lmsS
     val lb = -0.0041960863 * lmsL - 0.7034186147 * lmsM + 1.7076147010 * lmsS
 
-    val rgb = "%02x%02x%02x".format(srgb(lr), srgb(lg), srgb(lb))
-    val alpha = resolved.alpha?.let { "%02x".format((it.coerceIn(0.0, 1.0) * 255).roundToInt()) } ?: ""
+    val rgb = hex2(srgb(lr)) + hex2(srgb(lg)) + hex2(srgb(lb))
+    val alpha = resolved.alpha?.let { hex2((it.coerceIn(0.0, 1.0) * 255).roundToInt()) } ?: ""
 
     return "$rgb$alpha"
 }
@@ -220,6 +222,56 @@ private fun resolveChannel(expr: Expr, parent: Double?): Double = when (expr) {
     }
     is Expr.Oklch -> error("Oklch not allowed in channel expression")
 }
+
+// ── Portable fixed-point formatting ───────────────────────────────
+// Defined purely in terms of IEEE multiply + round-half-even, which behave identically on the
+// JVM and in JS, so the browser build emits exactly the same bytes as `./gradlew run`.
+
+fun fmtFixed(v: Double, decimals: Int): String {
+    require(v.isFinite()) { "cannot format $v" }
+    val scaled = round(v * POW10[decimals]).toLong()
+    val digits = abs(scaled).toString().padStart(decimals + 1, '0')
+    val intPart = digits.dropLast(decimals)
+    val frac = if (decimals > 0) ".${digits.takeLast(decimals)}" else ""
+    return (if (scaled < 0) "-" else "") + intPart + frac
+}
+
+/** `%02x` for an 8-bit channel value. */
+fun hex2(v: Int): String {
+    require(v in 0..255) { "hex2 expects 0..255, got $v" }
+    return v.toString(16).padStart(2, '0')
+}
+
+private val POW10 = LongArray(10).also { var p = 1L; for (i in it.indices) { it[i] = p; p *= 10 } }
+
+// ── Inverse: sRGB hex → oklch (for picking constants from reference hexes) ──
+
+data class OklchValue(val l: Double, val c: Double, val h: Double) {
+    override fun toString() = "oklch(${fmtFixed(l * 100, 1)}% ${fmtFixed(c, 3)} ${fmtFixed(h, 1)})"
+}
+
+fun oklchOfHex(hex: String): OklchValue {
+    val s = hex.removePrefix("#")
+    require(s.length == 6) { "expected 6-digit hex, got '$hex'" }
+    val lr = linear(s.substring(0, 2).toInt(16) / 255.0)
+    val lg = linear(s.substring(2, 4).toInt(16) / 255.0)
+    val lb = linear(s.substring(4, 6).toInt(16) / 255.0)
+
+    val lmsL = cbrt(0.4122214708 * lr + 0.5363325363 * lg + 0.0514459929 * lb)
+    val lmsM = cbrt(0.2119034982 * lr + 0.6806995451 * lg + 0.1073969566 * lb)
+    val lmsS = cbrt(0.0883024619 * lr + 0.2817188376 * lg + 0.6299787005 * lb)
+
+    val okL = 0.2104542553 * lmsL + 0.7936177850 * lmsM - 0.0040720468 * lmsS
+    val okA = 1.9779984951 * lmsL - 2.4285922050 * lmsM + 0.4505937099 * lmsS
+    val okB = 0.0259040371 * lmsL + 0.7827717662 * lmsM - 0.8086757660 * lmsS
+
+    val c = kotlin.math.sqrt(okA * okA + okB * okB)
+    val h = (kotlin.math.atan2(okB, okA) * 180.0 / PI).let { if (it < 0) it + 360.0 else it }
+    return OklchValue(okL, c, h)
+}
+
+private fun linear(c: Double): Double =
+    if (c <= 0.04045) c / 12.92 else ((c + 0.055) / 1.055).pow(2.4)
 
 private fun srgb(channel: Double): Int {
     val v = channel.coerceIn(0.0, 1.0)

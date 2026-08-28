@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <title>Darcula Forest — IntelliJ Color Scheme Preview</title>
-<link rel="stylesheet" href="palette.css">
+<link rel="stylesheet" href="../darcula/css/palette.css">
 <style>
   :root {
     --center-pct: 54%;
     --wheel-max-size: 300px;
     --wheel-handle-size: 20px;
-    --wheel-margin: 64px;
+    --wheel-margin: 32px;
     --wheel-max-chroma: 0.2; /* outer rim chroma; center is 0 (gray) */
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -94,6 +94,37 @@
     border: 2px solid var(--fg);
     cursor: pointer;
   }
+  .icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border-radius: 6px;
+    border: 1px solid var(--gutter-bg);
+    background: var(--caret-row);
+    color: var(--fg-muted);
+    cursor: pointer;
+    transition: background 150ms ease, border-color 150ms ease, color 150ms ease, transform 100ms ease;
+  }
+  .icon-btn:hover {
+    background: var(--gutter-bg);
+    border-color: var(--keyword);
+    color: var(--keyword);
+  }
+  .icon-btn:active { transform: scale(0.95); }
+  .icon-btn:disabled { cursor: progress; color: var(--fg-muted); border-color: var(--gutter-bg); background: var(--caret-row); }
+  .icon-btn svg { width: 16px; height: 16px; display: block; }
+  .icon-btn .spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid var(--gutter-bg);
+    border-top-color: var(--keyword);
+    border-radius: 50%;
+    animation: icon-btn-spin 700ms linear infinite;
+  }
+  @keyframes icon-btn-spin { to { transform: rotate(360deg); } }
   h1 {
     font-size: 18px;
     font-weight: 600;
@@ -354,6 +385,14 @@
   <label>Width</label>
   <input type="range" min="40" max="90" value="54" oninput="document.body.style.setProperty('--center-pct', this.value + '%'); this.nextElementSibling.textContent = this.value + '%'">
   <span>54%</span>
+  <div class="divider"></div>
+  <button type="button" id="download-btn" class="icon-btn" title="Download theme" aria-label="Download theme" onclick="downloadTheme()">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M8 2v8"/>
+      <path d="M4.5 7l3.5 3.5L11.5 7"/>
+      <path d="M3 13h10"/>
+    </svg>
+  </button>
 </div>
 
 <main>
@@ -757,6 +796,7 @@
   </div>
 </aside>
 
+<script src="darcula-forest.js"></script>
 <script>
   const probe = document.createElement("div");
   document.body.appendChild(probe);
@@ -911,6 +951,48 @@
   })();
 
   updateColorCatalog();
+
+  // Browsers restore <input> values across reloads (form state / bfcache),
+  // so the slider thumb stays where the user last dragged it. Reset each
+  // range input to its HTML `value` attribute and fire the input handler
+  // so labels and CSS vars resync. Runs on initial load and on bfcache restore.
+  function resetSliders() {
+    for (const input of document.querySelectorAll('.controls input[type="range"]')) {
+      input.value = input.getAttribute("value");
+      input.dispatchEvent(new Event("input", { bubbles: true }));
+    }
+  }
+  resetSliders();
+  window.addEventListener("pageshow", resetSliders);
+
+  async function downloadTheme() {
+    const btn = document.getElementById("download-btn");
+    const original = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner" aria-hidden="true"></span>';
+    try {
+      const params = {
+        mainHue: parseFloat(document.getElementById("hue-value").textContent),
+        complementaryColorOffset: parseFloat(document.getElementById("comp-offset-value").textContent),
+        baseChroma: parseFloat(document.getElementById("base-chroma-value").textContent),
+      };
+      const api = window["darcula-forest"]?.darculaforest;
+      if (!api) throw new Error("darcula-forest.js not loaded (run ./gradlew copyJsBundle)");
+      const bytes = api.generateZip(params.mainHue, params.complementaryColorOffset, params.baseChroma);
+      const blob = new Blob([bytes], { type: "application/zip" });
+      const url = URL.createObjectURL(blob);
+      const a = Object.assign(document.createElement("a"), { href: url, download: "darcula-forest.zip" });
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      alert(`Download failed: ${err.message}`);
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = original;
+    }
+  }
 </script>
 </body>
 </html>
