@@ -617,6 +617,10 @@
   <input id="chroma-slider" type="range" min="0" max="0.2" step="0.005" value="0.11" oninput="updateBaseChroma(this.value)">
   <output id="base-chroma-value" for="chroma-slider">0.110</output>
   <div class="divider"></div>
+  <label for="contrast-slider" title="Lightness gap between editor background and foreground, centered on L=0.5: bg = 0.5 − contrast/2, fg = bg + contrast">Contrast</label>
+  <input id="contrast-slider" type="range" min="0.2" max="0.9" step="0.01" value="0.5" oninput="updateContrast(this.value)">
+  <output id="contrast-value" for="contrast-slider">0.50</output>
+  <div class="divider"></div>
   <button type="button" id="reset-btn" class="icon-btn" title="Reset to defaults" aria-label="Reset to defaults" onclick="applyParams(DEFAULTS)">
     <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M3 8a5 5 0 1 0 1.5-3.6"/>
@@ -1335,6 +1339,13 @@
     syncHash();
   }
 
+  function updateContrast(value) {
+    document.documentElement.style.setProperty("--contrast", value);
+    document.getElementById("contrast-value").textContent = Number(value).toFixed(2);
+    updateColorCatalog();
+    syncHash();
+  }
+
   (function setupHueWheel() {
     const wheel = document.getElementById("hue-wheel");
     const handles = {
@@ -1484,11 +1495,11 @@
 
   updateColorCatalog();
 
-  // Knob state lives in the URL hash (#h=128&o=30&c=0.11) so a palette can be
+  // Knob state lives in the URL hash (#h=128&o=30&c=0.11&k=0.5) so a palette can be
   // shared or bookmarked. Defaults come from the sliders' HTML `value` attrs
   // (which mirror Palette.kt). Browsers also restore <input> values across
   // reloads / bfcache, so we always re-apply explicitly on load and pageshow.
-  const SLIDERS = { h: "hue-slider", o: "comp-slider", c: "chroma-slider" };
+  const SLIDERS = { h: "hue-slider", o: "comp-slider", c: "chroma-slider", k: "contrast-slider" };
   const DEFAULTS = Object.fromEntries(Object.entries(SLIDERS).map(([k, id]) => [k, document.getElementById(id).getAttribute("value")]));
 
   // Fill fraction for the custom track (appearance:none has no native accent fill)
@@ -1530,6 +1541,7 @@
       mainHue: parseFloat(document.getElementById("hue-value").textContent),
       complementaryColorOffset: parseFloat(document.getElementById("comp-offset-value").textContent),
       baseChroma: parseFloat(document.getElementById("base-chroma-value").textContent),
+      contrast: parseFloat(document.getElementById("contrast-value").textContent),
     };
   }
 
@@ -1548,7 +1560,7 @@
     if (!api) { alert("darcula-forest.js not loaded (run ./gradlew copyJsBundle)"); return; }
     if (!api.generateFile) { alert("Stale darcula-forest.js (no generateFile) — hard-reload the page"); return; }
     const p = currentParams();
-    const text = api.generateFile(link.dataset.file, p.mainHue, p.complementaryColorOffset, p.baseChroma);
+    const text = api.generateFile(link.dataset.file, p.mainHue, p.complementaryColorOffset, p.baseChroma, p.contrast);
     if (text == null) { alert("Unknown file: " + link.dataset.file); return; }
     saveBlob(new Blob([text], { type: "text/plain" }), link.dataset.file.split("/").pop());
   }
@@ -1562,7 +1574,7 @@
       const params = currentParams();
       const api = window["darcula-forest"]?.darculaforest;
       if (!api) throw new Error("darcula-forest.js not loaded (run ./gradlew copyJsBundle)");
-      const bytes = api.generateZip(params.mainHue, params.complementaryColorOffset, params.baseChroma);
+      const bytes = api.generateZip(params.mainHue, params.complementaryColorOffset, params.baseChroma, params.contrast);
       saveBlob(new Blob([bytes], { type: "application/zip" }), "darcula-forest.zip");
     } catch (err) {
       alert(`Download failed: ${err.message}`);

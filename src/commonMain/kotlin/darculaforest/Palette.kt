@@ -17,20 +17,21 @@ class Palette(params: ThemeParams = ThemeParams()) {
     val secondaryHue             = Var("secondary-hue", mainHue - complementaryColorOffset)
     val tertiaryHue              = Var("tertiary-hue",  mainHue + complementaryColorOffset)
     val baseChroma               = Var("base-chroma",   params.baseChroma)
+    val contrast                 = Var("contrast",      params.contrast)
     val redHue                   = Var("red-hue",       28.0)
     val greenHue                 = Var("green-hue",     128.0)
     val blueHue                  = Var("blue-hue",      248.0)
 
     // ── Editor ──────────────────────────────────────────────────────────
 
-    val editorBg       = Var("editor-bg",        oklch(0.25, 0.010, mainHue))
+    val editorBg       = Var("editor-bg",        oklch(0.5 - contrast / 2.0, 0.010, mainHue))
     val caretRow       = Var("caret-row",        oklch(editorBg, l + 0.02, c, h))
     val docBg          = Var("doc-bg",           caretRow)
     val searchResultBg = Var("search-result-bg", oklch(editorBg, l + 0.1, c, h))
     val selectionBg    = Var("selection-bg",     oklch(searchResultBg, l, c + 0.01, h))
     val lineNumber     = Var("line-number",      oklch(editorBg, l + 0.2, c, h))
     val injectedLangBg = Var("injected-lang-bg", oklch(editorBg, l + 0.01, c, h))
-    val fg             = Var("fg",               oklch(0.75, 0.010, mainHue))
+    val fg             = Var("fg",               oklch(editorBg, l + contrast, c, h))
 
     val foldedTextBg = Var("folded-text-bg", searchResultBg)
     val tearline     = Var("tearline",       searchResultBg)

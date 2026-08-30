@@ -29,6 +29,7 @@ private val Palette.paletteEntries: List<PaletteEntry> get() = listOf(
     Def(secondaryHue),
     Def(tertiaryHue),
     Def(baseChroma),
+    Def(contrast),
     Def(redHue),
     Def(greenHue),
     Def(blueHue),

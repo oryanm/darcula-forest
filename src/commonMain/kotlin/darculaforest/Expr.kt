@@ -30,14 +30,10 @@ sealed class Expr {
         /** Numeric resolution — only valid for scalar Vars (Lit / scalar-Var / Calc of those). */
         val resolved: Double get() = eval(value)
 
-        private fun eval(e: Expr): Double = when (e) {
-            is Lit   -> e.value
-            is Var   -> eval(e.value)
-            is Calc  -> {
-                val l = eval(e.lhs)
-                val r = eval(e.rhs)
-                if (e.op == Op.Plus) l + r else l - r
-            }
+        private fun eval(expr: Expr): Double = when (expr) {
+            is Lit   -> expr.value
+            is Var   -> eval(expr.value)
+            is Calc  -> expr.op.apply(eval(expr.lhs), eval(expr.rhs))
             is Ident -> error("Ident (channel passthrough) not allowed in a Var value")
             is Oklch -> error("cannot resolve color Var '$name' to a scalar")
         }
@@ -45,10 +41,30 @@ sealed class Expr {
 
     data class Oklch(val from: Var?, val l: Expr, val c: Expr, val h: Expr, val alpha: Expr? = null) : Expr()
 
-    enum class Op(val sym: String) { Plus("+"), Minus("-") }
+    enum class Op(val sym: String) {
+        Plus("+"), Minus("-"), Mult("*"), Div("/");
+
+        fun apply(l: Double, r: Double): Double = when (this) {
+            Plus  -> l + r
+            Minus -> l - r
+            Mult -> l * r
+            Div   -> l / r
+        }
+    }
 
     operator fun plus(d: Double): Expr = addLit(d)
     operator fun minus(d: Double): Expr = addLit(-d)
+
+    operator fun times(d: Double): Expr {
+        requireAddable()
+        return Calc(this, Op.Mult, Lit(d))
+    }
+
+    operator fun div(d: Double): Expr {
+        requireAddable()
+        require(d != 0.0) { "division by zero" }
+        return Calc(this, Op.Div, Lit(d))
+    }
 
     operator fun plus(v: Var): Expr {
         requireAddable()
@@ -76,6 +92,17 @@ sealed class Expr {
     }
 }
 
+/** `0.5 - var(--x)`: a literal on the left of a scalar expression. */
+operator fun Double.minus(e: Expr): Expr {
+    require(e is Expr.Var && e.value !is Expr.Oklch || e is Expr.Calc) { "cannot subtract $e from a literal" }
+    return Expr.Calc(Expr.Lit(this), Expr.Op.Minus, e)
+}
+
+operator fun Double.plus(e: Expr): Expr {
+    require(e is Expr.Var && e.value !is Expr.Oklch || e is Expr.Calc) { "cannot add $e to a literal" }
+    return Expr.Calc(Expr.Lit(this), Expr.Op.Plus, e)
+}
+
 // Channel identity markers — used like CSS's l, c, h keywords
 val l: Expr = Expr.Ident
 val c: Expr = Expr.Ident
@@ -88,6 +115,9 @@ fun oklch(l: Double, c: Double, h: Double, alpha: Double? = null): Expr.Oklch =
 
 fun oklch(l: Double, c: Double, h: Expr, alpha: Double? = null): Expr.Oklch =
     Expr.Oklch(null, Expr.Lit(l), Expr.Lit(c), h, alpha?.let(Expr::Lit))
+
+fun oklch(l: Expr, c: Double, h: Expr, alpha: Double? = null): Expr.Oklch =
+    Expr.Oklch(null, l, Expr.Lit(c), h, alpha?.let(Expr::Lit))
 
 fun oklch(l: Double, c: Expr, h: Double, alpha: Double? = null): Expr.Oklch =
     Expr.Oklch(null, Expr.Lit(l), c, Expr.Lit(h), alpha?.let(Expr::Lit))
@@ -125,8 +155,16 @@ private fun fmtInside(expr: Expr, channel: Char): String = when (expr) {
     is Expr.Lit   -> fmtNum(abs(expr.value), calcPrecision(channel))
     is Expr.Ident -> channel.toString()
     is Expr.Var   -> "var(--${expr.name})"
-    is Expr.Calc  -> "${fmtInside(expr.lhs, channel)} ${expr.op.sym} ${fmtInside(expr.rhs, channel)}"
+    is Expr.Calc  -> "${fmtOperand(expr.lhs, expr.op, channel)} ${expr.op.sym} ${fmtOperand(expr.rhs, expr.op, channel)}"
     is Expr.Oklch -> error("Oklch not allowed in channel expression")
+}
+
+// Parenthesize an additive sub-expression under * or / so precedence survives the flattening.
+private fun fmtOperand(e: Expr, parentOp: Expr.Op, channel: Char): String {
+    val s = fmtInside(e, channel)
+    val additive = e is Expr.Calc && (e.op == Expr.Op.Plus || e.op == Expr.Op.Minus)
+    val tight = parentOp == Expr.Op.Mult || parentOp == Expr.Op.Div
+    return if (additive && tight) "($s)" else s
 }
 
 private fun fmtChannel(expr: Expr, channel: Char): String = when (expr) {
@@ -224,11 +262,7 @@ private fun resolveChannel(expr: Expr, parent: Double?): Double = when (expr) {
     is Expr.Lit   -> expr.value
     is Expr.Ident -> parent ?: error("Ident requires parent channel")
     is Expr.Var   -> expr.resolved
-    is Expr.Calc  -> {
-        val lhs = resolveChannel(expr.lhs, parent)
-        val rhs = resolveChannel(expr.rhs, parent)
-        if (expr.op == Expr.Op.Plus) lhs + rhs else lhs - rhs
-    }
+    is Expr.Calc  -> expr.op.apply(resolveChannel(expr.lhs, parent), resolveChannel(expr.rhs, parent))
     is Expr.Oklch -> error("Oklch not allowed in channel expression")
 }
 

@@ -6,6 +6,8 @@ data class ThemeParams(
     val mainHue: Double = 128.0,
     val complementaryColorOffset: Double = 30.0,
     val baseChroma: Double = 0.110,
+    /** Lightness gap between editor background and foreground, centered on L=0.5. */
+    val contrast: Double = 0.5,
 )
 
 fun generateAll(params: ThemeParams = ThemeParams()) = Palette(params).let { palette ->

@@ -6,19 +6,20 @@
     --secondary-hue: calc(var(--main-hue) - var(--comp-offset));
     --tertiary-hue: calc(var(--main-hue) + var(--comp-offset));
     --base-chroma: 0.11;
+    --contrast: 0.5;
     --red-hue: 28;
     --green-hue: 128;
     --blue-hue: 248;
 
     /* Editor */
-    --editor-bg: oklch(25% 0.010 var(--main-hue));
+    --editor-bg: oklch(calc(0.5 - var(--contrast) / 2) 0.010 var(--main-hue));
     --caret-row: oklch(from var(--editor-bg) calc(l + 0.02) c h);
     --selection-bg: oklch(from var(--search-result-bg) l calc(c + 0.01) h);
     --search-result-bg: oklch(from var(--editor-bg) calc(l + 0.1) c h);
     --search-result-stripe: oklch(from var(--search-result-bg) l calc(c + 0.1) h);
     --injected-lang-bg: oklch(from var(--editor-bg) calc(l + 0.01) c h);
     --line-number: oklch(from var(--editor-bg) calc(l + 0.2) c h);
-    --fg: oklch(75% 0.010 var(--main-hue));
+    --fg: oklch(from var(--editor-bg) calc(l + var(--contrast)) c h);
     --folded-text-bg: var(--search-result-bg);
     --tearline: var(--search-result-bg);
     --template-lang: var(--search-result-bg);
