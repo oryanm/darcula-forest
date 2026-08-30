@@ -10,10 +10,10 @@ repositories {
 }
 
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(25)
     jvm()
     js {
-        moduleName = "darcula-forest" // also the global the UMD bundle registers: window["darcula-forest"]
+        outputModuleName.set("darcula-forest") // also the global the UMD bundle registers: window["darcula-forest"]
         browser()
         binaries.executable()
     }
