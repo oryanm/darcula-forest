@@ -30,6 +30,7 @@ private val Palette.paletteEntries: List<PaletteEntry> get() = listOf(
     Def(tertiaryHue),
     Def(baseChroma),
     Def(redHue),
+    Def(greenHue),
     Def(blueHue),
 
     Section("Editor"),

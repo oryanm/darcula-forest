@@ -7,6 +7,7 @@
     --tertiary-hue: calc(var(--main-hue) + var(--comp-offset));
     --base-chroma: 0.11;
     --red-hue: 28;
+    --green-hue: 128;
     --blue-hue: 248;
 
     /* Editor */
@@ -71,7 +72,7 @@
     /* Diff */
     --diff-delete: oklch(from var(--search-result-bg) l c h);
     --diff-change: oklch(from var(--diff-delete) l calc(c + 0.03) var(--blue-hue));
-    --diff-add: oklch(from var(--diff-delete) l calc(c + 0.03) var(--main-hue));
+    --diff-add: oklch(from var(--diff-delete) l calc(c + 0.03) var(--green-hue));
     --diff-conflict: oklch(from var(--diff-delete) l calc(c + 0.03) var(--red-hue));
     --diff-delete-stripe: oklch(from var(--diff-delete) calc(l + 0.3) c h);
     --diff-change-stripe: oklch(from var(--diff-change) calc(l + 0.3) calc(c + 0.1) h);

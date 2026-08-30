@@ -18,6 +18,7 @@ class Palette(params: ThemeParams = ThemeParams()) {
     val tertiaryHue              = Var("tertiary-hue",  mainHue + complementaryColorOffset)
     val baseChroma               = Var("base-chroma",   params.baseChroma)
     val redHue                   = Var("red-hue",       28.0)
+    val greenHue                 = Var("green-hue",     128.0)
     val blueHue                  = Var("blue-hue",      248.0)
 
     // ── Editor ──────────────────────────────────────────────────────────
@@ -83,7 +84,7 @@ class Palette(params: ThemeParams = ThemeParams()) {
 
     val diffDelete   = Var("diff-delete",   oklch(searchResultBg, l, c, h))
     val diffChange   = Var("diff-change",   oklch(diffDelete, l, c + 0.03, blueHue))
-    val diffAdd      = Var("diff-add",      oklch(diffDelete, l, c + 0.03, mainHue))
+    val diffAdd      = Var("diff-add",      oklch(diffDelete, l, c + 0.03, greenHue))
     val diffConflict = Var("diff-conflict", oklch(diffDelete, l, c + 0.03, redHue))
 
     // ── Editor right side stripe ────────────────────────────────────────
