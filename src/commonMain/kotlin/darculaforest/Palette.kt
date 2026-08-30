@@ -39,7 +39,7 @@ class Palette(params: ThemeParams = ThemeParams()) {
 
     // ── Syntax ──────────────────────────────────────────────────────────
 
-    val keyword       = Var("keyword",           oklch(0.55, baseChroma, mainHue))
+    val keyword       = Var("keyword",           oklch(0.5 + contrast / 10.0, baseChroma, mainHue))
     val functionDecl  = Var("function-decl",     oklch(keyword, l + 0.15, c, h))
     val constantField = Var("constant-field",    oklch(keyword, l + 0.10, c + 0.04, h))
     val implicitParam = Var("implicit-param",    oklch(functionDecl, l, c + 0.04, h))

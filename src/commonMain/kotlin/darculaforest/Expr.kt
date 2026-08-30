@@ -119,6 +119,9 @@ fun oklch(l: Double, c: Double, h: Expr, alpha: Double? = null): Expr.Oklch =
 fun oklch(l: Expr, c: Double, h: Expr, alpha: Double? = null): Expr.Oklch =
     Expr.Oklch(null, l, Expr.Lit(c), h, alpha?.let(Expr::Lit))
 
+fun oklch(l: Expr, c: Expr, h: Expr, alpha: Double? = null): Expr.Oklch =
+    Expr.Oklch(null, l, c, h, alpha?.let(Expr::Lit))
+
 fun oklch(l: Double, c: Expr, h: Double, alpha: Double? = null): Expr.Oklch =
     Expr.Oklch(null, Expr.Lit(l), c, Expr.Lit(h), alpha?.let(Expr::Lit))
 

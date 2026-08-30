@@ -31,7 +31,7 @@
     --fg-muted: var(--named-arg);
 
     /* Syntax */
-    --keyword: oklch(55% var(--base-chroma) var(--main-hue));
+    --keyword: oklch(calc(0.5 + var(--contrast) / 10) var(--base-chroma) var(--main-hue));
     --function-decl: oklch(from var(--keyword) calc(l + 0.15) c h);
     --constant-field: oklch(from var(--keyword) calc(l + 0.1) calc(c + 0.04) h);
     --implicit-param: oklch(from var(--function-decl) l calc(c + 0.04) h);
