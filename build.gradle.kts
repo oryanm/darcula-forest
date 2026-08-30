@@ -45,15 +45,16 @@ tasks.named<Test>("jvmTest") {
 
 tasks.register<Copy>("copyJsBundle") {
     group = "build"
-    description = "Copy the production JS bundle into site/ so preview.html can load it"
+    description = "Copy the production JS bundle and palette.css into site/ so index.html can load them"
     val webpack = tasks.named<KotlinWebpack>("jsBrowserProductionWebpack")
     from(webpack.map { it.outputDirectory }) { include("darcula-forest.js") }
+    from(layout.projectDirectory.file("darcula/css/palette.css"))
     into(layout.projectDirectory.dir("site"))
 }
 
-tasks.register<Exec>("preview") {
+tasks.register<Exec>("site") {
     group = "application"
-    description = "Build the JS bundle and open site/preview.html in the default browser"
+    description = "Build the JS bundle and open site/index.html in the default browser"
     dependsOn("copyJsBundle")
-    commandLine("open", layout.projectDirectory.file("site/preview.html").asFile.path)
+    commandLine("open", layout.projectDirectory.file("site/index.html").asFile.path)
 }

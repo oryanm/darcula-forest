@@ -97,7 +97,7 @@ class Palette(params: ThemeParams = ThemeParams()) {
     val diffConflictStripe = Var("diff-conflict-stripe", oklch(diffConflict, l + 0.3, c + 0.1, h))
     val unusedElementStripe = Var("unused-element-stripe", todoStripe)
 
-    // preview.html backgrounds — also re-used as Zed UI surfaces.
+    // site/index.html backgrounds — also re-used as Zed UI surfaces.
     val pageBg   = Var("page-bg",    oklch(editorBg, l - 0.05, c, h))
     val tabBarBg = Var("tab-bar-bg", oklch(pageBg,   l + 0.01, c, h))
     val gutterBg = Var("gutter-bg",  oklch(editorBg, l + 0.05, c, h))

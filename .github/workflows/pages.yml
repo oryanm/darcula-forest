@@ -34,15 +34,11 @@ jobs:
         run: ./gradlew jsBrowserProductionWebpack copyJsBundle --no-daemon
 
       - name: Assemble _site
-        # Mirror the repo layout (site/ and darcula/ as siblings) so that
-        # site/preview.html's href="../darcula/css/palette.css" resolves the same
-        # way on Pages as it does when the file is opened from a checkout via file://.
+        # site/ is self-contained (copyJsBundle drops darcula-forest.js and
+        # palette.css next to index.html), so it is published as the site root.
         run: |
           rm -rf _site
-          mkdir -p _site/darcula
-          cp -R site _site/site
-          cp -R darcula/css _site/darcula/css
-          cp .github/pages/index.html _site/index.html
+          cp -R site _site
           find _site -type f | sort
 
       - name: Configure Pages

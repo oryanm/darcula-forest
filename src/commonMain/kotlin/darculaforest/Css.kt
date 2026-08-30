@@ -45,7 +45,7 @@ private val Palette.paletteEntries: List<PaletteEntry> get() = listOf(
     Def(tearline),
     Def(templateLang),
 
-    Section("Preview backgrounds"),
+    Section("Site backgrounds"),
     Def(pageBg),
     Def(tabBarBg),
     Def(gutterBg),

@@ -22,7 +22,7 @@
     --tearline: var(--search-result-bg);
     --template-lang: var(--search-result-bg);
 
-    /* Preview backgrounds */
+    /* Site backgrounds */
     --page-bg: oklch(from var(--editor-bg) calc(l - 0.05) c h);
     --tab-bar-bg: oklch(from var(--page-bg) calc(l + 0.01) c h);
     --gutter-bg: oklch(from var(--editor-bg) calc(l + 0.05) c h);
