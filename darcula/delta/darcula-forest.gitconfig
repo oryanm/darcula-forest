@@ -1,0 +1,71 @@
+# Darcula Forest — theme for delta (https://github.com/dandavison/delta)
+#
+# Usage, in ~/.gitconfig:
+#   [include]
+#       path = /path/to/darcula-forest.gitconfig
+#   [core]
+#       pager = delta
+#   [interactive]
+#       diffFilter = delta --color-only
+#   [delta]
+#       features = darcula-forest
+
+[delta "darcula-forest"]
+    dark = true
+    true-color = auto
+    syntax-theme = ansi
+
+    # commit line
+    commit-style = bold "#cbad00"
+    commit-decoration-style = "#343631" box ul
+
+    # file header
+    file-style = bold "#8aab5f"
+    file-decoration-style = "#343631" ul
+
+    # hunk headers
+    hunk-header-style = file line-number syntax
+    hunk-header-decoration-style = "#2a2c27" box
+    hunk-header-file-style = "#9ca099"
+    hunk-header-line-number-style = bold "#8aab5f"
+
+    # diff lines
+    minus-style = syntax "#393c36"
+    minus-non-emph-style = syntax "#393c36"
+    minus-emph-style = "#20231e" "#8d908a" bold
+    plus-style = syntax "#343f28"
+    plus-non-emph-style = syntax "#343f28"
+    plus-emph-style = "#20231e" "#769f36" bold
+    zero-style = syntax
+    whitespace-error-style = "#bd4238" reverse
+
+    # line numbers
+    line-numbers = true
+    line-numbers-left-format = "{nm:>4} │"
+    line-numbers-right-format = "{np:>4} │ "
+    line-numbers-left-style = "#545651"
+    line-numbers-right-style = "#545651"
+    line-numbers-minus-style = "#8d908a"
+    line-numbers-plus-style = "#769f36"
+    line-numbers-zero-style = "#545651"
+
+    # merge conflicts
+    merge-conflict-ours-diff-header-style = bold "#749f2b"
+    merge-conflict-ours-diff-header-decoration-style = "#343631" box
+    merge-conflict-theirs-diff-header-style = bold "#cbad00"
+    merge-conflict-theirs-diff-header-decoration-style = "#343631" box
+
+    # git blame
+    blame-code-style = syntax
+    blame-palette = "#20231e" "#252722" "#2c2f2a" "#171914" "#151712"
+    blame-separator-style = "#2a2c27"
+
+    # grep (delta as a pager for rg/git grep)
+    grep-file-style = bold "#8aab5f"
+    grep-line-number-style = "#545651"
+    grep-match-line-style = syntax "#393c36"
+    grep-match-word-style = "#20231e" "#cbad00" bold
+    grep-context-line-style = syntax
+
+    # inline hints (wrap markers etc.)
+    inline-hint-style = "#9ca099"

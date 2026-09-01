@@ -1,0 +1,69 @@
+# Darcula Forest — Starship palette
+# Merge into ~/.config/starship.toml; keep `palette = ...` above the first [section].
+palette = "darcula_forest"
+
+[palettes.darcula_forest]
+# The 16 standard names starship's style parser recognizes
+black = "#20231e"
+red = "#7e7238"
+green = "#647b47"
+yellow = "#797250"
+blue = "#5f7d31"
+purple = "#8aab5f"
+cyan = "#749f2b"
+white = "#acafa9"
+bright-black = "#373d32"
+bright-red = "#7e7238"
+bright-green = "#647b47"
+bright-yellow = "#797250"
+bright-blue = "#5f7d31"
+bright-purple = "#8aab5f"
+bright-cyan = "#749f2b"
+bright-white = "#a3b68d"
+
+# Custom semantic names (usable in any style string)
+bg = "#20231e"
+surface = "#252722"
+selection = "#373d32"
+border = "#343631"
+fg = "#acafa9"
+muted = "#9ca099"
+accent = "#5f7d31"
+accent_bright = "#8aab5f"
+info = "#749f2b"
+value = "#7e7238"
+success = "#769f36"
+error = "#bd4238"
+warning = "#cbad00"
+added = "#769f36"
+deleted = "#8d908a"
+changed = "#3d94e0"
+conflicted = "#d76a5e"
+
+# Optional module styles wired to the palette (safe to drop or adapt)
+[character]
+success_symbol = "[❯](bold accent)"
+error_symbol = "[❯](bold error)"
+
+[directory]
+style = "bold accent"
+
+[git_branch]
+style = "bold accent_bright"
+
+[git_status]
+style = "bold changed"
+conflicted = "[=$count](bold conflicted)"
+deleted = "[✘$count](bold deleted)"
+staged = "[+$count](bold added)"
+modified = "[!$count](bold changed)"
+
+[cmd_duration]
+style = "muted"
+
+[status]
+disabled = false
+style = "bold error"
+
+[jobs]
+style = "bold warning"

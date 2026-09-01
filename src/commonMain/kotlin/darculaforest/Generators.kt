@@ -27,5 +27,13 @@ fun generateAll(params: ThemeParams = ThemeParams()) = Palette(params).let { pal
         GeneratedFile("iterm2/Darcula Forest.itermcolors",   palette.generateITerm2() + "\n"),
         GeneratedFile("tmux/darcula-forest.tmux.conf",       palette.generateTmux() + "\n"),
         GeneratedFile("zellij/darcula-forest.kdl",           palette.generateZellij() + "\n"),
+        GeneratedFile("btop/darcula-forest.theme",           palette.generateBtop() + "\n"),
+        GeneratedFile("fzf/darcula-forest.fzf.sh",           palette.generateFzf() + "\n"),
+        GeneratedFile("lazygit/darcula-forest.yml",          palette.generateLazygit() + "\n"),
+        GeneratedFile("starship/darcula-forest.toml",        palette.generateStarship() + "\n"),
+        GeneratedFile("delta/darcula-forest.gitconfig",      palette.generateDelta() + "\n"),
+        GeneratedFile("helix/darcula-forest.toml",           palette.generateHelix() + "\n"),
+        GeneratedFile("vim/colors/darcula-forest.vim",       palette.generateVim() + "\n"),
+        GeneratedFile("nvim/colors/darcula-forest.lua",      palette.generateNeovim() + "\n"),
     )
 }

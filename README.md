@@ -17,6 +17,8 @@ Editors & IDEs
 
 - IntelliJ / JetBrains — color scheme (ICLS) and UI theme
 - Zed
+- Neovim, Vim
+- Helix
 - T3 Code
 
 Terminals & multiplexers
@@ -24,9 +26,27 @@ Terminals & multiplexers
 - Alacritty, kitty, Ghostty, WezTerm, foot, Warp, Windows Terminal, iTerm2
 - tmux, Zellij
 
+CLI tools
+
+- btop, fzf, lazygit, starship, delta (git pager)
+
 Other
 
 - CSS palette
+
+## IntelliJ / JetBrains
+
+`darcula/jetbrains/` contains two files:
+
+- `Darcula_Forest.icls` — the editor color scheme (syntax highlighting, editor colors). Use it standalone:
+  **Settings → Editor → Color Scheme → ⚙ → Import Scheme…** and pick the file, then select "Darcula Forest"
+  from the scheme dropdown. The IDE chrome keeps whatever UI theme you already use.
+- `Darcula_Forest.theme.json` — the UI theme (tool windows, tabs, buttons, etc.), extending Islands Darcula.
+  It references the color scheme via `editorScheme`, so applying it gives you both. Theme JSON can't be
+  imported directly; it has to be packaged as a [theme plugin][intellij-theme] and installed from disk
+  (**Settings → Plugins → ⚙ → Install Plugin from Disk…**).
+
+If you only want the syntax colors, import the `.icls`. For the complete look, build/install the theme plugin.
 
 ## Screenshots
 

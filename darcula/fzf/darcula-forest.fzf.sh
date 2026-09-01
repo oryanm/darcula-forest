@@ -1,0 +1,16 @@
+# Darcula Forest — fzf colors (requires fzf >= 0.63)
+export FZF_DEFAULT_OPTS="${FZF_DEFAULT_OPTS:+$FZF_DEFAULT_OPTS } \
+--color=dark \
+--color=fg:#acafa9,bg:#20231e,hl:#cbad00 \
+--color=fg+:#acafa9,bg+:#252722,hl+:#cbad00:bold \
+--color=selected-fg:#acafa9,selected-bg:#373d32,selected-hl:#cbad00 \
+--color=query:#acafa9,ghost:#70736d,disabled:#85976f \
+--color=prompt:#5f7d31,pointer:#5f7d31,marker:#769f36 \
+--color=spinner:#749f2b,info:#808080 \
+--color=header:#9ca099,gutter:#2c2f2a \
+--color=border:#343631,label:#9ca099,separator:#2a2c27,scrollbar:#343631 \
+--color=preview-fg:#acafa9,preview-bg:#252722,preview-border:#2a2c27,preview-scrollbar:#343631,preview-label:#9ca099 \
+--color=list-border:#2a2c27,list-label:#9ca099 \
+--color=input-border:#2a2c27,input-label:#9ca099 \
+--color=header-border:#2a2c27,header-label:#9ca099 \
+--color=footer:#9ca099,footer-border:#2a2c27,footer-label:#9ca099"

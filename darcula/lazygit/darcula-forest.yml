@@ -1,0 +1,45 @@
+# Darcula Forest — lazygit theme
+gui:
+  theme:
+    # Border of the focused panel
+    activeBorderColor:
+      - '#5f7d31'
+      - bold
+    # Border of unfocused panels
+    inactiveBorderColor:
+      - '#343631'
+    # Border of the focused panel while searching in it
+    searchingActiveBorderColor:
+      - '#cbad00'
+      - bold
+    # Keybinding help text in the bottom line
+    optionsTextColor:
+      - '#9ca099'
+    # Background of the selected line
+    selectedLineBgColor:
+      - '#373d32'
+    # Background of the selected line in unfocused views
+    inactiveViewSelectedLineBgColor:
+      - '#252722'
+    # Copied (cherry-picked) commit
+    cherryPickedCommitFgColor:
+      - '#749f2b'
+    cherryPickedCommitBgColor:
+      - '#1f2d3a'
+    # Marked base commit for rebase
+    markedBaseCommitFgColor:
+      - '#cbad00'
+    markedBaseCommitBgColor:
+      - '#5a563f'
+    # Files with unstaged changes
+    unstagedChangesColor:
+      - '#bd4238'
+    # Default text color
+    defaultFgColor:
+      - '#acafa9'
+  # Keeps the commits pane on-palette instead of lazygit's per-author colors
+  authorColors:
+    '*': '#8aab5f'
+  # Branch name colors by regex (not implicitly anchored)
+  branchColorPatterns:
+    '^(main|master)$': '#5f7d31'

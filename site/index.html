@@ -1165,6 +1165,46 @@
       <div>Import in T3 Code's theme settings.</div>
     </div>
     <div class="target">
+      <div class="target-name">Helix</div>
+      <div class="target-files"><button class="link" data-file="helix/darcula-forest.toml" onclick="downloadFile(this)">darcula-forest.toml</button></div>
+      <div>Copy to <code>~/.config/helix/themes/</code>, then <code>:theme darcula-forest</code>.</div>
+    </div>
+    <div class="target">
+      <div class="target-name">Neovim</div>
+      <div class="target-files"><button class="link" data-file="nvim/colors/darcula-forest.lua" onclick="downloadFile(this)">darcula-forest.lua</button></div>
+      <div>Copy to <code>~/.config/nvim/colors/</code>, then <code>:colorscheme darcula-forest</code>.</div>
+    </div>
+    <div class="target">
+      <div class="target-name">Vim</div>
+      <div class="target-files"><button class="link" data-file="vim/colors/darcula-forest.vim" onclick="downloadFile(this)">darcula-forest.vim</button></div>
+      <div>Copy to <code>~/.vim/colors/</code>; needs <code>set termguicolors</code>.</div>
+    </div>
+    <div class="target">
+      <div class="target-name">btop</div>
+      <div class="target-files"><button class="link" data-file="btop/darcula-forest.theme" onclick="downloadFile(this)">darcula-forest.theme</button></div>
+      <div>Copy to <code>~/.config/btop/themes/</code>, then pick it in Options.</div>
+    </div>
+    <div class="target">
+      <div class="target-name">lazygit</div>
+      <div class="target-files"><button class="link" data-file="lazygit/darcula-forest.yml" onclick="downloadFile(this)">darcula-forest.yml</button></div>
+      <div>Merge into <code>config.yml</code>, or layer via <code>LG_CONFIG_FILE="&lt;config&gt;,&lt;this file&gt;"</code>.</div>
+    </div>
+    <div class="target">
+      <div class="target-name">delta</div>
+      <div class="target-files"><button class="link" data-file="delta/darcula-forest.gitconfig" onclick="downloadFile(this)">darcula-forest.gitconfig</button></div>
+      <div><code>[include] path = &lt;file&gt;</code> in <code>~/.gitconfig</code>, then <code>[delta] features = darcula-forest</code>.</div>
+    </div>
+    <div class="target">
+      <div class="target-name">fzf</div>
+      <div class="target-files"><button class="link" data-file="fzf/darcula-forest.fzf.sh" onclick="downloadFile(this)">darcula-forest.fzf.sh</button></div>
+      <div><code>source</code> it from <code>~/.zshrc</code>; appends to <code>FZF_DEFAULT_OPTS</code>.</div>
+    </div>
+    <div class="target">
+      <div class="target-name">starship</div>
+      <div class="target-files"><button class="link" data-file="starship/darcula-forest.toml" onclick="downloadFile(this)">darcula-forest.toml</button></div>
+      <div>Merge into <code>starship.toml</code>; keep <code>palette = …</code> above the first section.</div>
+    </div>
+    <div class="target">
       <div class="target-name">CSS</div>
       <div class="target-files"><button class="link" data-file="css/palette.css" onclick="downloadFile(this)">palette.css</button></div>
       <div><code>oklch()</code> custom properties; this page is styled with it.</div>
