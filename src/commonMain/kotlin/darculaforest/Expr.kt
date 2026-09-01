@@ -15,6 +15,7 @@ import kotlin.math.sin
 //   Ident   — channel passthrough marker (l, c, h inside relative oklch)
 //   Var     — var(--name); the bound value is itself an Expr
 //   Calc    — calc(lhs op rhs)
+//   Max     — max(a, b)
 //   Oklch   — oklch(l c h [/ a]) or oklch(from var(--x) l c h [/ a])
 
 sealed class Expr {
@@ -23,6 +24,8 @@ sealed class Expr {
     data object Ident : Expr()
 
     data class Calc(val lhs: Expr, val op: Op, val rhs: Expr) : Expr()
+
+    data class Max(val a: Expr, val b: Expr) : Expr()
 
     data class Var(val name: String, val value: Expr) : Expr() {
         constructor(name: String, value: Double) : this(name, Lit(value))
@@ -34,6 +37,7 @@ sealed class Expr {
             is Lit   -> expr.value
             is Var   -> eval(expr.value)
             is Calc  -> expr.op.apply(eval(expr.lhs), eval(expr.rhs))
+            is Max   -> maxOf(eval(expr.a), eval(expr.b))
             is Ident -> error("Ident (channel passthrough) not allowed in a Var value")
             is Oklch -> error("cannot resolve color Var '$name' to a scalar")
         }
@@ -103,6 +107,9 @@ operator fun Double.plus(e: Expr): Expr {
     return Expr.Calc(Expr.Lit(this), Expr.Op.Plus, e)
 }
 
+/** CSS `max(a, b)`: floor an expression at a literal. */
+fun max(a: Expr, b: Double): Expr = Expr.Max(a, Expr.Lit(b))
+
 // Channel identity markers — used like CSS's l, c, h keywords
 val l: Expr = Expr.Ident
 val c: Expr = Expr.Ident
@@ -159,6 +166,7 @@ private fun fmtInside(expr: Expr, channel: Char): String = when (expr) {
     is Expr.Ident -> channel.toString()
     is Expr.Var   -> "var(--${expr.name})"
     is Expr.Calc  -> "${fmtOperand(expr.lhs, expr.op, channel)} ${expr.op.sym} ${fmtOperand(expr.rhs, expr.op, channel)}"
+    is Expr.Max   -> "max(${fmtInside(expr.a, channel)}, ${fmtInside(expr.b, channel)})"
     is Expr.Oklch -> error("Oklch not allowed in channel expression")
 }
 
@@ -175,6 +183,7 @@ private fun fmtChannel(expr: Expr, channel: Char): String = when (expr) {
     is Expr.Ident -> channel.toString()
     is Expr.Var   -> "var(--${expr.name})"
     is Expr.Calc  -> "calc(${fmtInside(expr, channel)})"
+    is Expr.Max   -> fmtInside(expr, channel)
     is Expr.Oklch -> error("Oklch not allowed in channel expression")
 }
 
@@ -186,6 +195,7 @@ private fun fmtAlpha(expr: Expr): String = when (expr) {
     is Expr.Lit   -> fmtNum(expr.value, 3)
     is Expr.Var   -> "var(--${expr.name})"
     is Expr.Calc  -> "calc(${cssOf(expr)})"
+    is Expr.Max   -> cssOf(expr)
     is Expr.Ident -> error("Ident not allowed in alpha")
     is Expr.Oklch -> error("Oklch not allowed in alpha")
 }
@@ -197,6 +207,7 @@ fun cssOf(expr: Expr): String = when (expr) {
     is Expr.Lit   -> fmtNum(expr.value, 3)
     is Expr.Var   -> "var(--${expr.name})"
     is Expr.Calc  -> "calc(${cssOf(expr.lhs)} ${expr.op.sym} ${cssOf(expr.rhs)})"
+    is Expr.Max   -> "max(${cssOf(expr.a)}, ${cssOf(expr.b)})"
     is Expr.Oklch -> {
         val head = expr.from?.let { "from var(--${expr.from.name}) " } ?: ""
         val body = "${fmtL(expr.l)} ${fmtC(expr.c)} ${fmtH(expr.h)}"
@@ -266,6 +277,7 @@ private fun resolveChannel(expr: Expr, parent: Double?): Double = when (expr) {
     is Expr.Ident -> parent ?: error("Ident requires parent channel")
     is Expr.Var   -> expr.resolved
     is Expr.Calc  -> expr.op.apply(resolveChannel(expr.lhs, parent), resolveChannel(expr.rhs, parent))
+    is Expr.Max   -> maxOf(resolveChannel(expr.a, parent), resolveChannel(expr.b, parent))
     is Expr.Oklch -> error("Oklch not allowed in channel expression")
 }
 

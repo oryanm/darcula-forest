@@ -83,10 +83,13 @@ class Palette(params: ThemeParams = ThemeParams()) {
 
     // ── Diff ────────────────────────────────────────────────────────────
 
+    // Tint chroma scales with the base-chroma knob but never fades below a visible floor.
+    // Normalized so the default base-chroma of 0.11 yields the original 0.04.
+    val diffChroma   = max(baseChroma * 4.0 / 11.0, 0.02)
     val diffDelete   = Var("diff-delete",   oklch(searchResultBg, l, c, h))
-    val diffChange   = Var("diff-change",   oklch(diffDelete, l, c + 0.03, blueHue))
-    val diffAdd      = Var("diff-add",      oklch(diffDelete, l, c + 0.03, greenHue))
-    val diffConflict = Var("diff-conflict", oklch(diffDelete, l, c + 0.03, redHue))
+    val diffChange   = Var("diff-change",   oklch(diffDelete, l, diffChroma, blueHue))
+    val diffAdd      = Var("diff-add",      oklch(diffDelete, l, diffChroma, greenHue))
+    val diffConflict = Var("diff-conflict", oklch(diffDelete, l, diffChroma, redHue))
 
     // ── Editor right side stripe ────────────────────────────────────────
 
