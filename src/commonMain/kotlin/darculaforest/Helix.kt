@@ -142,5 +142,5 @@ fun Palette.generateHelix(): String {
         staticFunc, namedArg, comment, javadoc, todo, error, warningBg, infoBorder, successBorder,
         diffAddStripe, diffDeleteStripe, diffChangeStripe, diffConflictStripe,
     )
-    return HELIX_BODY + "\n" + vars.joinToString("\n") { "${it.name} = \"#${hexOf(it)}\"" }
+    return HELIX_BODY + "\n" + vars.joinToString("\n") { "${it.name} = \"${hex(it)}\"" }
 }

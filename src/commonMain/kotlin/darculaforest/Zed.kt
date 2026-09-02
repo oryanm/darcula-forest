@@ -250,11 +250,6 @@ data class ZedSyntax(
 
 // ── Theme construction ─────────────────────────────────────────────
 
-private fun hex(v: Expr.Var, alpha: Double? = null) =
-  hexOf(alpha?.let { oklch(from = v, l = l, c = c, h = h, alpha = it) }
-    ?: (oklchOf(v) ?: error("'${v.name}' does not resolve to a color")))
-    .let { "#${it}" }
-
 private fun token(v: Expr.Var, fontStyle: String? = null, fontWeight: Int? = null) = ZedToken(hex(v), fontStyle, fontWeight)
 
 private fun player(v: Expr.Var) = ZedPlayer(hex(v), hex(v), hex(v, alpha = 0.24))

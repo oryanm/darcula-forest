@@ -21,57 +21,57 @@ fun Palette.generateDelta() = """
         syntax-theme = ansi
 
         # commit line
-        commit-style = bold "#${hexOf(todo)}"
-        commit-decoration-style = "#${hexOf(borderColor)}" box ul
+        commit-style = bold "${hex(todo)}"
+        commit-decoration-style = "${hex(borderColor)}" box ul
 
         # file header
-        file-style = bold "#${hexOf(functionDecl)}"
-        file-decoration-style = "#${hexOf(borderColor)}" ul
+        file-style = bold "${hex(functionDecl)}"
+        file-decoration-style = "${hex(borderColor)}" ul
 
         # hunk headers
         hunk-header-style = file line-number syntax
-        hunk-header-decoration-style = "#${hexOf(borderVariant)}" box
-        hunk-header-file-style = "#${hexOf(textMuted)}"
-        hunk-header-line-number-style = bold "#${hexOf(functionDecl)}"
+        hunk-header-decoration-style = "${hex(borderVariant)}" box
+        hunk-header-file-style = "${hex(textMuted)}"
+        hunk-header-line-number-style = bold "${hex(functionDecl)}"
 
         # diff lines
-        minus-style = syntax "#${hexOf(diffDelete)}"
-        minus-non-emph-style = syntax "#${hexOf(diffDelete)}"
-        minus-emph-style = "#${hexOf(editorBg)}" "#${hexOf(diffDeleteStripe)}" bold
-        plus-style = syntax "#${hexOf(diffAdd)}"
-        plus-non-emph-style = syntax "#${hexOf(diffAdd)}"
-        plus-emph-style = "#${hexOf(editorBg)}" "#${hexOf(diffAddStripe)}" bold
+        minus-style = syntax "${hex(diffDelete)}"
+        minus-non-emph-style = syntax "${hex(diffDelete)}"
+        minus-emph-style = "${hex(editorBg)}" "${hex(diffDeleteStripe)}" bold
+        plus-style = syntax "${hex(diffAdd)}"
+        plus-non-emph-style = syntax "${hex(diffAdd)}"
+        plus-emph-style = "${hex(editorBg)}" "${hex(diffAddStripe)}" bold
         zero-style = syntax
-        whitespace-error-style = "#${hexOf(error)}" reverse
+        whitespace-error-style = "${hex(error)}" reverse
 
         # line numbers
         line-numbers = true
         line-numbers-left-format = "{nm:>4} │"
         line-numbers-right-format = "{np:>4} │ "
-        line-numbers-left-style = "#${hexOf(lineNumber)}"
-        line-numbers-right-style = "#${hexOf(lineNumber)}"
-        line-numbers-minus-style = "#${hexOf(diffDeleteStripe)}"
-        line-numbers-plus-style = "#${hexOf(diffAddStripe)}"
-        line-numbers-zero-style = "#${hexOf(lineNumber)}"
+        line-numbers-left-style = "${hex(lineNumber)}"
+        line-numbers-right-style = "${hex(lineNumber)}"
+        line-numbers-minus-style = "${hex(diffDeleteStripe)}"
+        line-numbers-plus-style = "${hex(diffAddStripe)}"
+        line-numbers-zero-style = "${hex(lineNumber)}"
 
         # merge conflicts
-        merge-conflict-ours-diff-header-style = bold "#${hexOf(constantField)}"
-        merge-conflict-ours-diff-header-decoration-style = "#${hexOf(borderColor)}" box
-        merge-conflict-theirs-diff-header-style = bold "#${hexOf(todo)}"
-        merge-conflict-theirs-diff-header-decoration-style = "#${hexOf(borderColor)}" box
+        merge-conflict-ours-diff-header-style = bold "${hex(constantField)}"
+        merge-conflict-ours-diff-header-decoration-style = "${hex(borderColor)}" box
+        merge-conflict-theirs-diff-header-style = bold "${hex(todo)}"
+        merge-conflict-theirs-diff-header-decoration-style = "${hex(borderColor)}" box
 
         # git blame
         blame-code-style = syntax
-        blame-palette = "#${hexOf(editorBg)}" "#${hexOf(caretRow)}" "#${hexOf(gutterBg)}" "#${hexOf(tabBarBg)}" "#${hexOf(pageBg)}"
-        blame-separator-style = "#${hexOf(borderVariant)}"
+        blame-palette = "${hex(editorBg)}" "${hex(caretRow)}" "${hex(gutterBg)}" "${hex(tabBarBg)}" "${hex(pageBg)}"
+        blame-separator-style = "${hex(borderVariant)}"
 
         # grep (delta as a pager for rg/git grep)
-        grep-file-style = bold "#${hexOf(functionDecl)}"
-        grep-line-number-style = "#${hexOf(lineNumber)}"
-        grep-match-line-style = syntax "#${hexOf(searchResultBg)}"
-        grep-match-word-style = "#${hexOf(editorBg)}" "#${hexOf(todo)}" bold
+        grep-file-style = bold "${hex(functionDecl)}"
+        grep-line-number-style = "${hex(lineNumber)}"
+        grep-match-line-style = syntax "${hex(searchResultBg)}"
+        grep-match-word-style = "${hex(editorBg)}" "${hex(todo)}" bold
         grep-context-line-style = syntax
 
         # inline hints (wrap markers etc.)
-        inline-hint-style = "#${hexOf(textMuted)}"
+        inline-hint-style = "${hex(textMuted)}"
 """.trimIndent()

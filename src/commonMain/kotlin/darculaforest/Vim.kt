@@ -11,80 +11,80 @@ fun Palette.generateVim() = """
     let g:colors_name = 'darcula-forest'
 
     " ── Editor UI ────────────────────────────────────────────────────
-    hi Normal        guifg=#${hexOf(fg)} guibg=#${hexOf(editorBg)}
-    hi Cursor        guifg=#${hexOf(editorBg)} guibg=#${hexOf(fg)}
-    hi CursorLine    guibg=#${hexOf(caretRow)} gui=NONE
-    hi CursorColumn  guibg=#${hexOf(caretRow)}
-    hi CursorLineNr  guifg=#${hexOf(fg)} guibg=#${hexOf(caretRow)} gui=NONE
-    hi LineNr        guifg=#${hexOf(lineNumber)}
-    hi SignColumn    guibg=#${hexOf(gutterBg)}
-    hi FoldColumn    guifg=#${hexOf(lineNumber)} guibg=#${hexOf(gutterBg)}
-    hi Folded        guifg=#${hexOf(textMuted)} guibg=#${hexOf(foldedTextBg)}
-    hi ColorColumn   guibg=#${hexOf(caretRow)}
-    hi VertSplit     guifg=#${hexOf(borderColor)} guibg=NONE gui=NONE
-    hi StatusLine    guifg=#${hexOf(fg)} guibg=#${hexOf(tabBarBg)} gui=NONE
-    hi StatusLineNC  guifg=#${hexOf(fgMuted)} guibg=#${hexOf(pageBg)} gui=NONE
-    hi TabLine       guifg=#${hexOf(textMuted)} guibg=#${hexOf(tabBarBg)} gui=NONE
-    hi TabLineSel    guifg=#${hexOf(fg)} guibg=#${hexOf(editorBg)} gui=NONE
-    hi TabLineFill   guibg=#${hexOf(pageBg)} gui=NONE
-    hi Visual        guibg=#${hexOf(selectionBg)}
-    hi Search        guibg=#${hexOf(searchResultBg)}
-    hi IncSearch     guifg=#${hexOf(editorBg)} guibg=#${hexOf(todo)} gui=NONE
-    hi MatchParen    guifg=#${hexOf(matchingBraceFg)} guibg=#${hexOf(matchingBraceBg)}
-    hi Pmenu         guifg=#${hexOf(fg)} guibg=#${hexOf(panelBg)}
-    hi PmenuSel      guibg=#${hexOf(elementActive)}
-    hi PmenuSbar     guibg=#${hexOf(scrollbarTrack)}
-    hi PmenuThumb    guibg=#${hexOf(scrollbarThumb)}
-    hi WildMenu      guibg=#${hexOf(elementActive)}
-    hi QuickFixLine  guibg=#${hexOf(selectionBg)}
-    hi NonText       guifg=#${hexOf(textPlaceholder)}
-    hi SpecialKey    guifg=#${hexOf(textPlaceholder)}
-    hi EndOfBuffer   guifg=#${hexOf(textPlaceholder)}
-    hi Conceal       guifg=#${hexOf(textMuted)}
-    hi Directory     guifg=#${hexOf(functionDecl)}
-    hi Title         guifg=#${hexOf(functionDecl)} gui=bold
-    hi ErrorMsg      guifg=#${hexOf(error)} guibg=NONE
-    hi WarningMsg    guifg=#${hexOf(todo)}
-    hi MoreMsg       guifg=#${hexOf(keyword)}
-    hi ModeMsg       guifg=#${hexOf(fg)}
-    hi Question      guifg=#${hexOf(keyword)}
+    hi Normal        guifg=${hex(fg)} guibg=${hex(editorBg)}
+    hi Cursor        guifg=${hex(editorBg)} guibg=${hex(fg)}
+    hi CursorLine    guibg=${hex(caretRow)} gui=NONE
+    hi CursorColumn  guibg=${hex(caretRow)}
+    hi CursorLineNr  guifg=${hex(fg)} guibg=${hex(caretRow)} gui=NONE
+    hi LineNr        guifg=${hex(lineNumber)}
+    hi SignColumn    guibg=${hex(gutterBg)}
+    hi FoldColumn    guifg=${hex(lineNumber)} guibg=${hex(gutterBg)}
+    hi Folded        guifg=${hex(textMuted)} guibg=${hex(foldedTextBg)}
+    hi ColorColumn   guibg=${hex(caretRow)}
+    hi VertSplit     guifg=${hex(borderColor)} guibg=NONE gui=NONE
+    hi StatusLine    guifg=${hex(fg)} guibg=${hex(tabBarBg)} gui=NONE
+    hi StatusLineNC  guifg=${hex(fgMuted)} guibg=${hex(pageBg)} gui=NONE
+    hi TabLine       guifg=${hex(textMuted)} guibg=${hex(tabBarBg)} gui=NONE
+    hi TabLineSel    guifg=${hex(fg)} guibg=${hex(editorBg)} gui=NONE
+    hi TabLineFill   guibg=${hex(pageBg)} gui=NONE
+    hi Visual        guibg=${hex(selectionBg)}
+    hi Search        guibg=${hex(searchResultBg)}
+    hi IncSearch     guifg=${hex(editorBg)} guibg=${hex(todo)} gui=NONE
+    hi MatchParen    guifg=${hex(matchingBraceFg)} guibg=${hex(matchingBraceBg)}
+    hi Pmenu         guifg=${hex(fg)} guibg=${hex(panelBg)}
+    hi PmenuSel      guibg=${hex(elementActive)}
+    hi PmenuSbar     guibg=${hex(scrollbarTrack)}
+    hi PmenuThumb    guibg=${hex(scrollbarThumb)}
+    hi WildMenu      guibg=${hex(elementActive)}
+    hi QuickFixLine  guibg=${hex(selectionBg)}
+    hi NonText       guifg=${hex(textPlaceholder)}
+    hi SpecialKey    guifg=${hex(textPlaceholder)}
+    hi EndOfBuffer   guifg=${hex(textPlaceholder)}
+    hi Conceal       guifg=${hex(textMuted)}
+    hi Directory     guifg=${hex(functionDecl)}
+    hi Title         guifg=${hex(functionDecl)} gui=bold
+    hi ErrorMsg      guifg=${hex(error)} guibg=NONE
+    hi WarningMsg    guifg=${hex(todo)}
+    hi MoreMsg       guifg=${hex(keyword)}
+    hi ModeMsg       guifg=${hex(fg)}
+    hi Question      guifg=${hex(keyword)}
 
     " ── Diff ─────────────────────────────────────────────────────────
-    hi DiffAdd       guibg=#${hexOf(diffAdd)}
-    hi DiffDelete    guifg=#${hexOf(textPlaceholder)} guibg=#${hexOf(diffDelete)}
-    hi DiffChange    guibg=#${hexOf(diffChange)}
-    hi DiffText      guibg=#${hexOf(diffChange)} gui=bold
+    hi DiffAdd       guibg=${hex(diffAdd)}
+    hi DiffDelete    guifg=${hex(textPlaceholder)} guibg=${hex(diffDelete)}
+    hi DiffChange    guibg=${hex(diffChange)}
+    hi DiffText      guibg=${hex(diffChange)} gui=bold
 
     " ── Spelling ─────────────────────────────────────────────────────
-    hi SpellBad      guisp=#${hexOf(typoUnderline)} gui=undercurl
-    hi SpellCap      guisp=#${hexOf(mutableUnderline)} gui=undercurl
-    hi SpellLocal    guisp=#${hexOf(mutableUnderline)} gui=undercurl
-    hi SpellRare     guisp=#${hexOf(mutableUnderline)} gui=undercurl
+    hi SpellBad      guisp=${hex(typoUnderline)} gui=undercurl
+    hi SpellCap      guisp=${hex(mutableUnderline)} gui=undercurl
+    hi SpellLocal    guisp=${hex(mutableUnderline)} gui=undercurl
+    hi SpellRare     guisp=${hex(mutableUnderline)} gui=undercurl
 
     " ── Syntax ───────────────────────────────────────────────────────
-    hi Comment       guifg=#${hexOf(comment)} gui=italic
-    hi Constant      guifg=#${hexOf(constantField)}
-    hi String        guifg=#${hexOf(string)}
-    hi Character     guifg=#${hexOf(string)}
-    hi Number        guifg=#${hexOf(number)}
-    hi Boolean       guifg=#${hexOf(keyword)}
-    hi Float         guifg=#${hexOf(number)}
-    hi Identifier    guifg=#${hexOf(fg)} gui=NONE
-    hi Function      guifg=#${hexOf(functionDecl)}
-    hi Statement     guifg=#${hexOf(keyword)} gui=NONE
-    hi Operator      guifg=#${hexOf(fg)}
-    hi PreProc       guifg=#${hexOf(annotation)}
-    hi Type          guifg=#${hexOf(fg)} gui=NONE
-    hi StorageClass  guifg=#${hexOf(keyword)}
-    hi Structure     guifg=#${hexOf(keyword)}
-    hi Special       guifg=#${hexOf(stringEscape)}
-    hi SpecialChar   guifg=#${hexOf(stringEscape)}
-    hi Tag           guifg=#${hexOf(keyword)}
-    hi Delimiter     guifg=#${hexOf(keyword)}
-    hi SpecialComment guifg=#${hexOf(javadoc)}
-    hi Debug         guifg=#${hexOf(todo)}
+    hi Comment       guifg=${hex(comment)} gui=italic
+    hi Constant      guifg=${hex(constantField)}
+    hi String        guifg=${hex(string)}
+    hi Character     guifg=${hex(string)}
+    hi Number        guifg=${hex(number)}
+    hi Boolean       guifg=${hex(keyword)}
+    hi Float         guifg=${hex(number)}
+    hi Identifier    guifg=${hex(fg)} gui=NONE
+    hi Function      guifg=${hex(functionDecl)}
+    hi Statement     guifg=${hex(keyword)} gui=NONE
+    hi Operator      guifg=${hex(fg)}
+    hi PreProc       guifg=${hex(annotation)}
+    hi Type          guifg=${hex(fg)} gui=NONE
+    hi StorageClass  guifg=${hex(keyword)}
+    hi Structure     guifg=${hex(keyword)}
+    hi Special       guifg=${hex(stringEscape)}
+    hi SpecialChar   guifg=${hex(stringEscape)}
+    hi Tag           guifg=${hex(keyword)}
+    hi Delimiter     guifg=${hex(keyword)}
+    hi SpecialComment guifg=${hex(javadoc)}
+    hi Debug         guifg=${hex(todo)}
     hi Underlined    gui=underline
-    hi Ignore        guifg=#${hexOf(textPlaceholder)}
-    hi Error         guifg=#${hexOf(error)} guibg=NONE
-    hi Todo          guifg=#${hexOf(todo)} guibg=NONE gui=bold
+    hi Ignore        guifg=${hex(textPlaceholder)}
+    hi Error         guifg=${hex(error)} guibg=NONE
+    hi Todo          guifg=${hex(todo)} guibg=NONE gui=bold
 """.trimIndent()

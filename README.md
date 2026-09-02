@@ -16,6 +16,7 @@ scheme can be generated from very few initial constants. See it in action [here]
 Editors & IDEs
 
 - IntelliJ / JetBrains — color scheme (ICLS) and UI theme
+- VS Code
 - Zed
 - Neovim, Vim
 - Helix

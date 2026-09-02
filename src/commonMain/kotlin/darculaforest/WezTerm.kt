@@ -2,58 +2,58 @@ package darculaforest
 
 fun Palette.generateWezTerm() = """
     [colors]
-    foreground = "#${hexOf(fg)}"
-    background = "#${hexOf(editorBg)}"
-    cursor_bg = "#${hexOf(keyword)}"
-    cursor_fg = "#${hexOf(editorBg)}"
-    cursor_border = "#${hexOf(keyword)}"
-    selection_bg = "#${hexOf(selectionBg)}"
-    selection_fg = "#${hexOf(fg)}"
-    split = "#${hexOf(borderColor)}"
+    foreground = "${hex(fg)}"
+    background = "${hex(editorBg)}"
+    cursor_bg = "${hex(keyword)}"
+    cursor_fg = "${hex(editorBg)}"
+    cursor_border = "${hex(keyword)}"
+    selection_bg = "${hex(selectionBg)}"
+    selection_fg = "${hex(fg)}"
+    split = "${hex(borderColor)}"
 
     ansi = [
-      "#${hexOf(termBlack)}",
-      "#${hexOf(termRed)}",
-      "#${hexOf(termGreen)}",
-      "#${hexOf(termYellow)}",
-      "#${hexOf(termBlue)}",
-      "#${hexOf(termMagenta)}",
-      "#${hexOf(termCyan)}",
-      "#${hexOf(termWhite)}",
+      "${hex(termBlack)}",
+      "${hex(termRed)}",
+      "${hex(termGreen)}",
+      "${hex(termYellow)}",
+      "${hex(termBlue)}",
+      "${hex(termMagenta)}",
+      "${hex(termCyan)}",
+      "${hex(termWhite)}",
     ]
     brights = [
-      "#${hexOf(termBrightBlack)}",
-      "#${hexOf(termBrightRed)}",
-      "#${hexOf(termBrightGreen)}",
-      "#${hexOf(termBrightYellow)}",
-      "#${hexOf(termBrightBlue)}",
-      "#${hexOf(termBrightMagenta)}",
-      "#${hexOf(termBrightCyan)}",
-      "#${hexOf(termBrightWhite)}",
+      "${hex(termBrightBlack)}",
+      "${hex(termBrightRed)}",
+      "${hex(termBrightGreen)}",
+      "${hex(termBrightYellow)}",
+      "${hex(termBrightBlue)}",
+      "${hex(termBrightMagenta)}",
+      "${hex(termBrightCyan)}",
+      "${hex(termBrightWhite)}",
     ]
 
     [colors.tab_bar]
-    background = "#${hexOf(tabBarBg)}"
+    background = "${hex(tabBarBg)}"
 
     [colors.tab_bar.active_tab]
-    bg_color = "#${hexOf(editorBg)}"
-    fg_color = "#${hexOf(fg)}"
+    bg_color = "${hex(editorBg)}"
+    fg_color = "${hex(fg)}"
 
     [colors.tab_bar.inactive_tab]
-    bg_color = "#${hexOf(tabBarBg)}"
-    fg_color = "#${hexOf(textMuted)}"
+    bg_color = "${hex(tabBarBg)}"
+    fg_color = "${hex(textMuted)}"
 
     [colors.tab_bar.inactive_tab_hover]
-    bg_color = "#${hexOf(elementHover)}"
-    fg_color = "#${hexOf(fg)}"
+    bg_color = "${hex(elementHover)}"
+    fg_color = "${hex(fg)}"
 
     [colors.tab_bar.new_tab]
-    bg_color = "#${hexOf(tabBarBg)}"
-    fg_color = "#${hexOf(textMuted)}"
+    bg_color = "${hex(tabBarBg)}"
+    fg_color = "${hex(textMuted)}"
 
     [colors.tab_bar.new_tab_hover]
-    bg_color = "#${hexOf(elementHover)}"
-    fg_color = "#${hexOf(fg)}"
+    bg_color = "${hex(elementHover)}"
+    fg_color = "${hex(fg)}"
 
     [metadata]
     name = "Darcula Forest"

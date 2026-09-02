@@ -1,0 +1,21 @@
+{
+  "name": "darcula-forest",
+  "displayName": "Darcula Forest",
+  "description": "A dark green color scheme derived in OKLCH from a handful of constants.",
+  "version": "0.1.0",
+  "publisher": "oryanm",
+  "license": "MIT",
+  "engines": { "vscode": "^1.85.0" },
+  "categories": ["Themes"],
+  "keywords": ["theme", "dark", "green", "oklch", "darcula"],
+  "repository": { "type": "git", "url": "https://github.com/oryanm/darcula-forest" },
+  "contributes": {
+    "themes": [
+      {
+        "label": "Darcula Forest",
+        "uiTheme": "vs-dark",
+        "path": "./themes/darcula-forest-color-theme.json"
+      }
+    ]
+  }
+}

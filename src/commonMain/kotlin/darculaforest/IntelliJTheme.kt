@@ -208,7 +208,6 @@ data class IntelliJTheme(
 
 // ── Theme construction ─────────────────────────────────────────────
 
-private fun hex(v: Expr.Var) = "#${hexOf(v)}"
 
 private fun ref(v: Expr.Var) = v.name
 

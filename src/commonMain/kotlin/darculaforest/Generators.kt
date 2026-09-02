@@ -35,5 +35,7 @@ fun generateAll(params: ThemeParams = ThemeParams()) = Palette(params).let { pal
         GeneratedFile("helix/darcula-forest.toml",           palette.generateHelix() + "\n"),
         GeneratedFile("vim/colors/darcula-forest.vim",       palette.generateVim() + "\n"),
         GeneratedFile("nvim/colors/darcula-forest.lua",      palette.generateNeovim() + "\n"),
+        GeneratedFile("vscode/package.json",                  vsCodePackageJson + "\n"),
+        GeneratedFile("vscode/themes/darcula-forest-color-theme.json", palette.generateVsCodeTheme() + "\n"),
     )
 }

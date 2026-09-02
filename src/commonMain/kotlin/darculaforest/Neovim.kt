@@ -170,9 +170,9 @@ private val Palette.nvimHighlights: List<NvimEntry> get() = listOf(
 )
 
 private fun luaOpts(h: Hl) = buildList {
-    h.fg?.let { add("fg = '#${hexOf(it)}'") }
-    h.bg?.let { add("bg = '#${hexOf(it)}'") }
-    h.sp?.let { add("sp = '#${hexOf(it)}'") }
+    h.fg?.let { add("fg = '${hex(it)}'") }
+    h.bg?.let { add("bg = '${hex(it)}'") }
+    h.sp?.let { add("sp = '${hex(it)}'") }
     if (h.bold) add("bold = true")
     if (h.italic) add("italic = true")
     if (h.underline) add("underline = true")

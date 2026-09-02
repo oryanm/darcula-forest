@@ -3,17 +3,17 @@ package darculaforest
 fun Palette.generateZellij() = """
     themes {
         darcula-forest {
-            fg "#${hexOf(fg)}"
-            bg "#${hexOf(editorBg)}"
-            black "#${hexOf(termBlack)}"
-            red "#${hexOf(termRed)}"
-            green "#${hexOf(termGreen)}"
-            yellow "#${hexOf(termYellow)}"
-            blue "#${hexOf(termBlue)}"
-            magenta "#${hexOf(termMagenta)}"
-            cyan "#${hexOf(termCyan)}"
-            white "#${hexOf(termWhite)}"
-            orange "#${hexOf(todo)}"
+            fg "${hex(fg)}"
+            bg "${hex(editorBg)}"
+            black "${hex(termBlack)}"
+            red "${hex(termRed)}"
+            green "${hex(termGreen)}"
+            yellow "${hex(termYellow)}"
+            blue "${hex(termBlue)}"
+            magenta "${hex(termMagenta)}"
+            cyan "${hex(termCyan)}"
+            white "${hex(termWhite)}"
+            orange "${hex(todo)}"
         }
     }
 """.trimIndent()

@@ -8,44 +8,44 @@ fun Palette.generateLazygit() = """
       theme:
         # Border of the focused panel
         activeBorderColor:
-          - '#${hexOf(keyword)}'
+          - '${hex(keyword)}'
           - bold
         # Border of unfocused panels
         inactiveBorderColor:
-          - '#${hexOf(borderColor)}'
+          - '${hex(borderColor)}'
         # Border of the focused panel while searching in it
         searchingActiveBorderColor:
-          - '#${hexOf(todo)}'
+          - '${hex(todo)}'
           - bold
         # Keybinding help text in the bottom line
         optionsTextColor:
-          - '#${hexOf(textMuted)}'
+          - '${hex(textMuted)}'
         # Background of the selected line
         selectedLineBgColor:
-          - '#${hexOf(selectionBg)}'
+          - '${hex(selectionBg)}'
         # Background of the selected line in unfocused views
         inactiveViewSelectedLineBgColor:
-          - '#${hexOf(caretRow)}'
+          - '${hex(caretRow)}'
         # Copied (cherry-picked) commit
         cherryPickedCommitFgColor:
-          - '#${hexOf(constantField)}'
+          - '${hex(constantField)}'
         cherryPickedCommitBgColor:
-          - '#${hexOf(infoBg)}'
+          - '${hex(infoBg)}'
         # Marked base commit for rebase
         markedBaseCommitFgColor:
-          - '#${hexOf(todo)}'
+          - '${hex(todo)}'
         markedBaseCommitBgColor:
-          - '#${hexOf(warningBg)}'
+          - '${hex(warningBg)}'
         # Files with unstaged changes
         unstagedChangesColor:
-          - '#${hexOf(error)}'
+          - '${hex(error)}'
         # Default text color
         defaultFgColor:
-          - '#${hexOf(fg)}'
+          - '${hex(fg)}'
       # Keeps the commits pane on-palette instead of lazygit's per-author colors
       authorColors:
-        '*': '#${hexOf(functionDecl)}'
+        '*': '${hex(functionDecl)}'
       # Branch name colors by regex (not implicitly anchored)
       branchColorPatterns:
-        '^(main|master)$': '#${hexOf(keyword)}'
+        '^(main|master)$': '${hex(keyword)}'
 """.trimIndent()

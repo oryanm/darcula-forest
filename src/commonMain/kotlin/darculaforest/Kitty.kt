@@ -1,37 +1,37 @@
 package darculaforest
 
 fun Palette.generateKitty() = """
-    foreground            #${hexOf(fg)}
-    background            #${hexOf(editorBg)}
-    cursor                #${hexOf(keyword)}
-    cursor_text_color     #${hexOf(editorBg)}
-    selection_foreground  #${hexOf(fg)}
-    selection_background  #${hexOf(selectionBg)}
-    url_color             #${hexOf(keyword)}
+    foreground            ${hex(fg)}
+    background            ${hex(editorBg)}
+    cursor                ${hex(keyword)}
+    cursor_text_color     ${hex(editorBg)}
+    selection_foreground  ${hex(fg)}
+    selection_background  ${hex(selectionBg)}
+    url_color             ${hex(keyword)}
 
-    active_border_color   #${hexOf(keyword)}
-    inactive_border_color #${hexOf(borderColor)}
+    active_border_color   ${hex(keyword)}
+    inactive_border_color ${hex(borderColor)}
 
-    tab_bar_background      #${hexOf(tabBarBg)}
-    active_tab_foreground   #${hexOf(fg)}
-    active_tab_background   #${hexOf(editorBg)}
-    inactive_tab_foreground #${hexOf(textMuted)}
-    inactive_tab_background #${hexOf(tabBarBg)}
+    tab_bar_background      ${hex(tabBarBg)}
+    active_tab_foreground   ${hex(fg)}
+    active_tab_background   ${hex(editorBg)}
+    inactive_tab_foreground ${hex(textMuted)}
+    inactive_tab_background ${hex(tabBarBg)}
 
-    color0  #${hexOf(termBlack)}
-    color1  #${hexOf(termRed)}
-    color2  #${hexOf(termGreen)}
-    color3  #${hexOf(termYellow)}
-    color4  #${hexOf(termBlue)}
-    color5  #${hexOf(termMagenta)}
-    color6  #${hexOf(termCyan)}
-    color7  #${hexOf(termWhite)}
-    color8  #${hexOf(termBrightBlack)}
-    color9  #${hexOf(termBrightRed)}
-    color10 #${hexOf(termBrightGreen)}
-    color11 #${hexOf(termBrightYellow)}
-    color12 #${hexOf(termBrightBlue)}
-    color13 #${hexOf(termBrightMagenta)}
-    color14 #${hexOf(termBrightCyan)}
-    color15 #${hexOf(termBrightWhite)}
+    color0  ${hex(termBlack)}
+    color1  ${hex(termRed)}
+    color2  ${hex(termGreen)}
+    color3  ${hex(termYellow)}
+    color4  ${hex(termBlue)}
+    color5  ${hex(termMagenta)}
+    color6  ${hex(termCyan)}
+    color7  ${hex(termWhite)}
+    color8  ${hex(termBrightBlack)}
+    color9  ${hex(termBrightRed)}
+    color10 ${hex(termBrightGreen)}
+    color11 ${hex(termBrightYellow)}
+    color12 ${hex(termBrightBlue)}
+    color13 ${hex(termBrightMagenta)}
+    color14 ${hex(termBrightCyan)}
+    color15 ${hex(termBrightWhite)}
 """.trimIndent()

@@ -71,6 +71,7 @@ class Palette(params: ThemeParams = ThemeParams()) {
     val matchingBraceFg =   Var("matching-brace-fg", oklch(implicitParam, l, c, secondaryHue))
     val matchingBraceBg =   Var("matching-brace-bg", oklch(selectionBg, l, c, secondaryHue))
     val unusedElement =     Var("unused-element", oklch(keyword, l, c - 0.1, h))
+    val unusedElementOpacity = Var("unused-element-opacity", oklch(0.0, 0.0, 0.0, alpha = 0.63)) // editors that fade instead of recolor
 
     // ── Comments ────────────────────────────────────────────────────────
 
@@ -162,11 +163,16 @@ class Palette(params: ThemeParams = ThemeParams()) {
 
 // ── Palette Utilities ───────────────────────────────────────────────
 
-tailrec fun oklchOf(e: Expr): Oklch? = when (e) {
-  is Oklch -> e
-  is Var -> oklchOf(e.value)
+tailrec fun oklchOf(expr: Expr): Oklch? = when (expr) {
+  is Oklch -> expr
+  is Var -> oklchOf(expr.value)
   else -> null
 }
 
 /** Lowercase 6-char hex for a color Var. Errors if the var doesn't resolve to an Oklch. */
 fun hexOf(v: Var) = hexOf(oklchOf(v) ?: error("'${v.name}' does not resolve to a color"))
+
+/** `#rrggbb[aa]` for a color Var; [alpha] overrides the var's own alpha. */
+fun hex(v: Var, alpha: Double? = null) =
+    "#" + hexOf(alpha?.let { oklch(from = v, l = l, c = c, h = h, alpha = it) }
+        ?: (oklchOf(v) ?: error("'${v.name}' does not resolve to a color")))

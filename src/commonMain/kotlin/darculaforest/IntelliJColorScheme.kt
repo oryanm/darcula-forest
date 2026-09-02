@@ -55,7 +55,7 @@ private val Palette.iclsColors get() = listOf(
 
 private val Palette.iclsAttributes get() = listOf(
     IclsAttr("ANNOTATION_ATTRIBUTE_NAME_ATTRIBUTES", fg = annotationNamedAtt),
-    IclsAttr("ANNOTATION_NAME_ATTRIBUTES", fg = annotation, effectType = LINE_UNDERSCORE),
+    IclsAttr("ANNOTATION_NAME_ATTRIBUTES", fg = annotation),
     IclsAttr("BASH.EXTERNAL_COMMAND", fg = constantField),
     IclsAttr("BLOCK_TERMINAL_BLACK",          fg = termBlack),
     IclsAttr("BLOCK_TERMINAL_BLACK_BRIGHT",   fg = termBrightBlack),
