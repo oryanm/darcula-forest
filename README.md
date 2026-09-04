@@ -7,17 +7,15 @@ We start with green because it is the easiest color on the eyes, minimizing eyes
 
 Accent colors follow the 60/30/10 rule and are derived as analogous complementary colors to the main hue.
 
-Usage of Oklch means the color scheme remains balanced while most of the relationships between syntactic tokens and UI
-elements are simple linear transformations of each other, specific hex values are derived automatically and the entire
-scheme can be generated from very few initial constants. See it in action [here][site].
+The use of OKLCH keeps the color scheme balanced. Most relationships between syntactic tokens and UI elements are simple linear transformations of one another, specific hex values are derived automatically, and the entire scheme can be generated from only a few initial constants. This enables immediate dynamic generation of near-endless variants. See it in action [here][site].
 
 ### Support
 
 Editors & IDEs
 
-- IntelliJ / JetBrains — color scheme (ICLS) and UI theme
+- IntelliJ / JetBrains — color scheme (ICLS) and [UI theme][intellij-darcula-forest]
 - VS Code
-- Zed
+- [Zed][zed-darcula-forest]
 - Neovim, Vim
 - Helix
 - T3 Code
@@ -44,7 +42,7 @@ Other
   from the scheme dropdown. The IDE chrome keeps whatever UI theme you already use.
 - `Darcula_Forest.theme.json` — the UI theme (tool windows, tabs, buttons, etc.), extending Islands Darcula.
   It references the color scheme via `editorScheme`, so applying it gives you both. Theme JSON can't be
-  imported directly; it has to be packaged as a [theme plugin][intellij-theme] and installed from disk
+  imported directly; it has to be packaged as a [theme plugin][intellij-darcula-forest] and installed from disk
   (**Settings → Plugins → ⚙ → Install Plugin from Disk…**).
 
 If you only want the syntax colors, import the `.icls`. For the complete look, build/install the theme plugin.
@@ -87,9 +85,11 @@ GitHub Actions rebuilds and publishes it to GitHub Pages on every push to `maste
 [omarchy-aether]: https://github.com/bjarneo/aether
 [intellij-theme]: https://plugins.jetbrains.com/docs/intellij/themes-getting-started.html
 [intellij-islands-dark]: https://github.com/JetBrains/intellij-community/blob/idea/261.23567.138/platform/platform-resources/src/themes/islands/ManyIslandsDark.theme.json
+[intellij-darcula-forest]: https://github.com/oryanm/darcula-forest-intellij
 [zed-builder]: https://zed.dev/theme-builder
 [zed-syntax-highlighting]: https://zed.dev/docs/extensions/languages#syntax-highlighting
 [zed-languages]: https://github.com/zed-industries/zed/tree/main/crates/languages
 [nvim-ts-highlights]: https://github.com/nvim-treesitter/nvim-treesitter/blob/master/CONTRIBUTING.md#highlights
 [helix-themes]: https://docs.helix-editor.com/themes.html
 [tree-sitter-highlight]: https://tree-sitter.github.io/tree-sitter/3-syntax-highlighting.html
+[zed-darcula-forest]: https://github.com/oryanm/darcula-forest-zed
