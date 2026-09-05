@@ -1,0 +1,99 @@
+# Darcula Forest theme for btop++
+
+# Main background, empty for terminal default, needs to be empty if you want transparent background
+theme[main_bg]="#20231e"
+
+# Main text color
+theme[main_fg]="#acafa9"
+
+# Title color for boxes
+theme[title]="#a3b68d"
+
+# Highlight color for keyboard shortcuts
+theme[hi_fg]="#5f7d31"
+
+# Background color of selected item in processes box
+theme[selected_bg]="#373d32"
+
+# Foreground color of selected item in processes box
+theme[selected_fg]="#a3b68d"
+
+# Color of inactive/disabled text
+theme[inactive_fg]="#70736d"
+
+# Color of text appearing on top of graphs, i.e uptime and current network graph scaling
+theme[graph_text]="#9ca099"
+
+# Background color of the percentage meters
+theme[meter_bg]="#2a2c27"
+
+# Misc colors for processes box including mini cpu graphs, details memory graph and details status text
+theme[proc_misc]="#749f2b"
+
+# Cpu box outline color
+theme[cpu_box]="#343631"
+
+# Memory/disks box outline color
+theme[mem_box]="#343631"
+
+# Net up/down box outline color
+theme[net_box]="#343631"
+
+# Processes box outline color
+theme[proc_box]="#343631"
+
+# Box divider line and small boxes line color
+theme[div_line]="#2a2c27"
+
+# Temperature graph colors (cool -> hot)
+theme[temp_start]="#749f2b"
+theme[temp_mid]="#cbad00"
+theme[temp_end]="#bd4238"
+
+# CPU graph colors (idle -> loaded)
+theme[cpu_start]="#5f7d31"
+theme[cpu_mid]="#cbad00"
+theme[cpu_end]="#bd4238"
+
+# Mem/Disk free meter (two-color gradient: mid left empty)
+theme[free_start]="#5f7d31"
+theme[free_mid]=""
+theme[free_end]="#8aab5f"
+
+# Mem/Disk cached meter
+theme[cached_start]="#749f2b"
+theme[cached_mid]=""
+theme[cached_end]="#749f2b"
+
+# Mem/Disk available meter
+theme[available_start]="#7e7238"
+theme[available_mid]=""
+theme[available_end]="#797250"
+
+# Mem/Disk used meter (fills up toward error red)
+theme[used_start]="#cbad00"
+theme[used_mid]=""
+theme[used_end]="#bd4238"
+
+# Download graph colors
+theme[download_start]="#5f7d31"
+theme[download_mid]=""
+theme[download_end]="#5f7d31"
+
+# Upload graph colors
+theme[upload_start]="#8aab5f"
+theme[upload_mid]=""
+theme[upload_end]="#8aab5f"
+
+# Process box color gradient for threads, mem and cpu usage (low -> high)
+theme[process_start]="#769f36"
+theme[process_mid]="#cbad00"
+theme[process_end]="#bd4238"
+
+# Paused/followed process indicators (btop >= 1.4.6; silently ignored by older versions)
+theme[proc_pause_bg]="#5a563f"
+theme[proc_follow_bg]="#1f2d3a"
+theme[proc_banner_bg]="#393c36"
+theme[proc_banner_fg]="#a3b68d"
+theme[followed_bg]="#1f2d3a"
+theme[followed_fg]="#a3b68d"

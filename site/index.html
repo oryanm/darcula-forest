@@ -1170,6 +1170,11 @@
       <div>Import in T3 Code's theme settings.</div>
     </div>
     <div class="target">
+      <div class="target-name">Omarchy</div>
+      <div class="target-files"><button class="link" data-file="omarchy/colors.toml" onclick="downloadFile(this)">colors.toml</button> <button class="link" data-file="omarchy/btop.theme" onclick="downloadFile(this)">btop.theme</button> <button class="link" data-file="omarchy/helix.toml" onclick="downloadFile(this)">helix.toml</button> <button class="link" data-file="omarchy/icons.theme" onclick="downloadFile(this)">icons.theme</button> <a class="link" href="omarchy/backgrounds/1-darcula-forest.webp" download>backgrounds/1-darcula-forest.webp</a> <a class="link" href="omarchy/backgrounds/2-darcula-forest-muted.webp" download>backgrounds/2-darcula-forest-muted.webp</a></div>
+      <div>Put them in <code>~/.config/omarchy/themes/darcula-forest/</code> (the wallpaper under <code>backgrounds/</code>), then <code>omarchy theme set darcula-forest</code>. Omarchy renders terminals, Hyprland, waybar, VS Code and Neovim from <code>colors.toml</code>.</div>
+    </div>
+    <div class="target">
       <div class="target-name">Helix</div>
       <div class="target-files"><button class="link" data-file="helix/darcula-forest.toml" onclick="downloadFile(this)">darcula-forest.toml</button></div>
       <div>Copy to <code>~/.config/helix/themes/</code>, then <code>:theme darcula-forest</code>.</div>
@@ -1619,8 +1624,14 @@
       const params = currentParams();
       const api = window["darcula-forest"]?.darculaforest;
       if (!api) throw new Error("darcula-forest.js not loaded (run ./gradlew copyJsBundle)");
-      const bytes = api.generateZip(params.mainHue, params.complementaryColorOffset, params.baseChroma, params.contrast);
+      // Wallpapers are fetched from this page's origin by generateZip; a fetch that fails is reported here and left out of the zip.
+      const missing = [];
+      const bytes = await api.generateZip(params.mainHue, params.complementaryColorOffset, params.baseChroma, params.contrast, (p) => missing.push(p));
       saveBlob(new Blob([bytes], { type: "application/zip" }), "darcula-forest.zip");
+      if (missing.length) {
+        const why = location.protocol === "file:" ? "this page is opened from disk, so the browser refuses to fetch them" : "they could not be fetched";
+        alert(`Zip saved without ${missing.join(", ")}: ${why}. Download them from the Omarchy row instead.`);
+      }
     } catch (err) {
       alert(`Download failed: ${err.message}`);
     } finally {

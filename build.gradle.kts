@@ -49,6 +49,8 @@ tasks.register<Copy>("copyJsBundle") {
     val webpack = tasks.named<KotlinWebpack>("jsBrowserProductionWebpack")
     from(webpack.map { it.outputDirectory }) { include("darcula-forest.js") }
     from(layout.projectDirectory.file("darcula/css/palette.css"))
+    // Hand-made assets (see BUNDLED_ASSET_PATHS) the page fetches from its own origin to add to the zip
+    from(layout.projectDirectory.dir("darcula/omarchy/backgrounds")) { into("omarchy/backgrounds") }
     into(layout.projectDirectory.dir("site"))
 }
 
@@ -57,4 +59,16 @@ tasks.register<Exec>("site") {
     description = "Build the JS bundle and open site/index.html in the default browser"
     dependsOn("copyJsBundle")
     commandLine("open", layout.projectDirectory.file("site/index.html").asFile.path)
+}
+
+tasks.register<Exec>("serveSite") {
+    group = "application"
+    description = "Build the JS bundle, serve site/ on http://localhost:8642 (so fetch() of bundled assets works) and open it; stop the task to stop the server"
+    dependsOn("copyJsBundle")
+    isIgnoreExitValue = true // the server only ends by being stopped, which is not a failure
+    val site = layout.projectDirectory.dir("site").asFile.path
+    commandLine(
+        "sh", "-c",
+        "python3 -m http.server 8642 --bind 127.0.0.1 -d '$site' & trap 'kill $!' EXIT INT TERM; sleep 0.5; open http://localhost:8642; wait",
+    )
 }

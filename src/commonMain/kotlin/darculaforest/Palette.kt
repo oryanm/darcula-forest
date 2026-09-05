@@ -174,5 +174,8 @@ fun hexOf(v: Var) = hexOf(oklchOf(v) ?: error("'${v.name}' does not resolve to a
 
 /** `#rrggbb[aa]` for a color Var; [alpha] overrides the var's own alpha. */
 fun hex(v: Var, alpha: Double? = null) =
-    "#" + hexOf(alpha?.let { oklch(from = v, l = l, c = c, h = h, alpha = it) }
-        ?: (oklchOf(v) ?: error("'${v.name}' does not resolve to a color")))
+    hexOf(alpha
+        ?.let { oklch(from = v, l = l, c = c, h = h, alpha = it) }
+        ?: oklchOf(v)
+        ?: error("'${v.name}' does not resolve to a color")
+    ).let { "#${it}" }

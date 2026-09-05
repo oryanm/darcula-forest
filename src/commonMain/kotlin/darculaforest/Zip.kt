@@ -11,10 +11,10 @@ package darculaforest
 //   [central directory header + name] × n
 //   end of central directory record
 
-/** Builds a .zip archive containing [files], each UTF-8 encoded and stored uncompressed. */
+/** Builds a .zip archive containing [files], stored uncompressed. */
 fun zip(files: List<GeneratedFile>): ByteArray {
     val names = files.map { it.path.encodeToByteArray() }
-    val datas = files.map { it.contents.encodeToByteArray() }
+    val datas = files.map { it.bytes }
     val crcs = datas.map(::crc32)
 
     val localSize = names.indices.sumOf { LOCAL_HEADER_LEN + names[it].size + datas[it].size }

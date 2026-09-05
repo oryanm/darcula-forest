@@ -10,7 +10,7 @@ fun main(args: Array<String>) {
     }
     println("Generated:")
     for (file in generateAll()) {
-        File(OUT_DIR, file.path).apply { parentFile.mkdirs() }.writeText(file.contents)
+        File(OUT_DIR, file.path).apply { parentFile.mkdirs() }.writeBytes(file.bytes)
         println("  $OUT_DIR/${file.path}")
     }
 }

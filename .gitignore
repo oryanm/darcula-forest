@@ -20,3 +20,4 @@ bin/
 # Generated assets copied into site/ by ./gradlew copyJsBundle
 /site/darcula-forest.js
 /site/palette.css
+/site/omarchy/
