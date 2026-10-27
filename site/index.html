@@ -342,25 +342,43 @@
     line-height: 0; /* don't grow the row */
     margin-left: 1px;
   }
-  /* Balloon tooltip from data-tip (native title tooltips are slow and unstyled). */
-  .color-entry.clipped::after {
-    content: attr(data-tip);
+  /* Balloon tooltip from data-tip (native title tooltips are slow and unstyled); ::before is its pointer. */
+  .color-entry.clipped { --tip-bg: oklch(from var(--panel) calc(l + 0.05) c h); --tip-ring: oklch(from var(--error) l c h / 0.55); }
+  .color-entry.clipped::after,
+  .color-entry.clipped::before {
     position: absolute;
-    left: var(--space-2);
-    bottom: calc(100% + 6px);
-    width: max-content;
-    max-width: calc(100% - var(--space-4)); /* a right-edge chip mustn't widen the page */
-    padding: 4px 8px;
-    border-radius: 4px;
-    background: var(--gutter-bg);
-    color: var(--fg);
-    border: 1px solid var(--error);
-    font-size: 11px;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 120ms ease 80ms;
+    translate: 0 4px;
+    transition: opacity 140ms ease 80ms, translate 140ms ease 80ms;
   }
-  .color-entry.clipped:hover::after { opacity: 1; }
+  .color-entry.clipped::after {
+    content: attr(data-tip);
+    white-space: pre-line;
+    left: var(--space-3);
+    bottom: calc(100% + 10px);
+    width: max-content;
+    max-width: calc(100% - var(--space-5)); /* a right-edge chip mustn't widen the page */
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: var(--tip-bg);
+    color: var(--fg);
+    box-shadow: 0 0 0 1px var(--tip-ring), 0 12px 28px #0009;
+    font: 12px/1.45 var(--sans);
+  }
+  .color-entry.clipped::before {
+    content: "";
+    left: calc(var(--space-3) + 16px);
+    bottom: calc(100% + 5px);
+    width: 10px;
+    height: 10px;
+    rotate: 45deg;
+    background: var(--tip-bg);
+    box-shadow: 1px 1px 0 var(--tip-ring);
+    z-index: 1;
+  }
+  .color-entry.clipped:hover::after,
+  .color-entry.clipped:hover::before { opacity: 1; translate: 0 0; }
 
   /* Code preview */
   .editor {
@@ -1409,7 +1427,7 @@
       hexBtn.textContent = hexBtn.dataset.text = hex;
       const clipped = outOfGamut(varName);
       el.classList.toggle("clipped", clipped);
-      el.dataset.tip = clipped ? "Outside the sRGB gamut \u2014 rendered clamped to " + hex : "";
+      el.dataset.tip = clipped ? "Outside the sRGB gamut\nShown clamped to " + hex : "";
     }
   }
 
