@@ -333,7 +333,14 @@
   .copy { transition: opacity 150ms ease; }
   .copy.fading { opacity: 0; }
   .copy.copied { color: var(--keyword); }
-  .color-source { font: 10px var(--mono); color: var(--ui-text-faint); overflow-wrap: anywhere; }
+  .color-source { font: 11px var(--mono); color: var(--ui-text-muted); overflow-wrap: anywhere; }
+  /* One value line per chip; the Palette header switch picks which (main[data-format]) */
+  .palette-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-top: 44px; }
+  .palette-head .section-title { margin: 0; }
+  main[data-format="oklch"] .color-hex .copy + .copy,
+  main[data-format="hex"] .color-hex .copy:first-child,
+  main[data-format="intellij"] .color-hex,
+  main:not([data-format="intellij"]) .color-source { display: none; }
   /* oklch() value falls outside sRGB; the swatch and theme files show it clamped. */
   .color-entry.clipped .color-hex::after {
     content: "*";
@@ -923,7 +930,14 @@
 </section>
 
 <!-- COLOR CATALOG -->
-<h2 class="section-title">Palette</h2>
+<div class="palette-head">
+  <h2 class="section-title">Palette</h2>
+  <div class="sample-tabs" id="value-format" role="group" aria-label="Show values as">
+    <button type="button" class="sample-tab" data-format="oklch">oklch</button>
+    <button type="button" class="sample-tab" data-format="hex">hex</button>
+    <button type="button" class="sample-tab" data-format="intellij">IntelliJ</button>
+  </div>
+</div>
 <section aria-labelledby="editor-colors">
   <h3 class="section-title sub" id="editor-colors">Editor Colors</h3>
   <ul class="color-grid">
@@ -1356,6 +1370,19 @@
 
   document.getElementById("target-count").textContent = document.querySelectorAll(".target:not(.target-all)").length;
 
+  function showValuesAs(format) {
+    document.querySelector("main").dataset.format = format;
+    for (const b of document.getElementById("value-format").children) {
+      b.classList.toggle("active", b.dataset.format === format);
+      b.setAttribute("aria-pressed", b.dataset.format === format);
+    }
+  }
+  document.getElementById("value-format").addEventListener("click", e => {
+    const b = e.target.closest("[data-format]");
+    if (b) showValuesAs(b.dataset.format);
+  });
+  showValuesAs("oklch");
+
   // Hover linkage: sample class → palette var (same bindings as the syntax classes above)
   {
     const classVar = {
@@ -1421,7 +1448,7 @@
       const hex = toHex(resolved);
       el.style.setProperty("--c", "var(--" + varName + ")");
       const hexEl = el.querySelector(".color-hex");
-      if (!hexEl.firstElementChild) hexEl.innerHTML = '<button class="copy" title="Copy"></button> \u00b7 <button class="copy" title="Copy"></button>';
+      if (!hexEl.firstElementChild) hexEl.innerHTML = '<button class="copy" title="Copy"></button><button class="copy" title="Copy"></button>';
       const [oklchBtn, hexBtn] = hexEl.children;
       oklchBtn.textContent = oklchBtn.dataset.text = resolved;
       hexBtn.textContent = hexBtn.dataset.text = hex;
