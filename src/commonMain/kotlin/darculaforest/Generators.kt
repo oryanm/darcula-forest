@@ -8,9 +8,6 @@ class GeneratedFile(val path: String, val bytes: ByteArray) {
 
 fun GeneratedFile(path: String, text: String) = GeneratedFile(path, text.encodeToByteArray())
 
-/** Hand-made binaries committed under darcula/ (not generated). The golden test allows them; the site fetches them into the zip. */
-val BUNDLED_ASSET_PATHS = listOf("omarchy/backgrounds/1-darcula-forest.webp", "omarchy/backgrounds/2-darcula-forest-muted.webp")
-
 data class ThemeParams(
     val mainHue: Double = 128.0,
     val complementaryColorOffset: Double = 30.0,
@@ -46,9 +43,5 @@ fun generateAll(params: ThemeParams = ThemeParams()) = Palette(params).let { pal
         GeneratedFile("nvim/colors/darcula-forest.lua",      palette.generateNeovim() + "\n"),
         GeneratedFile("vscode/package.json",                  vsCodePackageJson + "\n"),
         GeneratedFile("vscode/themes/darcula-forest-color-theme.json", palette.generateVsCodeTheme() + "\n"),
-        GeneratedFile("omarchy/colors.toml",                  palette.generateOmarchyColors() + "\n"),
-        GeneratedFile("omarchy/btop.theme",                   palette.generateBtop() + "\n"),
-        GeneratedFile("omarchy/helix.toml",                   palette.generateHelix() + "\n"),
-        GeneratedFile("omarchy/icons.theme",                  OMARCHY_ICONS_THEME + "\n"),
     )
 }

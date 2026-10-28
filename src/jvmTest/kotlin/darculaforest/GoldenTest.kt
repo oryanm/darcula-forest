@@ -21,14 +21,9 @@ class GoldenTest {
 
     @Test
     fun `no unexpected files in generated directory`() {
-        val expected = (generateAll().map { it.path } + BUNDLED_ASSET_PATHS).toSet()
+        val expected = generateAll().map { it.path }.toSet()
         val actual = OUT_DIR.walk().filter { it.isFile && !it.name.startsWith(".") }.map { it.relativeTo(OUT_DIR).path }.toSet()
-        assertEquals(expected, actual, "darcula/ must contain only generator output and BUNDLED_ASSET_PATHS")
-    }
-
-    @Test
-    fun `bundled assets are committed`() {
-        for (path in BUNDLED_ASSET_PATHS) assertTrue(File(OUT_DIR, path).length() > 0, "missing or empty asset $path")
+        assertEquals(expected, actual, "darcula/ must contain only generator output")
     }
 
     @Test

@@ -33,7 +33,6 @@ CLI tools
 
 Other
 
-- Omarchy
 - CSS palette
 
 ## IntelliJ / JetBrains
