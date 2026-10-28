@@ -335,7 +335,7 @@
   .copy.copied { color: var(--keyword); }
   .color-source { font: 11px var(--mono); color: var(--ui-text-muted); overflow-wrap: anywhere; }
   /* One value line per chip; the Palette header switch picks which (main[data-format]) */
-  .palette-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-top: 44px; }
+  .palette-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-top: var(--space-3); }
   .palette-head .section-title { margin: 0; }
   main[data-format="oklch"] .color-hex .copy + .copy,
   main[data-format="hex"] .color-hex .copy:first-child,
@@ -538,10 +538,11 @@
     overflow-x: auto;
     gap: 20px;
     /* breathing room for the editors' drop shadow, which would otherwise be
-       clipped by the horizontal-scroll container's implicit vertical clipping;
-       the negative margins keep that room from adding to the layout */
+       clipped by the horizontal-scroll container's implicit vertical clipping.
+       The bottom room stays in the layout: the scrollbar sits at its bottom
+       edge and would otherwise land on the palette header */
     padding: var(--space-3) 0 72px;
-    margin: calc(-1 * var(--space-3)) 0 -72px;
+    margin-top: calc(-1 * var(--space-3));
     /* Soft fade at the left/right edges to hint at scrollable overflow.
        The mask is horizontal-only, so it fades both ends regardless of
        scroll position (i.e. the left edge fades even at scrollLeft 0). */
