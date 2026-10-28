@@ -653,20 +653,21 @@
     display: grid;
     place-items: center;
     font: 600 8px/1 var(--mono);
-    color: oklch(from var(--fg) 0.92 c h); /* well above the ~0.55 fills, short of pure white */
-    text-shadow: 0 1px 2px #0008;
+    background: var(--fill);
+    color: oklch(from var(--fill) 0.85 calc(c * 0.6) h); /* a pale tint of its own fill, so it reads without glaring */
+    text-shadow: 0 1px 1px #0006;
     user-select: none;
   }
   .hue-wheel-handle:active { cursor: grabbing; }
   .hue-wheel-handle.main {
-    background: var(--keyword);
+    --fill: var(--keyword);
     width: calc(var(--wheel-handle-size) + 8px);
     height: calc(var(--wheel-handle-size) + 8px);
     border-width: 3px;
     font-size: 9px;
   }
-  .hue-wheel-handle.comp1 { background: var(--string); }
-  .hue-wheel-handle.comp2 { background: var(--number); }
+  .hue-wheel-handle.comp1 { --fill: var(--string); }
+  .hue-wheel-handle.comp2 { --fill: var(--number); }
 </style>
 </head>
 <body>
