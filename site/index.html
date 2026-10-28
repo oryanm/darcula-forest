@@ -600,7 +600,7 @@
     width: 100%;
     max-width: var(--wheel-max-size);
     aspect-ratio: 1;
-    margin: 0 auto;
+    margin: 14px auto; /* room for the rim labels at the top and bottom */
   }
   .hue-wheel-ring {
     position: absolute;
@@ -659,15 +659,18 @@
   }
   .hue-wheel-handle.comp1 { background: var(--string); }
   .hue-wheel-handle.comp2 { background: var(--number); }
+  /* Labels ride just outside the rim at their handle's hue, so chroma never
+     moves them; JS merges any that would overlap into one multi-line label */
   .hue-wheel-label {
     position: absolute;
-    font: 11px var(--mono);
-    color: var(--fg);
-    white-space: nowrap;
+    font: 11px/1.25 var(--mono);
+    color: var(--ui-text-muted);
+    white-space: pre;
+    text-align: center;
     pointer-events: none;
     transform: translate(-50%, -50%);
-    text-shadow: 0 0 4px var(--panel), 0 0 4px var(--panel);
   }
+  .hue-wheel-label.main { color: var(--fg); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -695,7 +698,7 @@
     <div class="hue-wheel-handle main" id="hue-handle-main"></div>
     <div class="hue-wheel-label" id="hue-label-comp1"></div>
     <div class="hue-wheel-label" id="hue-label-comp2"></div>
-    <div class="hue-wheel-label" id="hue-label-main"></div>
+    <div class="hue-wheel-label main" id="hue-label-main"></div>
   </div>
   <div class="presets" id="presets"></div>
 
@@ -1553,12 +1556,37 @@
       elem.style.left = (center + radius * Math.sin(rad)) + "px";
       elem.style.top  = (center - radius * Math.cos(rad)) + "px";
     }
-    // Label goes a fixed px gap above (top half) or below (bottom half) its handle, so it
-    // never covers the handle and never pokes past the panel's horizontal padding.
-    function placeLabel(elem, hueDeg, ratio) {
-      placeAt(elem, hueDeg, ratio);
-      const up = Math.cos(hueDeg * Math.PI / 180) >= 0;
-      elem.style.top = (parseFloat(elem.style.top) + (up ? -22 : 22)) + "px";
+    // Label center sits LABEL_GAP px outside the rim along its hue, pushed out by
+    // the label box's own extent in that direction so no side ever touches the ring.
+    const LABEL_GAP = 6;
+    function placeLabel(elem, hueDeg, text) {
+      elem.textContent = text;
+      elem.hidden = false;
+      const rad = hueDeg * Math.PI / 180, sin = Math.sin(rad), cos = Math.cos(rad);
+      const w = elem.offsetWidth, h = elem.offsetHeight, center = wheel.offsetWidth / 2;
+      const dist = center + LABEL_GAP + Math.abs(sin) * w / 2 + Math.abs(cos) * h / 2;
+      const x = center + dist * sin, y = center - dist * cos;
+      elem.style.left = x + "px";
+      elem.style.top = y + "px";
+      return { x, y, w, h };
+    }
+    function overlap(a, b) {
+      return Math.abs(a.x - b.x) < (a.w + b.w) / 2 + 2 && Math.abs(a.y - b.y) < (a.h + b.h) / 2 + 2;
+    }
+    // At small offsets all three crowd the main hue: fold them into "128\n±5".
+    // Near 180 the complementaries meet opposite the main hue: stack them there.
+    function placeLabels(m, o) {
+      const box = placeLabel(labels.main, m, String(normHue(m)));
+      const box1 = placeLabel(labels.comp1, m - o, String(normHue(m - o)));
+      const box2 = placeLabel(labels.comp2, m + o, String(normHue(m + o)));
+      if (overlap(box, box1) || overlap(box, box2)) {
+        placeLabel(labels.main, m, normHue(m) + "\n\u00b1" + Math.round(o));
+        labels.comp1.hidden = labels.comp2.hidden = true;
+      } else if (overlap(box1, box2)) {
+        const [a, b] = [normHue(m - o), normHue(m + o)];
+        placeLabel(labels.comp1, m + 180, a === b ? String(a) : a + "\n" + b);
+        labels.comp2.hidden = true;
+      }
     }
     function normHue(h) { return ((Math.round(h) % 360) + 360) % 360; }
     function refresh() {
@@ -1568,12 +1596,7 @@
       placeAt(handles.main, m, r);
       placeAt(handles.comp1, m - o, r);
       placeAt(handles.comp2, m + o, r);
-      placeLabel(labels.main, m, r);
-      placeLabel(labels.comp1, m - o, r);
-      placeLabel(labels.comp2, m + o, r);
-      labels.main.textContent  = normHue(m);
-      labels.comp1.textContent = normHue(m - o) + " (\u2212" + Math.round(o) + ")";
-      labels.comp2.textContent = normHue(m + o) + " (+" + Math.round(o) + ")";
+      placeLabels(m, o);
       drawGeometry(m, o, r);
     }
     // Spokes + arc in the 100×100 viewBox; ratios map 1:1 to viewBox units ×100.
