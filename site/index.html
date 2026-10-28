@@ -31,7 +31,10 @@
     display: grid;
     grid-template-columns: 340px minmax(0, 1fr);
     align-items: start;
+    max-width: 1720px;
+    margin-inline: auto;
   }
+  html { background: var(--page-bg); }
   code, output, kbd { font-family: var(--mono); }
   .panel {
     position: sticky;
@@ -46,6 +49,9 @@
     gap: 20px;
   }
   .panel > * { flex-shrink: 0; } /* scroll the panel rather than squash the wheel */
+  @media (min-width: 1720px) {
+    .panel { border-left: 1px solid var(--line); } /* the capped page leaves margin on both sides */
+  }
   @media (max-height: 880px) {
     .panel { gap: 14px; --wheel-max-size: 210px; } /* keep the download button in view on laptop screens */
   }
