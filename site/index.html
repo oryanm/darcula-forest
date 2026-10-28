@@ -654,9 +654,16 @@
     place-items: center;
     font: 600 8px/1 var(--mono);
     background: var(--fill);
-    color: oklch(from var(--fill) 0.85 calc(c * 0.6) h); /* a pale tint of its own fill, so it reads without glaring */
-    text-shadow: 0 1px 1px #0006;
+    color: oklch(from var(--fill) 0.85 calc(c * 0.6) h / 0); /* a pale tint of its own fill, so it reads without glaring */
+    text-shadow: 0 1px 1px #0000;
+    transition: color 150ms ease, text-shadow 150ms ease;
     user-select: none;
+  }
+  /* numbers only while pointing at the wheel or dragging (:active covers touch, which has no hover) */
+  .hue-wheel:hover .hue-wheel-handle,
+  .hue-wheel:has(.hue-wheel-handle:active) .hue-wheel-handle {
+    color: oklch(from var(--fill) 0.85 calc(c * 0.6) h);
+    text-shadow: 0 1px 1px #0006;
   }
   .hue-wheel-handle:active { cursor: grabbing; }
   .hue-wheel-handle.main {
