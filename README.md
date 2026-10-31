@@ -1,4 +1,4 @@
-# 🌲 Darcula Forest 🌲
+# 🌲 [Darcula Forest][site] 🌲
 
 A dark green [color scheme][site] inspired in part by Solarized and JetBrains' original Darcula themes. Individual
 colors are selected using the [Oklch color space][oklab-wiki].
